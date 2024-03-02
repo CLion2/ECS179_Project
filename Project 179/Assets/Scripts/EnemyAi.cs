@@ -95,6 +95,10 @@ public class EnemyAi : MonoBehaviour
     {
 
     }
+    public bool StageDone()
+    {
+        return Stage1Done;
+    }
     void Update()
     { 
         // TODO: add delay when distance is 5
