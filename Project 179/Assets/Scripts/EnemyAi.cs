@@ -8,19 +8,19 @@ public class EnemyAi : MonoBehaviour
     private float DamageTaken = 20f;
     private float Rage = 10f;
     private bool Stage1;
+    private float Delay = 0.5f; // delay when out of range
     private Prisoner Tutorial;
     private Gladiator Boss;
     private bool Stage1Done;
     [SerializeField] private float TetherDistance = 5f; // set it to nav mesh
     [SerializeField] private float speed = 5f; // set this to nav mesh
-    private GameObject Player;
-    [SerializeField] private GameObject PlayerPrefab;
+    // private GameObject Player;
 
     // following a vid here
     public NavMeshAgent navMeshAgent;
     public Transform playerTransform;
     public Animator animator; // idk following vid here
-
+    // TODO: implement wakeup
 
     void Start()
     { // should work the second its created
@@ -28,47 +28,10 @@ public class EnemyAi : MonoBehaviour
         Stage1Done = false;
         Tutorial = new Prisoner();
         Boss = new Gladiator();
-        // Player = PlayerPrefab; // may not be needed
-        // Player = GetComponent<PlayerPrefab>();// again may not be needed
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = this.speed;
-        navMeshAgent.
+        // navMeshAgent.
     }
-    // // may not be needed
-    // void Movement()
-    // {
-    //     if(Stage1 == true) // then we are in tutorial
-    //     {
-    //         // check player position then use that to create a tether distance
-    //         // we go based off enemymovement.cs
-    //         // TODO: make changes for stage 1 here & change it to work
-
-    //         // Move to the player location
-    //         float step = speed * Time.deltaTime; 
-    //         transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
-
-    //         // If Enemy reaches the next location, call SetNextLocation again
-    //         // so that Enemy updates the next location
-    //         if (Vector3.Distance(transform.position, nextPosition) < 0.1f)
-    //         {
-    //             SetNextLocation();
-    //         }
-    //     }
-    //     else if(Stage1 == false)// then we are in boss fight
-    //     {
-
-    //     }
-    // }
-    // void Move(float speed)
-    // {
-    //     navMeshAgent.isStopped = false;
-    //     navMeshAgent.speed = speed;
-    // }
-    // void Stop()
-    // {
-    //     navMeshAgent.isStopped = true;
-    //     navMeshAgent.speed = 0;
-    // }
     // void LookAtPlayer(Vector3 player)
     // {
     //     navMeshAgent.SetDestination(player);
@@ -133,14 +96,26 @@ public class EnemyAi : MonoBehaviour
 
     }
     void Update()
-    {
+    { 
+        // TODO: add delay when distance is 5
+        // TODO: add look at player
+        // TODO: make sure it works with prisoner and gladiator
+        // TODO: make sure that when in stage1 then gladiator doesnt move
         if(Stage1 == true)
         {
+            if(navMeshAgent.remainingDistance == 5)
+            {
+                Debug.Log("distance is 0");
+            }
             navMeshAgent.SetDestination(playerTransform.position);
+
+            //TODO: add attack
         }
         else if(Stage1 == false)
         {
             navMeshAgent.SetDestination(playerTransform.position);
+            
+            //TODO: add attack 
         }
     }
 }
