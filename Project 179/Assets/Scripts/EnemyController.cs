@@ -11,11 +11,16 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject EnemySpawnPrisoner;
     [SerializeField] private GameObject EnemySpawnGladiator;
     [SerializeField] private bool TutorialDone = false;
-    void Awake()// change this to build
+    void Build()
     { // should work the second its created
-        GameObject Enemy = Instantiate(EnemyPrefab,EnemySpawnPrisoner.transform.position,Quaternion.identity);
-
-        Destroy(Enemy, 15f);// in case an issue occurs it auto deletes the enemy
+        if(TutorialDone == true)
+        {
+            Enemies = Instantiate(EnemyPrefab,EnemySpawnGladiator.transform.position,Quaternion.identity);
+        }
+        else
+        {
+            Enemies = Instantiate(EnemyPrefab,EnemySpawnPrisoner.transform.position,Quaternion.identity);
+        }
     }
 
     // checks if the stage itself is done to switch to start spawn on the gladiator
@@ -30,5 +35,11 @@ public class EnemyController : MonoBehaviour
         {
             TutorialDone = false;
         }
+    }
+    //TODO: add a destroy when health becomes zero
+
+    void Update()
+    {
+
     }
 }

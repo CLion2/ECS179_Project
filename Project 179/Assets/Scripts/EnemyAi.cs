@@ -44,7 +44,7 @@ public class EnemyAi : MonoBehaviour
     //         }
     //     }
     // }
-    void Attack()
+    public void Attack()
     {
         if(Stage1 == true) // then we are in tutorial
         {
@@ -55,7 +55,7 @@ public class EnemyAi : MonoBehaviour
 
         }
     }
-    void CheckDead()
+    public void CheckDead()
     {
         if(Stage1 == true && Tutorial.Health == 0)
         {
@@ -69,7 +69,7 @@ public class EnemyAi : MonoBehaviour
         }
     }
 
-    void TakeDamage() // TAkeDamage deals with the enemies direct health
+    public void TakeDamage() // TAkeDamage deals with the enemies direct health
     {
         if(Stage1 == true && Stage1Done == false)
         {
@@ -113,13 +113,13 @@ public class EnemyAi : MonoBehaviour
             }
             navMeshAgent.SetDestination(playerTransform.position);
 
-            //TODO: add attack
+            //TODO: add attack [VERY IMPORTANT TO DO THIS]
         }
         else if(Stage1 == false)
         {
             navMeshAgent.SetDestination(playerTransform.position);
             
-            //TODO: add attack 
+            //TODO: add attack [VERY IMPORTANT TO DO THIS]
         }
     }
 }
