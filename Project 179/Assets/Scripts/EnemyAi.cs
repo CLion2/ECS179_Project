@@ -18,7 +18,8 @@ public class EnemyAi : MonoBehaviour
 
     // following a vid here
     public NavMeshAgent navMeshAgent;
-    public Transform playerTransform;
+    public GameObject PlayerLocation;
+    // public Transform playerTransform;
     public Animator animator; // idk following vid here
     // TODO: implement wakeup
 
@@ -30,6 +31,7 @@ public class EnemyAi : MonoBehaviour
         Boss = new Gladiator();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = this.speed;
+        PlayerLocation = GameObject.Find("Player Body");
         // navMeshAgent.
     }
     // void LookAtPlayer(Vector3 player)
@@ -111,13 +113,13 @@ public class EnemyAi : MonoBehaviour
             {
                 Debug.Log("distance is 0");
             }
-            navMeshAgent.SetDestination(playerTransform.position);
+            navMeshAgent.SetDestination(PlayerLocation.transform.position);
 
             //TODO: add attack [VERY IMPORTANT TO DO THIS]
         }
         else if(Stage1 == false)
         {
-            navMeshAgent.SetDestination(playerTransform.position);
+            navMeshAgent.SetDestination(PlayerLocation.transform.position);
             
             //TODO: add attack [VERY IMPORTANT TO DO THIS]
         }

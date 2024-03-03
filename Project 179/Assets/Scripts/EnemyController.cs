@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject EnemySpawnPrisoner;
     [SerializeField] private GameObject EnemySpawnGladiator;
     [SerializeField] private bool TutorialDone = false;
-    void Build()
+    void Awake()
     { // should work the second its created
         if(TutorialDone == true)
         {
@@ -37,9 +37,12 @@ public class EnemyController : MonoBehaviour
         }
     }
     //TODO: add a destroy when health becomes zero
-
+    void DestroyEnemy()
+    {
+        Destroy(Enemies);
+    }
     void Update()
     {
-
+        CheckTutorialDone(Enemies);
     }
 }
