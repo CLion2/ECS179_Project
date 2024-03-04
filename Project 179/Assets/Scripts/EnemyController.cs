@@ -13,12 +13,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private bool TutorialDone = false;
     void Awake()
     { // should work the second its created
-        if(TutorialDone == true)
+        if(TutorialDone == true) // spawns gladiator if true
         {
             Enemies = Instantiate(EnemyPrefab,EnemySpawnGladiator.transform.position,Quaternion.identity);
         }
         else
-        {
+        { // spawns prisoner on anything else
             Enemies = Instantiate(EnemyPrefab,EnemySpawnPrisoner.transform.position,Quaternion.identity);
         }
     }

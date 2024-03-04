@@ -1232,6 +1232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1922fc22aceb2854fa902d91e17b2303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamageTaken: 20
   TetherDistance: 2
   speed: 5
   navMeshAgent: {fileID: 0}
@@ -1315,9 +1316,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6789bba547d94cc49b985f0c3cb91399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 8709700923660630431, guid: 3d462805d45b32742b7530e813ac83c0, type: 3}
+  EnemyPrefab: {fileID: 1494639629128686304, guid: ff364a23ba1bc8040a45da0637498ae0, type: 3}
   EnemySpawnPrisoner: {fileID: 8709700923660630431, guid: 3d462805d45b32742b7530e813ac83c0, type: 3}
-  EnemySpawnGladiator: {fileID: 0}
+  EnemySpawnGladiator: {fileID: 4333497824843903606, guid: 6ee3f2a4d554fe546b79e0510c9f423e, type: 3}
   TutorialDone: 0
 --- !u!114 &8220357580069195101
 MonoBehaviour:
