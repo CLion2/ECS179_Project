@@ -32,7 +32,7 @@ public class EnemyAi : MonoBehaviour
         // Player = GetComponent<PlayerPrefab>();// again may not be needed
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = this.speed;
-        navMeshAgent.
+        // navMeshAgent.
     }
     // // may not be needed
     // void Movement()

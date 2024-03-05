@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
 public class EnemyController : MonoBehaviour
 {
     private GameObject Enemies;
@@ -28,15 +27,15 @@ public class EnemyController : MonoBehaviour
     // checks if the stage itself is done to switch to start spawn on the gladiator
     void CheckTutorialDone(GameObject Enemy)
     {
-        EnemyAi checking = Enemy.GetComponent<EnemyAi>();
-        if(checking.StageDone() == true)
-        {
-            TutorialDone = true;
-        }
-        else
-        {
-            TutorialDone = false;
-        }
+        // EnemyAi checking = Enemy.GetComponent<EnemyAi>();
+        // if(checking.StageDone() == true)
+        // {
+        //     TutorialDone = true;
+        // }
+        // else
+        // {
+        //     TutorialDone = false;
+        // }
     }
     //TODO: add a destroy when health becomes zero
     void DestroyEnemy()
