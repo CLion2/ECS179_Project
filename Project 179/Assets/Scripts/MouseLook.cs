@@ -5,7 +5,7 @@ using UnityEngine;
 public class MouseLook : MonoBehaviour
 {
     public float mouseSensitivity = 1500f;
-    public float angleSpeed = 200f;
+    public float angleSpeed = 10f;
     public Transform playerBody;
     public Transform lockTarget;
     bool isLockedOnTarget = false;
@@ -35,7 +35,7 @@ public class MouseLook : MonoBehaviour
         else if (lockTarget != null)
         {
             // Lock the camera @ the target 
-            PositionLockCamera();
+            //PositionLockCamera();
 
         }
 
@@ -45,7 +45,7 @@ public class MouseLook : MonoBehaviour
     {
         if (isLockedOnTarget)
         {
-            //PostionFollowCamera();
+            PostionFollowCamera();
         }
     }
 

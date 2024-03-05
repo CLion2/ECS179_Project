@@ -1,15 +1,15 @@
 public class Gladiator
 {
-    public float Health { get; set; }
-    public float AttackDmg { get; set; }
-    public float AttackSpd { get; set; }
-    public float RageMeter { get; set; }
+    public float Health { get; }
+    public float AttackDmg { get; }
+    public float AttackSpd { get; }
+    public float RageMeter { get; }
 
     public Gladiator()
     {
-        this.Health = 150f; // make this at least 1x higher than prisoner
-        this.AttackDmg = 15f; // make damage higher
+        this.Health = 150; // make this at least 1x higher than prisoner
+        this.AttackDmg = 15; // make damage higher
         this.AttackSpd = 1.0f;
-        this.RageMeter = 0f; // rage meter should increase as time or damage happens
+        this.RageMeter = 0; // rage meter should increase as time or damage happens
     }
 }
