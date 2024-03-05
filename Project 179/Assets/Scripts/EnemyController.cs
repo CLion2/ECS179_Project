@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
 {
     private GameObject Enemies;
     [SerializeField] private GameObject EnemyPrefab;
+    // [SerializeField] private 
     [SerializeField] private GameObject EnemySpawnPrisoner;
     [SerializeField] private GameObject EnemySpawnGladiator;
     [SerializeField] private bool TutorialDone = false;

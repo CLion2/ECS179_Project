@@ -684,7 +684,7 @@ GameObject:
   - component: {fileID: 5913727518108709173}
   m_Layer: 0
   m_Name: warrior 3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -744,7 +744,7 @@ MonoBehaviour:
   DamageTaken: 20
   TetherDistance: 5
   speed: 5
-  navMeshAgent: {fileID: 0}
+  navMeshAgent: {fileID: 5913727518108709173}
   PlayerLocation: {fileID: 0}
   animator: {fileID: 0}
 --- !u!195 &5913727518108709173
@@ -768,7 +768,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 3
 --- !u!1 &1540134101074771858
 GameObject:
   m_ObjectHideFlags: 0

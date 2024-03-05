@@ -30,6 +30,7 @@ public class EnemyAi : MonoBehaviour
         Boss = new Gladiator();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = this.speed;
+        navMeshAgent.stoppingDistance = this.TetherDistance;
         PlayerLocation = GameObject.Find("Player Body");
         EnemyAttack = GetComponentInChildren<BoxCollider>();
         // navMeshAgent.
@@ -47,6 +48,7 @@ public class EnemyAi : MonoBehaviour
     //     }
     // }
     public void Attack()
+    // TODO: physics.Raycast for attacking with the swords
     {
         float AttackRoll = Random.Range(0f,10f);
         EnableAttack();
@@ -149,6 +151,7 @@ public class EnemyAi : MonoBehaviour
                 Debug.Log("distance is 0");
             }
             navMeshAgent.SetDestination(PlayerLocation.transform.position);
+            //TODO: if distance greater
 
             //TODO: add attack [VERY IMPORTANT TO DO THIS]
             Attack();
