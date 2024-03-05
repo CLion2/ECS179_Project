@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public float speed = 5f;
-    public Transform target;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private Transform target;
     
     // Update is called every frame
     void Update()

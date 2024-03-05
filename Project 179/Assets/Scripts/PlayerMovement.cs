@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public CharacterController controller;
-    public Transform cameraTransform;
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
-    public Animator animator;
-    public float speed = 10f;
-    public float gravity = -9.81f;
+    [SerializeField] private CharacterController controller;
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundDistance = 0.4f;
+    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private Animator animator;
+    [SerializeField] private float speed = 10f;
+    [SerializeField] private float gravity = -9.81f;
     private Vector3 velocity;
     private float dodgeSpeedMultiplier = 5.0f;
     private float dodgeDuration = 0.15f; 

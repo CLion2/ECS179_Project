@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float mouseSensitivity = 1500f;
-    public float angleSpeed = 10f;
-    public Transform playerBody;
-    public Transform lockTarget;
+    [SerializeField] private float mouseSensitivity = 1500f;
+    [SerializeField] private float angleSpeed = 10f;
+    [SerializeField] private Transform playerBody;
+    [SerializeField] private Transform lockTarget;
     bool isLockedOnTarget = false;
     float xRotation = 0f;
     
