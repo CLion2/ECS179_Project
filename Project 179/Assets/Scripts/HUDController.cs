@@ -6,13 +6,13 @@ public class HUDController : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    private HealthBar playerHealth;
+    private Bar playerHealth;
     [SerializeField]
     private GameObject playerStamina;
     [SerializeField]
     private GameObject playerToolTip;
     [SerializeField]
-    private HealthBar enemyHealth;
+    private Bar enemyHealth;
     [SerializeField]
     private GameObject enemyTitle;
     private float maxHealth = 100f;
