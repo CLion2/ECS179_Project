@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private float attackRange = 7.0f;
     
+    
     void Start()
     {
         lastDodgeTime = 0f;
@@ -48,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J) && !isAttacking)
         {
             Attack();
+            
         }
 
         // Add gravity to the player
@@ -59,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
     void Attack()
     {
         isAttacking = true;
+        animator.SetTrigger("Attack");
         
         RaycastHit hit;
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, attackRange))
@@ -74,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
             
         }
         isAttacking = false;
+        
     }
 
     // Combine the Dodge and HeadDown together later if needed

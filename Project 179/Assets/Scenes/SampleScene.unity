@@ -267,7 +267,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  animator: {fileID: 0}
+  animator: {fileID: 1031207623}
   speed: 10
   gravity: -9.81
 --- !u!143 &235491082
@@ -1021,9 +1021,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1031207622}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.98942506, y: -0.068214945, z: -0.054187916, w: 0.11596788}
+  m_LocalRotation: {x: 0.9894251, y: -0.0682126, z: -0.054186072, w: 0.11596907}
   m_LocalPosition: {x: 0.32, y: -0.32, z: 1.054778}
-  m_LocalScale: {x: 0.019999996, y: 0.020000005, z: 0.020000009}
+  m_LocalScale: {x: 0.02, y: 0.02000001, z: 0.02000001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1030898944}
