@@ -17,7 +17,7 @@ public class MouseLook : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        lastRotation = transform.rotation; 
+         
     }
 
     void Update()
@@ -26,10 +26,7 @@ public class MouseLook : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             isLockedOnTarget = !isLockedOnTarget;
-            if (!isLockedOnTarget)
-            {
-                lastRotation = transform.rotation;
-            }
+            
         }
 
         // Manual camera movement if camera is not locked
@@ -53,10 +50,7 @@ public class MouseLook : MonoBehaviour
         {
             PostionFollowCamera();
         }
-        else if (!isLockedOnTarget && lockTarget != null)
-        {
-            transform.rotation = lastRotation;
-        }
+        
     }
 
     void ManualCameraMovement()
@@ -70,7 +64,6 @@ public class MouseLook : MonoBehaviour
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX);
 
-        transform.rotation = lastRotation;
     }
 
     // Lock the camera @ the target
