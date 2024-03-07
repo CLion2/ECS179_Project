@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private int maxhHealth = 100;
+    [SerializeField] private int maxStamina = 50;
+
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform groundCheck;
@@ -12,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float gravity = -9.81f;
+    private int currentHealth;
+    private int currentStamina;
     private Vector3 velocity;
     private float dodgeSpeedMultiplier = 5.0f;
     private float dodgeDuration = 0.15f; 
@@ -19,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private float lastDodgeTime;
     private bool isDodging = false;
     private bool isAttacking = false;
+    private bool isBlocking = false;
     private bool isGrounded;
     private float attackRange = 7.0f;
     
@@ -26,6 +32,9 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         lastDodgeTime = 0f;
+        currentHealth = maxhHealth;
+        currentStamina = maxStamina;
+        
     }
     void Update()
     {
@@ -49,7 +58,11 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J) && !isAttacking)
         {
             Attack();
-            
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Block();
         }
 
         // Add gravity to the player
@@ -78,6 +91,15 @@ public class PlayerMovement : MonoBehaviour
         }
         isAttacking = false;
         
+    }
+
+    void Block()
+    {
+        isBlocking = true;
+        animator.SetTrigger("Block");
+        // Block Logic Here
+        
+        isBlocking = false;
     }
 
     // Combine the Dodge and HeadDown together later if needed
@@ -155,6 +177,32 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = right * x + forward * z;
 
         controller.Move(move * speed * Time.deltaTime);
+    }
+
+    void GameOver()
+    {
+        // Call the Game Over screen
+    }
+
+    public void TakeDamage (int damage)
+    {
+        // Damega = 0 if isDodging and dodgingTimer < 0.1f
+        if (isDodging)
+        {
+            damage = 0;
+        }
+
+        if (isBlocking)
+        {
+            damage = 0;
+            // Add Blocking Sound Here
+        }
+        currentHealth -= damage;
+
+        if (currentHealth < 0)
+        {
+            GameOver();
+        }
     }
 
     
