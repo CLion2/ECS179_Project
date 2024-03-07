@@ -14316,7 +14316,7 @@ MonoBehaviour:
   mouseSensitivity: 1000
   angleSpeed: 200
   playerBody: {fileID: 235491083}
-  lockTarget: {fileID: 0}
+  lockTarget: {fileID: 1680037768}
 --- !u!1001 &964758460
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16037,7 +16037,7 @@ GameObject:
   - component: {fileID: 1047886846}
   - component: {fileID: 1047886847}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: EnemyGroup
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
