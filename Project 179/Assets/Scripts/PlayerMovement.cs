@@ -4,21 +4,46 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public CharacterController controller;
-    public Transform cameraTransform;
-    public float speed = 10f;
-    private float dodgeSpeedMultiplier = 3.5f;
-    private float dodgeDuration = 0.2f; 
-    private float headDownHeight = 0.25f;
+    [SerializeField] private int maxhHealth = 100;
+    [SerializeField] private int maxStamina = 50;
+
+    [SerializeField] private CharacterController controller;
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundDistance = 0.4f;
+    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private Animator animator;
+    [SerializeField] private float speed = 10f;
+    [SerializeField] private float gravity = -9.81f;
+    private int currentHealth;
+    private int currentStamina;
+    private Vector3 velocity;
+    private float dodgeSpeedMultiplier = 5.0f;
+    private float dodgeDuration = 0.15f; 
+    private float headDownHeight = 0.3f;
     private float lastDodgeTime;
     private bool isDodging = false;
+    private bool isAttacking = false;
+    private bool isBlocking = false;
+    private bool isGrounded;
+    private float attackRange = 7.0f;
+    
     
     void Start()
     {
         lastDodgeTime = 0f;
+        currentHealth = maxhHealth;
+        currentStamina = maxStamina;
+        
     }
     void Update()
     {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        if (isGrounded && velocity.y < 0.0f)
+        {
+            velocity.y = -2.0f;
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && !isDodging)
         {
             StartCoroutine(Dodge());
@@ -29,8 +54,55 @@ public class PlayerMovement : MonoBehaviour
         {
             NormalMovement();
         }
+
+        if (Input.GetKeyDown(KeyCode.J) && !isAttacking)
+        {
+            Attack();
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Block();
+        }
+
+        // Add gravity to the player
+        // Equation: Y - Y0 = (1/2) * g * t^2
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 
+    void Attack()
+    {
+        isAttacking = true;
+        animator.SetTrigger("Attack");
+        
+        RaycastHit hit;
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, attackRange))
+        {
+            Debug.Log("Attacked: " + hit.collider.name);
+
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                hit.collider.GetComponent<SandBag>().TakeDamage(50);
+                Debug.Log("This is called");
+            }
+            
+            
+        }
+        isAttacking = false;
+        
+    }
+
+    void Block()
+    {
+        isBlocking = true;
+        animator.SetTrigger("Block");
+        // Block Logic Here
+        
+        isBlocking = false;
+    }
+
+    // Combine the Dodge and HeadDown together later if needed
     // Move the player faster for a certain duration, making a dodge feel
     IEnumerator Dodge()
     {
@@ -45,9 +117,18 @@ public class PlayerMovement : MonoBehaviour
             float z = Input.GetAxis("Vertical");
             Vector3 forward = new Vector3(cameraTransform.forward.x, 0, cameraTransform.forward.z).normalized;
             Vector3 right = new Vector3(cameraTransform.right.x, 0, cameraTransform.right.z).normalized;
-            Vector3 move = (right * x + forward * z).normalized; 
 
-            controller.Move(move * speed * dodgeSpeedMultiplier * Time.deltaTime);
+            Vector3 directionalInput = new Vector3(x, 0, z);
+            if (directionalInput.magnitude < 0.1f)
+            {
+                Vector3 move = -1 * forward;
+                controller.Move(move * speed * dodgeSpeedMultiplier * Time.deltaTime);
+            }
+            else
+            {
+                Vector3 move = (right * x + forward * z).normalized; 
+                controller.Move(move * speed * dodgeSpeedMultiplier * Time.deltaTime);
+            }
             yield return null; 
         }
 
@@ -96,6 +177,32 @@ public class PlayerMovement : MonoBehaviour
         Vector3 move = right * x + forward * z;
 
         controller.Move(move * speed * Time.deltaTime);
+    }
+
+    void GameOver()
+    {
+        // Call the Game Over screen
+    }
+
+    public void TakeDamage (int damage)
+    {
+        // Damega = 0 if isDodging and dodgingTimer < 0.1f
+        if (isDodging)
+        {
+            damage = 0;
+        }
+
+        if (isBlocking)
+        {
+            damage = 0;
+            // Add Blocking Sound Here
+        }
+        currentHealth -= damage;
+
+        if (currentHealth < 0)
+        {
+            GameOver();
+        }
     }
 
     

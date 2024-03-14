@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float mouseSensitivity = 1500f;
-    public float angleSpeed = 200f;
-    public Transform playerBody;
-    public Transform lockTarget;
+    [SerializeField] private float mouseSensitivity = 1500f;
+    [SerializeField] private float angleSpeed = 10f;
+    [SerializeField] private Transform playerBody;
+    [SerializeField] private Transform lockTarget;
     bool isLockedOnTarget = false;
     float xRotation = 0f;
+    private Quaternion lastRotation;
     
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+         
     }
 
     void Update()
@@ -24,6 +26,7 @@ public class MouseLook : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             isLockedOnTarget = !isLockedOnTarget;
+            
         }
 
         // Manual camera movement if camera is not locked
@@ -35,7 +38,7 @@ public class MouseLook : MonoBehaviour
         else if (lockTarget != null)
         {
             // Lock the camera @ the target 
-            PositionLockCamera();
+            //PositionLockCamera();
 
         }
 
@@ -43,10 +46,11 @@ public class MouseLook : MonoBehaviour
 
     void LateUpdate()
     {
-        if (isLockedOnTarget)
+        if (isLockedOnTarget && lockTarget != null)
         {
-            //PostionFollowCamera();
+            PostionFollowCamera();
         }
+        
     }
 
     void ManualCameraMovement()
@@ -59,6 +63,7 @@ public class MouseLook : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX);
+
     }
 
     // Lock the camera @ the target
