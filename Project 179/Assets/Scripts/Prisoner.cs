@@ -1,9 +1,9 @@
 public class Prisoner
 {
-    public float Health { get; }
-    public float AttackDmg { get; }
-    public float AttackSpd { get; }
-    public float RageMeter { get; }
+    public float Health { get; set; }
+    public float AttackDmg { get; set; }
+    public float AttackSpd { get; set; }
+    public float RageMeter { get; set;  }
 
     public Prisoner()
     {
