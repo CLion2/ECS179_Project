@@ -6,7 +6,7 @@ public class HUDController : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    private Bar playerHealth;
+    private Bar playerHealth;//gameobject reference
     [SerializeField]
     private GameObject playerStamina;
     [SerializeField]

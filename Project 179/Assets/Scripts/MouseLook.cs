@@ -38,7 +38,7 @@ public class MouseLook : MonoBehaviour
         else if (lockTarget != null)
         {
             // Lock the camera @ the target 
-            //PositionLockCamera();
+            // PositionLockCamera();
 
         }
 

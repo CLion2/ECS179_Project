@@ -3284,16 +3284,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baf1c73a1e0e341fb8c73052a19ecdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerHealth: {fileID: 180926001}
   maxhHealth: 100
+  PlayerStamina: {fileID: 1227793655}
   maxStamina: 50
   controller: {fileID: 235491082}
-  cameraTransform: {fileID: 235491083}
+  cameraTransform: {fileID: 963194228}
   groundDistance: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 0
   animator: {fileID: 0}
-  speed: 12
+  speed: 10
   gravity: -9.81
 --- !u!143 &235491082
 CharacterController:
@@ -14322,7 +14324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 1000
-  angleSpeed: 200
+  angleSpeed: 5
   playerBody: {fileID: 235491083}
   lockTarget: {fileID: 1680037768}
 --- !u!1001 &964758460

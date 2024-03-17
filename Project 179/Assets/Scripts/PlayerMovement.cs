@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private int maxhHealth = 100;
-    [SerializeField] private int maxStamina = 50;
+    [SerializeField] private Bar PlayerHealth;
+    [SerializeField] private float maxhHealth = 100.0f;
+    [SerializeField] private Bar PlayerStamina;
+    [SerializeField] private float maxStamina = 50.0f;
 
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform cameraTransform;
@@ -15,8 +17,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float gravity = -9.81f;
-    private int currentHealth;
-    private int currentStamina;
+    private float currentHealth;
+    private float currentStamina;
     private Vector3 velocity;
     private float dodgeSpeedMultiplier = 5.0f;
     private float dodgeDuration = 0.15f; 
@@ -185,22 +187,22 @@ public class PlayerMovement : MonoBehaviour
         // Call the Game Over screen
     }
 
-    public void TakeDamage (int damage)
+    public void TakeDamage (float damage)
     {
         // Damega = 0 if isDodging and dodgingTimer < 0.1f
         if (isDodging)
         {
-            damage = 0;
+            damage = 0f;
         }
 
         if (isBlocking)
         {
-            damage = 0;
+            damage = 0f;
             // Add Blocking Sound Here
         }
         currentHealth -= damage;
 
-        if (currentHealth < 0)
+        if (currentHealth < 0f)
         {
             GameOver();
         }
