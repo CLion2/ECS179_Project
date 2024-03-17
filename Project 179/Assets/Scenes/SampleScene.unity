@@ -710,7 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc94c2305ce91c4ba0eb56e8393daca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 0}
+  slider: {fileID: 45318979}
 --- !u!114 &45318979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3288,7 +3288,6 @@ MonoBehaviour:
   maxStamina: 50
   controller: {fileID: 235491082}
   cameraTransform: {fileID: 235491083}
-  groundCheck: {fileID: 0}
   groundDistance: 0.4
   groundMask:
     serializedVersion: 2
@@ -19118,21 +19117,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1227793652}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baf1c73a1e0e341fb8c73052a19ecdcf, type: 3}
+  m_Script: {fileID: 11500000, guid: 8cc94c2305ce91c4ba0eb56e8393daca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxhHealth: 100
-  maxStamina: 50
-  controller: {fileID: 0}
-  cameraTransform: {fileID: 0}
-  groundCheck: {fileID: 0}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
-  animator: {fileID: 0}
-  speed: 10
-  gravity: -9.81
+  slider: {fileID: 1227793654}
 --- !u!1 &1228885161
 GameObject:
   m_ObjectHideFlags: 0
