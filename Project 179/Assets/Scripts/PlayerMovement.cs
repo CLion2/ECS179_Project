@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform cameraTransform;
-    [SerializeField] private Transform groundCheck;
+    // [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundDistance = 0.4f;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private Animator animator;
@@ -38,11 +38,12 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        if (isGrounded && velocity.y < 0.0f)
-        {
-            velocity.y = -2.0f;
-        }
+        //isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        // if (isGrounded && velocity.y < 0.0f)
+        // {
+        //     velocity.y = -2.0f;
+        // }
+        velocity.y = -2.0f;
 
         if (Input.GetKeyDown(KeyCode.Space) && !isDodging)
         {
