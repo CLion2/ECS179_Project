@@ -1,119 +1,115 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
+// using UnityEngine.AI;
 
 public class EnemyAi : MonoBehaviour
 {
-    private float DamageTaken = 20f;
+    [SerializeField] private float DamageTaken = 20f;
     private float Rage = 10f;
-    private bool Stage1;
+    private float TimeSinceLastATTK = 0f;
+    private bool Blocking = false;
+    private float LastATK = 0f;
+    private float Delay = 0.5f; // delay when out of range
     private Prisoner Tutorial;
     private Gladiator Boss;
-    private bool Stage1Done;
-    [SerializeField] private float TetherDistance = 5f; // set it to nav mesh
+    [SerializeField] private bool Stage1Done;
+    [SerializeField] private float TetherDistance = 1.0f; // set it to nav mesh
     [SerializeField] private float speed = 5f; // set this to nav mesh
-    private GameObject Player;
-    [SerializeField] private GameObject PlayerPrefab;
+    // private GameObject Player;
 
     // following a vid here
-    public NavMeshAgent navMeshAgent;
-    public Transform playerTransform;
-    public Animator animator; // idk following vid here
+    // public UnityEngine.AI.NavMeshAgent navMeshAgent;
+    public GameObject PlayerLocation;
+    // public Transform playerTransform;
+    public Animator animateEnemy; // idk following vid here
+    BoxCollider EnemyAttack;
+    // TODO: implement wakeup
 
+    public Transform target;
 
     void Start()
     { // should work the second its created
-        Stage1 = true;
-        Stage1Done = false;
+        // Stage1Done = false;
         Tutorial = new Prisoner();
         Boss = new Gladiator();
-        // Player = PlayerPrefab; // may not be needed
-        // Player = GetComponent<PlayerPrefab>();// again may not be needed
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.speed = this.speed;
+        PlayerLocation = GameObject.Find("Player Body");
+        target = GameObject.Find("Player Body").transform;
+        EnemyAttack = GetComponentInChildren<BoxCollider>();
+        animateEnemy = GetComponentInChildren<Animator>();
     }
-    // // may not be needed
-    // void Movement()
-    // {
-    //     if(Stage1 == true) // then we are in tutorial
-    //     {
-    //         // check player position then use that to create a tether distance
-    //         // we go based off enemymovement.cs
-    //         // TODO: make changes for stage 1 here & change it to work
-
-    //         // Move to the player location
-    //         float step = speed * Time.deltaTime; 
-    //         transform.position = Vector3.MoveTowards(transform.position, Player.transform.position, step);
-
-    //         // If Enemy reaches the next location, call SetNextLocation again
-    //         // so that Enemy updates the next location
-    //         if (Vector3.Distance(transform.position, nextPosition) < 0.1f)
-    //         {
-    //             SetNextLocation();
-    //         }
-    //     }
-    //     else if(Stage1 == false)// then we are in boss fight
-    //     {
-
-    //     }
-    // }
-    // void Move(float speed)
-    // {
-    //     navMeshAgent.isStopped = false;
-    //     navMeshAgent.speed = speed;
-    // }
-    // void Stop()
-    // {
-    //     navMeshAgent.isStopped = true;
-    //     navMeshAgent.speed = 0;
-    // }
-    // void LookAtPlayer(Vector3 player)
-    // {
-    //     navMeshAgent.SetDestination(player);
-    //     if(Vector3.Distance(transofrm.position, player) <= 0.3f)
-    //     {
-    //         if(waitTime <= 0)
-    //         {
-    //             NearPlayer = false;
-    //             Move(this.speed);
-    //         }
-    //     }
-    // }
-    void Attack()
+    public void Attack()
+    // TODO: physics.Raycast for attacking with the swords
     {
-        if(Stage1 == true) // then we are in tutorial
+        float AttackRoll = Random.Range(0f,10f);
+        if(Stage1Done == false && TimeSinceLastATTK >= this.Tutorial.AttackSpd) // then we are in tutorial
         {
-
+            if(AttackRoll <= 6f) // then attack goes through
+            {
+                Debug.Log("Attack is made");
+                animateEnemy.SetTrigger("Attack");
+                GetComponent<Collider>().isTrigger = true;
+                //TODO: get information from soma and then finish up attack here
+            }
+            else
+            {
+                //FOR TESTING PURPOSES
+                GetComponent<Collider>().isTrigger = false;
+                Block();
+            }
+            GetComponent<Collider>().isTrigger = false;
+            TimeSinceLastATTK = 0;
         }
-        else if(Stage1 == false)// then we are in boss fight
+        else if(Stage1Done == true && TimeSinceLastATTK >= this.Boss.AttackSpd)// then we are in boss fight
         {
-
+            if(AttackRoll <= 6f) // then attack goes through
+            {
+                Debug.Log("Attack is made by gladiator");
+                animateEnemy.SetTrigger("Combo1");
+                GetComponent<Collider>().isTrigger = true;
+                //TODO: get information from soma and then finish up attack here
+                // OnAttackCheck(); // not fully done
+            }
+            else // then block
+            {
+                GetComponent<Collider>().isTrigger = false;
+                Block();
+            }
+            GetComponent<Collider>().isTrigger = false;
+            TimeSinceLastATTK = 0;
         }
+        TimeSinceLastATTK += Time.deltaTime;
     }
-    void CheckDead()
+
+    public void CheckDead()
     {
-        if(Stage1 == true && Tutorial.Health == 0)
+        if(Stage1Done == false && Tutorial.Health == 0)
         {
             Stage1Done = true;
-            Stage1 = false;
             // need to add in a death animation or ragdoll here
         }
-        else if(Stage1 == false && Boss.Health == 0)
+        else if(Stage1Done == true && Boss.Health == 0)
         {
             // boss is dead then add in a death animation or ragdoll here
         }
     }
-
-    void TakeDamage() // TAkeDamage deals with the enemies direct health
+    public void EnemyTakeDamage(float DamageToTake) // TakeDamage deals with the enemies direct health
     {
-        if(Stage1 == true && Stage1Done == false)
+        if(Stage1Done == false)
         {
-            Tutorial.Health = Tutorial.Health - DamageTaken;
+            if(Tutorial.Health <=0)
+            {
+                return;
+            }
+            Tutorial.Health = Tutorial.Health - DamageToTake;
         }
-        else if(Stage1Done == true && Stage1 == false)
+        else if(Stage1Done == true)
         {
-            Boss.Health = Boss.Health - DamageTaken; // decrease health
+            if(Boss.Health <= 0)
+            {
+                return;
+            }
+            Boss.Health = Boss.Health - DamageToTake; // decrease health
             Boss.RageMeter = Boss.RageMeter + Rage; // increase ragemeter
             if(Boss.RageMeter == 100f)
             {
@@ -127,19 +123,77 @@ public class EnemyAi : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player")&& gameObject.CompareTag("Prisoner"))
+        {
+            Debug.Log("Prisoner attack lands");
+            
+        }
+        else if (other.gameObject.CompareTag("Player")&& gameObject.CompareTag("Gladiator"))
+        {
+            Debug.Log("Gladiator attack lands");
+        }
+        // player take damage
+    }
     void Block()
     {
-
+        this.Blocking = true;
+        animateEnemy.SetTrigger("Block");
+    }
+    public void IsStageDone(bool stage)
+    {
+        this.Stage1Done = stage;
+    }
+    public bool StageDone()
+    {
+        return Stage1Done;
     }
     void Update()
-    {
-        if(Stage1 == true)
+    { 
+        // TODO: add delay when distance is 5
+        // TODO: add look at player
+        // TODO: make sure it works with prisoner and gladiator
+        // TODO: make sure that when in stage1 then gladiator doesnt move
+    /*
+        if(Stage1Done == false)
         {
-            navMeshAgent.SetDestination(playerTransform.position);
+            if(navMeshAgent.remainingDistance == 5)
+            {
+                Debug.Log("distance is 0");
+            }
+            navMeshAgent.SetDestination(PlayerLocation.transform.position);
+            //TODO: if distance greater
+
+            //TODO: add attack [VERY IMPORTANT TO DO THIS]
+            Attack();
         }
-        else if(Stage1 == false)
+        else if(Stage1Done == true)
         {
-            navMeshAgent.SetDestination(playerTransform.position);
+            navMeshAgent.SetDestination(PlayerLocation.transform.position);
+            
+            //TODO: add attack [VERY IMPORTANT TO DO THIS]
+            Attack();
         }
+    */
+        float step = speed * Time.deltaTime; 
+    
+        // If the enemy is close to the player
+        target.position = new Vector3(target.position.x,0f,target.position.z);
+        this.transform.LookAt(target);
+        if (Vector3.Distance(transform.position, target.position) < TetherDistance || LastATK >= 1.0f)
+        {
+            // The enemy is stationaty
+            step = 0;
+            Attack();
+            LastATK = 0;
+        }
+        else
+        {
+            // The enemy moves toward the player
+            transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+            LastATK += Time.deltaTime;
+        }
+        animateEnemy.SetFloat("Speed",step);
     }
 }

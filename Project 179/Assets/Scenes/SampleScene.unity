@@ -5818,7 +5818,7 @@ Transform:
   m_GameObject: {fileID: 448062580}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.05, y: -1.47, z: 0}
+  m_LocalPosition: {x: 0.05, y: -1.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14304,7 +14304,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.02, y: -0.79, z: 0.03}
+  m_LocalPosition: {x: -0.02, y: -0.12, z: 0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -16043,9 +16043,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1047886845}
-  - component: {fileID: 1047886844}
-  - component: {fileID: 1047886846}
   - component: {fileID: 1047886847}
+  - component: {fileID: 1047886848}
   m_Layer: 0
   m_Name: EnemyGroup
   m_TagString: Enemy
@@ -16053,19 +16052,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1047886844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1047886843}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56771ee72aff24407a4504cd153067be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
 --- !u!4 &1047886845
 Transform:
   m_ObjectHideFlags: 0
@@ -16083,24 +16069,6 @@ Transform:
   - {fileID: 1443928336}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1047886846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1047886843}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1922fc22aceb2854fa902d91e17b2303, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TetherDistance: 2
-  speed: 5
-  PlayerPrefab: {fileID: 235491080}
-  navMeshAgent: {fileID: 1680037772}
-  playerTransform: {fileID: 235491083}
-  animator: {fileID: 0}
 --- !u!195 &1047886847
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -16123,6 +16091,23 @@ NavMeshAgent:
   m_BaseOffset: 3
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1047886848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047886843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6789bba547d94cc49b985f0c3cb91399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyPrefab: {fileID: 2196284963052463963, guid: bb730c13f0dae124e99d52e0675a0ca6, type: 3}
+  GladiatorPrefab: {fileID: 1416255913833970626, guid: 6ee3f2a4d554fe546b79e0510c9f423e, type: 3}
+  EnemySpawnPrisoner: {fileID: 2196284963052463963, guid: bb730c13f0dae124e99d52e0675a0ca6, type: 3}
+  EnemySpawnGladiator: {fileID: 1416255913833970626, guid: 6ee3f2a4d554fe546b79e0510c9f423e, type: 3}
+  TutorialDone: 0
 --- !u!1001 &1047894102
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22429,7 +22414,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1443928335}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
   m_Name: 
@@ -26389,7 +26374,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680037767}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 5
@@ -26413,15 +26398,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1680037767}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1922fc22aceb2854fa902d91e17b2303, type: 3}
+  m_Script: {fileID: 11500000, guid: 6789bba547d94cc49b985f0c3cb91399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TetherDistance: 2
-  speed: 5
-  PlayerPrefab: {fileID: 235491080}
-  navMeshAgent: {fileID: 1680037772}
-  playerTransform: {fileID: 235491083}
-  animator: {fileID: 0}
+  EnemyPrefab: {fileID: 0}
+  GladiatorPrefab: {fileID: 0}
+  EnemySpawnPrisoner: {fileID: 0}
+  EnemySpawnGladiator: {fileID: 0}
+  TutorialDone: 0
 --- !u!4 &1681277399 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2689051143384205797, guid: acf3df6fa97346e489dca6ce9c745687, type: 3}
