@@ -946,7 +946,7 @@ GameObject:
   - component: {fileID: 6842438492260440125}
   - component: {fileID: 8487120622362591968}
   m_Layer: 0
-  m_Name: SK-Swordsman_Changed_mesh
+  m_Name: Prisoner
   m_TagString: Prisoner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

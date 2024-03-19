@@ -3736,7 +3736,7 @@ GameObject:
   - component: {fileID: 1123187374902573306}
   - component: {fileID: 5701722564918963156}
   m_Layer: 0
-  m_Name: Crusader tank_prefab
+  m_Name: Boss
   m_TagString: Gladiator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

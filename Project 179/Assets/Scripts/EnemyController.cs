@@ -15,14 +15,17 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private bool TutorialDone;
     void Awake() // creates the first enemy to be used
     { // should work the second its created
+        // GameObject parent = GameObject.Find("Enemies");
         if(TutorialDone == true) // spawns gladiator if true
         {
             Enemies = Instantiate(GladiatorPrefab,EnemySpawnGladiator.transform.position,Quaternion.identity);
         }
         else
         { // spawns prisoner on anything else
-            Enemies = Instantiate(EnemyPrefab,EnemySpawnPrisoner.transform.position,Quaternion.identity);
+            // Enemies = Instantiate(EnemyPrefab,EnemySpawnPrisoner.transform.position,Quaternion.identity);
+            // Enemies = Instantiate(EnemyPrefab,parent.transform,false);
             // BossSpawned = false;
+            SpawnPrisoner();
         }
     }
     void SpawnPrisoner()
