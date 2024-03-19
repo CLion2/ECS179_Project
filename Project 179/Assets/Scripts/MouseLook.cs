@@ -28,7 +28,7 @@ public class MouseLook : MonoBehaviour
             isLockedOnTarget = !isLockedOnTarget;
             // GameObject Enemy = GameObject.FindGameObjectsWithTag("Prisoner");
             // lockTarget = Enemy.transform;
-            lockTarget = GameObject.FindWithTag("Prisoner").transform;
+            lockTarget = GameObject.FindWithTag("GladiatorAnchor").transform;
         }
 
         // Manual camera movement if camera is not locked
@@ -72,6 +72,15 @@ public class MouseLook : MonoBehaviour
     void PositionLockCamera()
     {
         transform.LookAt(lockTarget);
+    }
+
+    void LockOnPrisoner()
+    {
+        lockTarget = GameObject.FindWithTag("PrisonerAnchor").transform;
+    }
+    void LockOnBoss()
+    {
+        lockTarget = GameObject.FindWithTag("GladiatorAnchor").transform;
     }
 
     // Need Adjustment
