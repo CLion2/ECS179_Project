@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
     //[SerializeField] private float groundDistance = 0.4f;
     //[SerializeField] private LayerMask groundMask;
     [SerializeField] private Animator animator;
+    [SerializeField] private TrailRenderer swordTrail;
+    [SerializeField] private ParticleSystem particleSwordTrail;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private AudioClip attackSound;
@@ -42,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         currentHealth = maxhHealth;
         currentStamina = maxStamina;
         audioSource = GetComponent<AudioSource>();
+        particleSwordTrail.Stop();
         
     }
     void Update()
@@ -91,6 +94,10 @@ public class PlayerMovement : MonoBehaviour
 
         audioSource.PlayOneShot(attackSound);
         lastAttackTime = Time.time;
+
+        //swordTrail.emitting = true;
+        particleSwordTrail.Play();
+        StartCoroutine(TrailEffect(attackCooldown));
         
         RaycastHit hit;
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, attackRange))
@@ -107,6 +114,13 @@ public class PlayerMovement : MonoBehaviour
         }
         isAttacking = false;
         
+    }
+
+    IEnumerator TrailEffect(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        //swordTrail.emitting = false;
+        particleSwordTrail.Stop();
     }
 
     //bool isBlocking as a parameter
