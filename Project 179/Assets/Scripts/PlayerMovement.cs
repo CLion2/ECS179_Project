@@ -128,13 +128,12 @@ public class PlayerMovement : MonoBehaviour
     {
         isBlocking = true;
         animator.SetTrigger("Block");
-        audioSource.PlayOneShot(blockSound);
-        // Block Logic Here 
-        // Add Sound
+        
+        // If collision, play sound
+        //audioSource.PlayOneShot(blockSound);
+        
         
         isBlocking = false;
-
-        
     }
 
     // Combine the Dodge and HeadDown together later if needed
