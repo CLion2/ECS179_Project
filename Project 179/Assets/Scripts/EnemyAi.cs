@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyAi : MonoBehaviour
 {
     [SerializeField] private PlayerMovement DamagePlayersHealth;
-    [SerializeField] public bool AggroEnemy { get; set; }
+    [SerializeField] public bool AggroEnemy;
     private float Rage = 10f;
     private float TimeSinceLastATTK = 0f;
     private bool Blocking = false;
@@ -75,6 +75,11 @@ public class EnemyAi : MonoBehaviour
                 Debug.Log("Attack is made by gladiator");
                 animateEnemy.SetTrigger("Combo1");
                 GetComponent<Collider>().isTrigger = true;
+                if(DamageDone == false)
+                {
+                    Boss.RageMeter += 1f;
+                }
+                DamageDone = false;
                 //TODO: get information from soma and then finish up attack here
                 // OnAttackCheck(); // not fully done
             }
@@ -105,7 +110,7 @@ public class EnemyAi : MonoBehaviour
     {
         if(Stage1Done == false)
         {
-            if(Tutorial.Health <=0)
+            if(Tutorial.Health <= 0f)
             {
                 Debug.Log("Prisoner Health already 0");
                 return;
@@ -114,7 +119,7 @@ public class EnemyAi : MonoBehaviour
         }
         else if(Stage1Done == true)
         {
-            if(Boss.Health <= 0)
+            if(Boss.Health <= 0f)
             {
                 Debug.Log("Gladiator Health already 0");
                 return;
@@ -123,13 +128,13 @@ public class EnemyAi : MonoBehaviour
             Boss.RageMeter = Boss.RageMeter + Rage; // increase ragemeter
             if(Boss.RageMeter == 100f)
             {
-                Boss.AttackDmg = Boss.AttackDmg + 5;
-                Boss.AttackSpd = Boss.AttackSpd + 0.5f;
+                Boss.AttackDmg = Boss.AttackDmg + Boss.AttackDmg;
+                Boss.AttackSpd = Boss.AttackSpd - 0.5f;
             }
-            else if(Boss.RageMeter < 100f && Boss.RageMeter >= 50f)
+            else if(Boss.RageMeter == 50f)
             {
-                Boss.AttackDmg = Boss.AttackDmg + 5;
-                Boss.AttackSpd = Boss.AttackSpd + 0.5f;
+                Boss.AttackDmg = Boss.AttackDmg + 5f;
+                Boss.AttackSpd = Boss.AttackSpd - 0.5f;
             }
         }
         Debug.Log("Prisoner health:" + Tutorial.Health);
@@ -153,6 +158,31 @@ public class EnemyAi : MonoBehaviour
             }
             else if (other.gameObject.CompareTag("Player")&& gameObject.CompareTag("Gladiator"))
             {
+                if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack2") && DamageDone == false)
+                {
+                    // Debug.Log("Prisoner attack lands");
+                    DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
+                    DamageDone = true;
+                }
+                else if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack1") && DamageDone == false)
+                {
+                    // Debug.Log("Prisoner attack lands");
+                    DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
+                    DamageDone = true;
+                }
+                else if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack3") && DamageDone == false)
+                {
+                    // Debug.Log("Prisoner attack lands");
+                    DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
+                    DamageDone = true;
+                }
+                else if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack shield") && DamageDone == false)
+                {
+                    // Debug.Log("Prisoner attack lands");
+                    DamagePlayersHealth.TakeDamage(0f); // Base Damage for Now
+
+                    DamageDone = true;
+                }
                 Debug.Log("Gladiator attack lands");
                 DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
             }
@@ -199,6 +229,8 @@ public class EnemyAi : MonoBehaviour
             Attack();
         }
     */
+        
+        
         if(AggroEnemy == true)
         {
             float step = speed * Time.deltaTime; 
@@ -220,6 +252,10 @@ public class EnemyAi : MonoBehaviour
                 LastATK += Time.deltaTime;
             }
             animateEnemy.SetFloat("Speed",step);
+        }
+        else
+        {
+            animateEnemy.SetFloat("Speed",0);
         }
     }
 }

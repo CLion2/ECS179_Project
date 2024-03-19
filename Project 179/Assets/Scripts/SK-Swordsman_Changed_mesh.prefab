@@ -1146,8 +1146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1922fc22aceb2854fa902d91e17b2303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageTaken: 20
-  playershealth: {fileID: 0}
+  DamagePlayersHealth: {fileID: 0}
+  AggroEnemy: 0
   Stage1Done: 0
   TetherDistance: 3
   speed: 5
