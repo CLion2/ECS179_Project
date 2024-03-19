@@ -72,6 +72,8 @@ public class PlayerMovement : MonoBehaviour
         // Equation: Y - Y0 = (1/2) * g * t^2
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+
+        //Debug for now to check health
     }
 
     void Attack()
@@ -82,13 +84,16 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, attackRange))
         {
-            Debug.Log("Attacked: " + hit.collider.name);
+            // Debug.Log("Attacked: " + hit.collider.name);
+            // Debug.Log("enemy Tag is: " + hit.collider.tag);
 
-            if (hit.collider.CompareTag("Enemy"))
+            if (hit.collider.tag =="Prisoner" || hit.collider.tag == "Gladiator")
             {
-                hit.collider.GetComponent<SandBag>().TakeDamage(50);
-                Debug.Log("This is called");
+                // Debug.Log("got into the attack");
+                hit.collider.GetComponent<EnemyAi>().EnemyTakeDamage(50f); // probably to high for right now
+                // Debug.Log("This is called");
             }
+            
             
             
         }
@@ -206,6 +211,7 @@ public class PlayerMovement : MonoBehaviour
         {
             GameOver();
         }
+        // Debug.Log("health is: " + currentHealth);
     }
 
     

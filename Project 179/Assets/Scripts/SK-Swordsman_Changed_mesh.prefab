@@ -1147,6 +1147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageTaken: 20
+  playershealth: {fileID: 0}
   Stage1Done: 0
   TetherDistance: 3
   speed: 5

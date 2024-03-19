@@ -9,7 +9,7 @@ public class Prisoner
     {
         this.Health = 150;
         this.AttackDmg = 15;
-        this.AttackSpd = 1.0f;
+        this.AttackSpd = 1.5f;
         this.RageMeter = 0; // should never increase for prisoner just there to show there is a rage meter
     }
 }

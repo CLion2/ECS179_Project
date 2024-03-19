@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class EnemyAi : MonoBehaviour
 {
-    [SerializeField] private float DamageTaken = 20f;
+    [SerializeField] private PlayerMovement DamagePlayersHealth;
+    [SerializeField] public bool AggroEnemy { get; set; }
     private float Rage = 10f;
     private float TimeSinceLastATTK = 0f;
     private bool Blocking = false;
+    private bool DamageDone = false;
     private float LastATK = 0f;
     private float Delay = 0.5f; // delay when out of range
     private Prisoner Tutorial;
@@ -37,30 +39,36 @@ public class EnemyAi : MonoBehaviour
         target = GameObject.Find("Player Body").transform;
         EnemyAttack = GetComponentInChildren<BoxCollider>();
         animateEnemy = GetComponentInChildren<Animator>();
+        DamagePlayersHealth = GameObject.Find("First Person Player").GetComponent<PlayerMovement>();
     }
     public void Attack()
     // TODO: physics.Raycast for attacking with the swords
     {
+        if(this.Blocking == true)
+        {
+            this.Blocking = false;
+        }
         float AttackRoll = Random.Range(0f,10f);
-        if(Stage1Done == false && TimeSinceLastATTK >= this.Tutorial.AttackSpd) // then we are in tutorial
+        if(Stage1Done == false && TimeSinceLastATTK > this.Tutorial.AttackSpd) // then we are in tutorial
         {
             if(AttackRoll <= 6f) // then attack goes through
             {
                 Debug.Log("Attack is made");
                 animateEnemy.SetTrigger("Attack");
-                GetComponent<Collider>().isTrigger = true;
-                //TODO: get information from soma and then finish up attack here
+                GetComponent<BoxCollider>().isTrigger = true;
+                DamageDone = false;
             }
             else
             {
                 //FOR TESTING PURPOSES
-                GetComponent<Collider>().isTrigger = false;
+                // Debug.Log("block is done");
+                GetComponent<BoxCollider>().isTrigger = false;
                 Block();
             }
-            GetComponent<Collider>().isTrigger = false;
+            GetComponent<BoxCollider>().isTrigger = false;
             TimeSinceLastATTK = 0;
         }
-        else if(Stage1Done == true && TimeSinceLastATTK >= this.Boss.AttackSpd)// then we are in boss fight
+        else if(Stage1Done == true && TimeSinceLastATTK > this.Boss.AttackSpd)// then we are in boss fight
         {
             if(AttackRoll <= 6f) // then attack goes through
             {
@@ -99,6 +107,7 @@ public class EnemyAi : MonoBehaviour
         {
             if(Tutorial.Health <=0)
             {
+                Debug.Log("Prisoner Health already 0");
                 return;
             }
             Tutorial.Health = Tutorial.Health - DamageToTake;
@@ -107,6 +116,7 @@ public class EnemyAi : MonoBehaviour
         {
             if(Boss.Health <= 0)
             {
+                Debug.Log("Gladiator Health already 0");
                 return;
             }
             Boss.Health = Boss.Health - DamageToTake; // decrease health
@@ -122,19 +132,32 @@ public class EnemyAi : MonoBehaviour
                 Boss.AttackSpd = Boss.AttackSpd + 0.5f;
             }
         }
+        Debug.Log("Prisoner health:" + Tutorial.Health);
+        Debug.Log("Gladiator health: " + Boss.Health);
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Player")&& gameObject.CompareTag("Prisoner"))
+        // Debug.Log(other.gameObject.CompareTag("Player"));
+        
+        if(this.Blocking == false)
         {
-            Debug.Log("Prisoner attack lands");
-            
+            // Debug.Log(other.gameObject);
+            if(other.gameObject.CompareTag("Player")&& gameObject.CompareTag("Prisoner"))
+            {
+                if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Attack") && DamageDone == false)
+                {
+                    // Debug.Log("Prisoner attack lands");
+                    DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
+                    DamageDone = true;
+                }
+            }
+            else if (other.gameObject.CompareTag("Player")&& gameObject.CompareTag("Gladiator"))
+            {
+                Debug.Log("Gladiator attack lands");
+                DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
+            }
+
         }
-        else if (other.gameObject.CompareTag("Player")&& gameObject.CompareTag("Gladiator"))
-        {
-            Debug.Log("Gladiator attack lands");
-        }
-        // player take damage
     }
     void Block()
     {
@@ -176,24 +199,27 @@ public class EnemyAi : MonoBehaviour
             Attack();
         }
     */
-        float step = speed * Time.deltaTime; 
-    
-        // If the enemy is close to the player
-        target.position = new Vector3(target.position.x,0f,target.position.z);
-        this.transform.LookAt(target);
-        if (Vector3.Distance(transform.position, target.position) < TetherDistance || LastATK >= 1.0f)
+        if(AggroEnemy == true)
         {
-            // The enemy is stationaty
-            step = 0;
-            Attack();
-            LastATK = 0;
+            float step = speed * Time.deltaTime; 
+        
+            // If the enemy is close to the player
+            target.position = new Vector3(target.position.x,0f,target.position.z);
+            this.transform.LookAt(target);
+            if (Vector3.Distance(transform.position, target.position) < TetherDistance || LastATK >= 1.0f)
+            {
+                // The enemy is stationaty
+                step = 0;
+                Attack();
+                LastATK = 0;
+            }
+            else
+            {
+                // The enemy moves toward the player
+                transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+                LastATK += Time.deltaTime;
+            }
+            animateEnemy.SetFloat("Speed",step);
         }
-        else
-        {
-            // The enemy moves toward the player
-            transform.position = Vector3.MoveTowards(transform.position, target.position, step);
-            LastATK += Time.deltaTime;
-        }
-        animateEnemy.SetFloat("Speed",step);
     }
 }

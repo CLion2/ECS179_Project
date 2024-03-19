@@ -17,7 +17,6 @@ public class MouseLook : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-         
     }
 
     void Update()
@@ -26,7 +25,7 @@ public class MouseLook : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             isLockedOnTarget = !isLockedOnTarget;
-            
+            // lockTarget = 
         }
 
         // Manual camera movement if camera is not locked
