@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isDodging = false;
     private bool isInvincible = false;
     private bool isAttacking = false;
+    private bool isStrongAttacking = false;
     private float attackCooldown = 0.28f;
     private float lastAttackTime = 0.0f;
     private bool isBlocking = false;
@@ -74,6 +75,11 @@ public class PlayerMovement : MonoBehaviour
             Attack();
         }
 
+        if (Input.GetKeyDown(KeyCode.U) && !isStrongAttacking)
+        {
+            StrongAttack();
+        }
+
 
         if (Input.GetKeyDown(KeyCode.I))
         {
@@ -113,6 +119,34 @@ public class PlayerMovement : MonoBehaviour
             
         }
         isAttacking = false;
+        
+    }
+
+    void StrongAttack()
+    {
+        isStrongAttacking = true;
+        animator.SetTrigger("StrongAttack");
+
+        //audioSource.PlayOneShot(attackSound);
+
+        //swordTrail.emitting = true;
+        particleSwordTrail.Play();
+        StartCoroutine(TrailEffect(attackCooldown + 0.5f));
+        
+        RaycastHit hit;
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, attackRange))
+        {
+            Debug.Log("Strong Attacked: " + hit.collider.name);
+
+            if (hit.collider.CompareTag("Enemy"))
+            {
+                hit.collider.GetComponent<SandBag>().TakeDamage(50);
+                Debug.Log("This is called");
+            }
+            
+            
+        }
+        isStrongAttacking = false;
         
     }
 
