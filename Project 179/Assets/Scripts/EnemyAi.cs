@@ -15,6 +15,7 @@ public class EnemyAi : MonoBehaviour
     private float Delay = 0.5f; // delay when out of range
     private Prisoner Tutorial;
     private Gladiator Boss;
+    private bool spawnDead = false;
     [SerializeField] private bool Stage1Done;
     [SerializeField] private float TetherDistance = 1.0f; // set it to nav mesh
     [SerializeField] private float speed = 5f; // set this to nav mesh
@@ -81,7 +82,6 @@ public class EnemyAi : MonoBehaviour
                 }
                 DamageDone = false;
                 //TODO: get information from soma and then finish up attack here
-                // OnAttackCheck(); // not fully done
             }
             else // then block
             {
@@ -100,28 +100,41 @@ public class EnemyAi : MonoBehaviour
         {
             Stage1Done = true;
             // need to add in a death animation or ragdoll here
+            this.animateEnemy.SetTrigger("Death");
+            spawnDead = true;
+            
         }
         else if(Stage1Done == true && Boss.Health == 0)
         {
             // boss is dead then add in a death animation or ragdoll here
+            this.animateEnemy.SetTrigger("Death");
+            spawnDead = true;
         }
     }
     public void EnemyTakeDamage(float DamageToTake) // TakeDamage deals with the enemies direct health
     {
+        if(Tutorial.Health <= 0f || Boss.Health <= 0f)
+        {
+            CheckDead();
+            return;
+        }
         if(Stage1Done == false)
         {
             if(Tutorial.Health <= 0f)
             {
                 Debug.Log("Prisoner Health already 0");
+                CheckDead();
                 return;
             }
             Tutorial.Health = Tutorial.Health - DamageToTake;
+            animateEnemy.SetTrigger("TakeDamage");
         }
         else if(Stage1Done == true)
         {
             if(Boss.Health <= 0f)
             {
                 Debug.Log("Gladiator Health already 0");
+                CheckDead();
                 return;
             }
             Boss.Health = Boss.Health - DamageToTake; // decrease health
@@ -136,9 +149,9 @@ public class EnemyAi : MonoBehaviour
                 Boss.AttackDmg = Boss.AttackDmg + 5f;
                 Boss.AttackSpd = Boss.AttackSpd - 0.5f;
             }
+            animateEnemy.SetTrigger("TakeDamage");
         }
-        Debug.Log("Prisoner health:" + Tutorial.Health);
-        Debug.Log("Gladiator health: " + Boss.Health);
+        // Debug.Log("Gladiator health: " + Boss.Health);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -152,7 +165,7 @@ public class EnemyAi : MonoBehaviour
                 if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Attack") && DamageDone == false)
                 {
                     // Debug.Log("Prisoner attack lands");
-                    DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
+                    DamagePlayersHealth.TakeDamage(Tutorial.AttackDmg); // Base Damage for Now
                     DamageDone = true;
                 }
             }
@@ -161,26 +174,25 @@ public class EnemyAi : MonoBehaviour
                 if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack2") && DamageDone == false)
                 {
                     // Debug.Log("Prisoner attack lands");
-                    DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
+                    DamagePlayersHealth.TakeDamage(Boss.AttackDmg); // Base Damage for Now
                     DamageDone = true;
                 }
                 else if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack1") && DamageDone == false)
                 {
                     // Debug.Log("Prisoner attack lands");
-                    DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
+                    DamagePlayersHealth.TakeDamage(Boss.AttackDmg); // Base Damage for Now
                     DamageDone = true;
                 }
                 else if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack3") && DamageDone == false)
                 {
                     // Debug.Log("Prisoner attack lands");
-                    DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
+                    DamagePlayersHealth.TakeDamage(Boss.AttackDmg); // Base Damage for Now
                     DamageDone = true;
                 }
                 else if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack shield") && DamageDone == false)
                 {
                     // Debug.Log("Prisoner attack lands");
                     DamagePlayersHealth.TakeDamage(0f); // Base Damage for Now
-
                     DamageDone = true;
                 }
                 Debug.Log("Gladiator attack lands");
@@ -230,9 +242,9 @@ public class EnemyAi : MonoBehaviour
         }
     */
         
-        
-        if(AggroEnemy == true)
+        if(AggroEnemy == true && spawnDead == false)
         {
+            CheckDead();
             float step = speed * Time.deltaTime; 
         
             // If the enemy is close to the player
@@ -253,9 +265,9 @@ public class EnemyAi : MonoBehaviour
             }
             animateEnemy.SetFloat("Speed",step);
         }
-        else
+        else if(spawnDead == false)
         {
-            animateEnemy.SetFloat("Speed",0);
+            animateEnemy.SetFloat("Speed",0f);
         }
     }
 }

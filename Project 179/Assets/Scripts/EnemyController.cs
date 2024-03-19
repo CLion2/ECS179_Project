@@ -25,7 +25,18 @@ public class EnemyController : MonoBehaviour
             // BossSpawned = false;
         }
     }
-    
+    void SpawnPrisoner()
+    {
+        Enemies = Instantiate(EnemyPrefab,EnemySpawnPrisoner.transform.position,Quaternion.identity);
+        EnemyAi checking = Enemies.GetComponent<EnemyAi>();
+        checking.IsStageDone(false);
+    }
+    void SpawnBoss()
+    {
+        Enemies = Instantiate(GladiatorPrefab,EnemySpawnGladiator.transform.position,Quaternion.identity);
+        EnemyAi checking = Enemies.GetComponent<EnemyAi>();
+        checking.IsStageDone(true);
+    }
     // void Build() // creates a new enemy when needed
     // {
     //     if(TutorialDone == true) // spawns gladiator if true
