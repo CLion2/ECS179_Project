@@ -9,12 +9,16 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform cameraTransform;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundDistance = 0.4f;
-    [SerializeField] private LayerMask groundMask;
+    //[SerializeField] private Transform groundCheck;
+    //[SerializeField] private float groundDistance = 0.4f;
+    //[SerializeField] private LayerMask groundMask;
     [SerializeField] private Animator animator;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private AudioClip attackSound;
+    [SerializeField] private AudioClip dodgeSound;
+    [SerializeField] private AudioClip blockSound;
+    private AudioSource audioSource;
     private int currentHealth;
     private int currentStamina;
     private Vector3 velocity;
@@ -23,9 +27,12 @@ public class PlayerMovement : MonoBehaviour
     private float headDownHeight = 0.3f;
     private float lastDodgeTime;
     private bool isDodging = false;
+    private bool isInvincible = false;
     private bool isAttacking = false;
+    private float attackCooldown = 0.28f;
+    private float lastAttackTime = 0.0f;
     private bool isBlocking = false;
-    private bool isGrounded;
+    //private bool isGrounded;
     private float attackRange = 7.0f;
     
     
@@ -34,18 +41,22 @@ public class PlayerMovement : MonoBehaviour
         lastDodgeTime = 0f;
         currentHealth = maxhHealth;
         currentStamina = maxStamina;
+        audioSource = GetComponent<AudioSource>();
         
     }
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        if (isGrounded && velocity.y < 0.0f)
-        {
-            velocity.y = -2.0f;
-        }
+        //isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        // if (isGrounded && velocity.y < 0.0f)
+        // {
+        //     velocity.y = -2.0f;
+        // }
+        velocity.y = -2.0f;
 
         if (Input.GetKeyDown(KeyCode.Space) && !isDodging)
         {
+
+            // This should be merged into one coroutine since couroutine is somewhat computationally heavy
             StartCoroutine(Dodge());
             StartCoroutine(HeadDown());
         }
@@ -55,15 +66,17 @@ public class PlayerMovement : MonoBehaviour
             NormalMovement();
         }
 
-        if (Input.GetKeyDown(KeyCode.J) && !isAttacking)
+        if (Input.GetKeyDown(KeyCode.J) && !isAttacking && Time.time > lastAttackTime + attackCooldown)
         {
             Attack();
         }
+
 
         if (Input.GetKeyDown(KeyCode.I))
         {
             Block();
         }
+        
 
         // Add gravity to the player
         // Equation: Y - Y0 = (1/2) * g * t^2
@@ -75,6 +88,9 @@ public class PlayerMovement : MonoBehaviour
     {
         isAttacking = true;
         animator.SetTrigger("Attack");
+
+        audioSource.PlayOneShot(attackSound);
+        lastAttackTime = Time.time;
         
         RaycastHit hit;
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, attackRange))
@@ -93,13 +109,18 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    //bool isBlocking as a parameter
     void Block()
     {
         isBlocking = true;
         animator.SetTrigger("Block");
-        // Block Logic Here
+        audioSource.PlayOneShot(blockSound);
+        // Block Logic Here 
+        // Add Sound
         
         isBlocking = false;
+
+        
     }
 
     // Combine the Dodge and HeadDown together later if needed
@@ -109,9 +130,16 @@ public class PlayerMovement : MonoBehaviour
         isDodging = true;
         lastDodgeTime = Time.time;
 
+        audioSource.PlayOneShot(dodgeSound);
+
+        // invincibleEndTime = Time.time + invincibleDuration;
+        // isInvincible = true;
+
         float dodgeEndTime = Time.time + dodgeDuration;
         while (Time.time < dodgeEndTime)
         {
+            // if (Time.time >= invincibleEndTime) isInvincible = false;
+
             // Same calculation as NormalMovement
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");
@@ -187,7 +215,9 @@ public class PlayerMovement : MonoBehaviour
     public void TakeDamage (int damage)
     {
         // Damega = 0 if isDodging and dodgingTimer < 0.1f
-        if (isDodging)
+        // Or isInvincible => damage = 0;
+        // else currentHealth -= damage;
+        if (isDodging && isInvincible)
         {
             damage = 0;
         }

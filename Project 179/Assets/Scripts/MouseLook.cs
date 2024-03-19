@@ -72,7 +72,6 @@ public class MouseLook : MonoBehaviour
         transform.LookAt(lockTarget);
     }
 
-    // Need Adjustment
     // Follow the target
     void PostionFollowCamera()
     {
