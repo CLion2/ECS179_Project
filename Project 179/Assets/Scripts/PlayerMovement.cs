@@ -18,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed = 10f;
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private AudioClip attackSound;
+    [SerializeField] private AudioClip missedAttackSound;
     [SerializeField] private AudioClip dodgeSound;
     [SerializeField] private AudioClip blockSound;
     private AudioSource audioSource;
@@ -32,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isInvincible = false;
     private bool isAttacking = false;
     private bool isStrongAttacking = false;
-    private float attackCooldown = 0.28f;
+    private float attackCooldown = 0.28f; 
     private float lastAttackTime = 0.0f;
     private bool isBlocking = false;
     //private bool isGrounded;
@@ -98,7 +99,6 @@ public class PlayerMovement : MonoBehaviour
         isAttacking = true;
         animator.SetTrigger("Attack");
 
-        audioSource.PlayOneShot(attackSound);
         lastAttackTime = Time.time;
 
         //swordTrail.emitting = true;
@@ -108,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, attackRange))
         {
+            audioSource.PlayOneShot(attackSound);
             Debug.Log("Attacked: " + hit.collider.name);
 
             if (hit.collider.CompareTag("Enemy"))
@@ -116,7 +117,10 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("This is called");
             }
             
-            
+        }
+        else
+        {
+            audioSource.PlayOneShot(missedAttackSound);
         }
         isAttacking = false;
         
@@ -127,7 +131,6 @@ public class PlayerMovement : MonoBehaviour
         isStrongAttacking = true;
         animator.SetTrigger("StrongAttack");
 
-        //audioSource.PlayOneShot(attackSound);
 
         //swordTrail.emitting = true;
         particleSwordTrail.Play();
@@ -136,6 +139,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, attackRange))
         {
+            //audioSource.PlayOneShot(attackSound);
             Debug.Log("Strong Attacked: " + hit.collider.name);
 
             if (hit.collider.CompareTag("Enemy"))
@@ -145,6 +149,10 @@ public class PlayerMovement : MonoBehaviour
             }
             
             
+        }
+        else
+        {
+            //audioSource.PlayOneShot(missedAttackSound);
         }
         isStrongAttacking = false;
         
