@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float groundDistance = 0.4f;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject sword;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float gravity = -9.81f;
     private float currentHealth;
@@ -30,14 +31,23 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private float attackRange = 7.0f;
     
-    
+    private bool HUDactive = false;
     void Start()
     {
         lastDodgeTime = 0f;
         currentHealth = maxhHealth;
         currentStamina = maxStamina;
-        
+        PlayerHealth.SetMaxHealth(maxhHealth);
+        PlayerStamina.SetMaxHealth(maxStamina);
     }
+
+    public void setActiveSword()
+    {
+        HUDactive = !HUDactive;
+        sword.gameObject.SetActive(HUDactive);
+        PlayerHealth.gameObject.SetActive(HUDactive);
+        PlayerStamina.gameObject.SetActive(HUDactive);
+    }    
     void Update()
     {
         //isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -58,12 +68,12 @@ public class PlayerMovement : MonoBehaviour
             NormalMovement();
         }
 
-        if (Input.GetKeyDown(KeyCode.J) && !isAttacking)
+        if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking)
         {
             Attack();
         }
 
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Mouse1))
         {
             Block();
         }
@@ -75,7 +85,10 @@ public class PlayerMovement : MonoBehaviour
 
         //Debug for now to check health
     }
+    void ScriptedMovement()
+    {
 
+    }
     void Attack()
     {
         isAttacking = true;

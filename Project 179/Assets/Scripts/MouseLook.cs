@@ -8,10 +8,10 @@ public class MouseLook : MonoBehaviour
     [SerializeField] private float angleSpeed = 10f;
     [SerializeField] private Transform playerBody;
     [SerializeField] private Transform lockTarget;
-    [SerializeField] public enum LockTargetEnemy {NONE, PISONER, BOSS};
-    [SerializeField] private List<string> tagList = new List<string>{"none", "PrisonerAnchor", "BossAnchor"};
+    [SerializeField] public enum LockTargetEnemy {NONE, PRISONER, BOSS, GUARD};
+    [SerializeField] private List<string> tagList = new List<string>{"Untagged", "PrisonerAnchor", "GladiatorAnchor","GuardAnchor"};
     bool isLockedOnTarget = false;
-    [SerializeField] private LockTargetEnemy currentTarget = LockTargetEnemy.NONE;
+    [SerializeField] private LockTargetEnemy currentTarget = LockTargetEnemy.PRISONER;
     float xRotation = 0f;
     private Quaternion lastRotation;
     
@@ -21,11 +21,19 @@ public class MouseLook : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-
+    public void SetTargetLocking(int lockTargetEnum)
+    {
+        isLockedOnTarget = true;
+        if (lockTargetEnum != 0)
+        {
+            currentTarget = (LockTargetEnemy)lockTargetEnum;
+            lockTarget = GameObject.FindWithTag(tagList[(int)currentTarget]).transform;
+        }
+    }
     void Update()
     {
         // Pressing the L key toggles on and off for camera lock feature
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.Mouse2))
         {
             isLockedOnTarget = !isLockedOnTarget;
             // GameObject Enemy = GameObject.FindGameObjectsWithTag("Prisoner");
