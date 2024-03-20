@@ -12,8 +12,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CharacterController controller;
     [SerializeField] private Transform cameraTransform;
     // [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundDistance = 0.4f;
+    // [SerializeField] private float groundDistance = 0.4f;
     [SerializeField] private LayerMask groundMask;
+    [SerializeField] private float PlayerDamage = 50f;
     [SerializeField] private Animator animator;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float gravity = -9.81f;
@@ -90,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
             if (hit.collider.tag =="Prisoner" || hit.collider.tag == "Gladiator")
             {
                 // Debug.Log("got into the attack");
-                hit.collider.GetComponent<EnemyAi>().EnemyTakeDamage(50f); // probably to high for right now
+                hit.collider.GetComponent<EnemyAi>().EnemyTakeDamage(PlayerDamage); // probably to high for right now
                 // Debug.Log("This is called");
             }
             
@@ -211,7 +212,7 @@ public class PlayerMovement : MonoBehaviour
         {
             GameOver();
         }
-        // Debug.Log("health is: " + currentHealth);
+        Debug.Log("health is: " + currentHealth);
     }
 
     

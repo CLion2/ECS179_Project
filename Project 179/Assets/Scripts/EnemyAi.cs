@@ -10,9 +10,10 @@ public class EnemyAi : MonoBehaviour
     private float Rage = 10f;
     private float TimeSinceLastATTK = 0f;
     private bool Blocking = false;
+    private bool ComboDone = true;
     private bool DamageDone = false;
+    private bool Attacking;
     private float LastATK = 0f;
-    private float Delay = 0.5f; // delay when out of range
     private Prisoner Tutorial;
     private Gladiator Boss;
     private bool spawnDead = false;
@@ -36,6 +37,7 @@ public class EnemyAi : MonoBehaviour
         // Stage1Done = false;
         Tutorial = new Prisoner();
         Boss = new Gladiator();
+        Attacking = false;
         PlayerLocation = GameObject.Find("Player Body");
         target = GameObject.Find("Player Body").transform;
         EnemyAttack = GetComponentInChildren<BoxCollider>();
@@ -54,42 +56,67 @@ public class EnemyAi : MonoBehaviour
         {
             if(AttackRoll <= 6f) // then attack goes through
             {
-                Debug.Log("Attack is made");
+                Debug.Log("Prisoner Attack is made");
+                Attacking = true;
                 animateEnemy.SetTrigger("Attack");
-                GetComponent<BoxCollider>().isTrigger = true;
+                // GetComponentInChildren<BoxCollider>().isTrigger = true;
                 DamageDone = false;
             }
-            else
-            {
-                //FOR TESTING PURPOSES
-                // Debug.Log("block is done");
-                GetComponent<BoxCollider>().isTrigger = false;
-                Block();
-            }
-            GetComponent<BoxCollider>().isTrigger = false;
+            // else
+            // {
+            //     //FOR TESTING PURPOSES
+            //     // Debug.Log("block is done");
+            //     GetComponent<BoxCollider>().isTrigger = false;
+            //     Block();
+            // }
+            GetComponentInChildren<BoxCollider>().isTrigger = false;
             TimeSinceLastATTK = 0;
         }
         else if(Stage1Done == true && TimeSinceLastATTK > this.Boss.AttackSpd)// then we are in boss fight
         {
-            if(AttackRoll <= 6f) // then attack goes through
+            if(AttackRoll <= 6f && ComboDone == true) // then attack goes through
             {
+                float WhatAttackRoll = Random.Range(0f,10f);
                 Debug.Log("Attack is made by gladiator");
-                animateEnemy.SetTrigger("Combo1");
-                GetComponent<Collider>().isTrigger = true;
+                Attacking = true;
+                // GetComponentInChildren<Collider>().isTrigger = true;
+                if(WhatAttackRoll >= 0f && WhatAttackRoll < 2f)
+                {
+                    DamageDone = false;
+                    animateEnemy.SetTrigger("Combo1");
+                    ComboDone = false;
+                }
+                else if (WhatAttackRoll >= 2f && WhatAttackRoll < 6f)
+                {
+                    DamageDone = false;
+                    animateEnemy.SetTrigger("Attack");
+                }
+                else if (WhatAttackRoll >= 6f && WhatAttackRoll < 8f)
+                {
+                    DamageDone = false;
+                    animateEnemy.SetTrigger("MediumAttk");
+                }
+                else if (WhatAttackRoll >= 8f && WhatAttackRoll < 10f)
+                {
+                    DamageDone = false;
+                    animateEnemy.SetTrigger("HeavyAttk");
+                }
+
                 if(DamageDone == false)
                 {
                     Boss.RageMeter += 1f;
+                    // Attacking = false;
                 }
-                DamageDone = false;
                 //TODO: get information from soma and then finish up attack here
             }
-            else // then block
+            else if(ComboDone == true) // then block
             {
-                GetComponent<Collider>().isTrigger = false;
+                GetComponentInChildren<Collider>().isTrigger = false;
+                Debug.Log("Blocking");
                 Block();
             }
-            GetComponent<Collider>().isTrigger = false;
             TimeSinceLastATTK = 0;
+            DamageDone = false;
         }
         TimeSinceLastATTK += Time.deltaTime;
     }
@@ -113,6 +140,10 @@ public class EnemyAi : MonoBehaviour
     }
     public void EnemyTakeDamage(float DamageToTake) // TakeDamage deals with the enemies direct health
     {
+        if(this.Blocking == true)
+        {
+            return;
+        }
         if(Tutorial.Health <= 0f || Boss.Health <= 0f)
         {
             CheckDead();
@@ -151,13 +182,15 @@ public class EnemyAi : MonoBehaviour
             }
             animateEnemy.SetTrigger("TakeDamage");
         }
-        // Debug.Log("Gladiator health: " + Boss.Health);
+        Debug.Log("Prisoner health: " + Tutorial.Health);
+        Debug.Log("Gladiator health: " + Boss.Health);
+        Debug.Log("Gladiator Rage Meter: "+ Boss.RageMeter);
     }
     private void OnTriggerEnter(Collider other)
     {
         // Debug.Log(other.gameObject.CompareTag("Player"));
         
-        if(this.Blocking == false)
+        if(this.Blocking == false && spawnDead == false)
         {
             // Debug.Log(other.gameObject);
             if(other.gameObject.CompareTag("Player")&& gameObject.CompareTag("Prisoner"))
@@ -168,38 +201,70 @@ public class EnemyAi : MonoBehaviour
                     DamagePlayersHealth.TakeDamage(Tutorial.AttackDmg); // Base Damage for Now
                     DamageDone = true;
                 }
+                // Attacking = false;
             }
             else if (other.gameObject.CompareTag("Player")&& gameObject.CompareTag("Gladiator"))
             {
-                if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack2") && DamageDone == false)
+                if((this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack2") ||  
+                this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Attack")) && DamageDone == false)
                 {
-                    // Debug.Log("Prisoner attack lands");
+                    // Debug.Log("Gladiator light attack lands");
                     DamagePlayersHealth.TakeDamage(Boss.AttackDmg); // Base Damage for Now
                     DamageDone = true;
                 }
-                else if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack1") && DamageDone == false)
+                else if((this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack1")  || 
+                this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Medium")) && DamageDone == false)
                 {
-                    // Debug.Log("Prisoner attack lands");
-                    DamagePlayersHealth.TakeDamage(Boss.AttackDmg); // Base Damage for Now
+                    // Debug.Log("Gladiator medium attack lands");
+                    DamagePlayersHealth.TakeDamage(Boss.AttackDmg + 5f); // Base Damage for Now
                     DamageDone = true;
                 }
-                else if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack3") && DamageDone == false)
+                else if((this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("AttackEnd") ||
+                 this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Heavy")) && DamageDone == false)
                 {
-                    // Debug.Log("Prisoner attack lands");
-                    DamagePlayersHealth.TakeDamage(Boss.AttackDmg); // Base Damage for Now
+                    // Debug.Log("Gladiator heavy attack lands");
+                    DamagePlayersHealth.TakeDamage(Boss.AttackDmg * 2f); // Base Damage for Now
                     DamageDone = true;
                 }
                 else if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack shield") && DamageDone == false)
                 {
-                    // Debug.Log("Prisoner attack lands");
+                    // Debug.Log("Gladiator shield bash lands");
                     DamagePlayersHealth.TakeDamage(0f); // Base Damage for Now
                     DamageDone = true;
                 }
-                Debug.Log("Gladiator attack lands");
-                DamagePlayersHealth.TakeDamage(10f); // Base Damage for Now
+                if (this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("AttackEnd") && ComboDone == false)
+                {
+                    ComboDone = true;
+                    Attacking = false;
+                }
             }
-
         }
+    }
+    private void AttackAnimDone()
+    {
+        if(gameObject.CompareTag("Prisoner") && this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        {
+            Debug.Log("Correct name");
+            Debug.Log("time is: " + this.animateEnemy.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9)
+            {
+                Debug.Log("Anim is done");
+                Attacking = false;
+            }
+        }
+        else if (gameObject.CompareTag("Gladiator") && (this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Attack") || 
+                        this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Heavy")||
+                        this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Medium") || 
+                        this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("AttackEnd")))
+        {
+            if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+            {
+                Attacking = false;
+                ComboDone = true;
+            }
+        }
+        Debug.Log("attacking: " + Attacking);
+        Debug.Log("ComboDone: " + ComboDone);
     }
     void Block()
     {
@@ -244,26 +309,32 @@ public class EnemyAi : MonoBehaviour
         
         if(AggroEnemy == true && spawnDead == false)
         {
+            // Debug.Log("ATTACKING: " + Attacking);
             CheckDead();
             float step = speed * Time.deltaTime; 
-        
             // If the enemy is close to the player
             target.position = new Vector3(target.position.x,0f,target.position.z);
             this.transform.LookAt(target);
-            if (Vector3.Distance(transform.position, target.position) < TetherDistance || LastATK >= 1.0f)
+            if ((Vector3.Distance(transform.position, target.position) < TetherDistance || LastATK >= 1.0f) && Attacking == false)
             {
                 // The enemy is stationaty
                 step = 0;
                 Attack();
                 LastATK = 0;
+                animateEnemy.SetFloat("Speed",step);
             }
-            else
+            else if(Attacking == true)
+            {
+                AttackAnimDone();
+                // LastATK += Time.deltaTime;
+            }
+            if(Attacking == false)
             {
                 // The enemy moves toward the player
                 transform.position = Vector3.MoveTowards(transform.position, target.position, step);
                 LastATK += Time.deltaTime;
+                animateEnemy.SetFloat("Speed",step);
             }
-            animateEnemy.SetFloat("Speed",step);
         }
         else if(spawnDead == false)
         {
