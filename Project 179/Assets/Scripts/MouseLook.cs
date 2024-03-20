@@ -8,8 +8,10 @@ public class MouseLook : MonoBehaviour
     [SerializeField] private float angleSpeed = 10f;
     [SerializeField] private Transform playerBody;
     [SerializeField] private Transform lockTarget;
-    [SerializeField] public enum LockTargetEnemy {NONE};
+    [SerializeField] public enum LockTargetEnemy {NONE, PISONER, BOSS};
+    [SerializeField] private List<string> tagList = new List<string>{"none", "PrisonerAnchor", "BossAnchor"};
     bool isLockedOnTarget = false;
+    [SerializeField] private LockTargetEnemy currentTarget = LockTargetEnemy.NONE;
     float xRotation = 0f;
     private Quaternion lastRotation;
     
@@ -28,7 +30,7 @@ public class MouseLook : MonoBehaviour
             isLockedOnTarget = !isLockedOnTarget;
             // GameObject Enemy = GameObject.FindGameObjectsWithTag("Prisoner");
             // lockTarget = Enemy.transform;
-            lockTarget = GameObject.FindWithTag("GladiatorAnchor").transform;
+            lockTarget = GameObject.FindWithTag(tagList[(int)currentTarget]).transform;
         }
 
         // Manual camera movement if camera is not locked
