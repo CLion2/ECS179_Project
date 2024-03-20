@@ -7,7 +7,7 @@ public class Gladiator
 
     public Gladiator()
     {
-        this.Health = 150f; // make this at least 1x higher than prisoner
+        this.Health = 1000.0f; // make this at least 1x higher than prisoner
         this.AttackDmg = 15f; // make damage higher
         this.AttackSpd = 3.0f;
         this.RageMeter = 0f; // rage meter should increase as time or damage happens
