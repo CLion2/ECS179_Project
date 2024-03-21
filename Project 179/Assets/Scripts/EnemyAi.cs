@@ -47,6 +47,18 @@ public class EnemyAi : MonoBehaviour
         animateEnemy = GetComponentInChildren<Animator>();
         DamagePlayersHealth = GameObject.Find("First Person Player").GetComponent<PlayerMovement>();
     }
+    public float getEnemyCurrentHP()
+    {
+        if(Stage1Done == false)
+        {
+            return Tutorial.Health;
+        }
+        else if(Stage1Done == true)
+        {
+            return Boss.Health;
+        }
+        return 0f;
+    }
     public void Attack()
     // TODO: physics.Raycast for attacking with the swords
     {

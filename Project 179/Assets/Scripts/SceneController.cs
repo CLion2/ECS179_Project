@@ -40,6 +40,8 @@ public class SceneController : MonoBehaviour
     private bool HUDactive = true;
     private bool subtitlesActive = false;
     private Subtitles subtitleScript;
+    private bool hideGameOver = true;
+    private float timedDelay = 0f;
     // private Subtitles subtitles;
     void Start()
     {
@@ -68,6 +70,7 @@ public class SceneController : MonoBehaviour
         stateTime = 0f;
         toggleControls();
         HideHud();
+        enemyHealth.SetMaxHealth(prisonerAi.getEnemyCurrentHP());
     }
     void HideHud()
     {
@@ -83,29 +86,37 @@ public class SceneController : MonoBehaviour
         subtitlesActive = !subtitlesActive;
         subtitle.gameObject.SetActive(HUDactive);
     }
+    void gameOverScreen()
+    {
+        
+    }
     // Update is called once per frame
     void Update()
     {
         if (playerScript.getGameOver())
         {
             toggleControls();
-            HideHud();
+
         }
-        if (enemyController.TutorialDone && scenes[1] == false)
+        if (enemyController.TutorialDone && scenes[1] == false && timedDelay >= 3f || )
         {
             scenes[1] = true;
             cutscene = true;
             stateTransition = true;
             stateTime = 0f;
+            timedDelay = 0f;
             sceneState = 0;
-            title.text = "Gladiator";
             gladiator = GameObject.FindGameObjectsWithTag("Gladiator")[0];
             if (gladiator != null)
             {
                 gladiatorAi = gladiator.GetComponent<EnemyAi>();
+                enemyHealth.SetMaxHealth(gladiatorAi.getEnemyCurrentHP());
             }
             toggleControls();
             HideHud();
+        } else
+        {
+            timedDelay += Time.deltaTime;
         }
         if (cutscene)
         {
@@ -123,6 +134,31 @@ public class SceneController : MonoBehaviour
             {
                 Scene1Coliseum();
             }
+        }
+        if (hideUI)
+        {
+            if (ControlScreen.alpha >= 0)
+            {
+                ControlScreen.alpha -= Time.deltaTime*2;
+            }
+        }
+        else
+        {
+            if (ControlScreen.alpha < 1)
+            {
+                ControlScreen.alpha += Time.deltaTime*2;
+            }
+        }
+    }
+    void LateUpdate()
+    {
+        if (title.text == "Gladiator")
+        {
+            enemyHealth.SetHealth(gladiatorAi.getEnemyCurrentHP());
+        }
+        else
+        {
+            enemyHealth.SetHealth(prisonerAi.getEnemyCurrentHP());
         }
     }
     void PlayerDeath()
@@ -267,6 +303,7 @@ public class SceneController : MonoBehaviour
         }
         if (sceneState == 6)
         {
+            title.text = "Gladiator";
             stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide") - 3f;
             mouseLook.SetTargetLocking(2);
             coliseum.SetOpening();
@@ -298,8 +335,8 @@ public class SceneController : MonoBehaviour
             gladiatorAi.initiateEnemy();
         }
     }
-    void Respawn()
+    public void Respawn()
     {
-
+        return;
     }
 }
