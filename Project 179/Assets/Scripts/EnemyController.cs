@@ -59,6 +59,7 @@ public class EnemyController : MonoBehaviour
         if(checking.StageDone() == true)
         {
             TutorialDone = true;
+            SpawnBoss();
             // DestroyEnemy();
         }
         else
