@@ -86,6 +86,11 @@ public class SceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playerScript.getGameOver())
+        {
+            toggleControls();
+            HideHud();
+        }
         if (enemyController.TutorialDone && scenes[1] == false)
         {
             scenes[1] = true;
@@ -94,9 +99,13 @@ public class SceneController : MonoBehaviour
             stateTime = 0f;
             sceneState = 0;
             title.text = "Gladiator";
+            gladiator = GameObject.FindGameObjectsWithTag("Gladiator")[0];
+            if (gladiator != null)
+            {
+                gladiatorAi = gladiator.GetComponent<EnemyAi>();
+            }
             toggleControls();
             HideHud();
-            ShowSubtitles();
         }
         if (cutscene)
         {
@@ -188,6 +197,7 @@ public class SceneController : MonoBehaviour
         }
         if (sceneState == 8)
         {
+            soundManager.PauseSoundEffect("water");
             stateTimeEnd = 4f;
             mouseLook.SetTargetLocking(4);
             guardAi.cutsceneMovement(anchors[3], true);
@@ -208,7 +218,6 @@ public class SceneController : MonoBehaviour
             scenes[0] = false;
             toggleControls();
             HideHud();
-            ShowSubtitles();
             prisonerAi.initiateEnemy();
             cutscene = false;
         }
@@ -226,13 +235,14 @@ public class SceneController : MonoBehaviour
         // States
         if (sceneState == 1)
         {
+            ShowSubtitles();
             mouseLook.SetTargetLocking(3);
             stateTimeEnd = soundManager.PlaySoundEffect("08") + 2;
         }
         if (sceneState == 2)
         {
             mouseLook.SetTargetLocking(3);
-            stateTimeEnd = soundManager.PlaySoundEffect("09") + 2;
+            stateTimeEnd = soundManager.PlaySoundEffect("09") + 4;
             guardAi.cutsceneMovement(anchors[7], true);
         }
         if (sceneState == 3)
@@ -258,8 +268,8 @@ public class SceneController : MonoBehaviour
         if (sceneState == 6)
         {
             stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide") - 3f;
-            // mouseLook.SetTargetLocking(2);
-            coliseum.SetClosing();
+            mouseLook.SetTargetLocking(2);
+            coliseum.SetOpening();
         }
         if (sceneState == 7)
         {
@@ -279,14 +289,13 @@ public class SceneController : MonoBehaviour
         if (sceneState == 10)
         {
             stateTimeEnd = soundManager.PlaySoundEffect("13");
-            // mouseLook.SetTargetLocking(2); 
+            mouseLook.SetTargetLocking(2); 
         }
         if (sceneState == 11)
         {
             toggleControls();
             HideHud();
-            // gladiatorAi.initiateEnemy();
-            scenes[1] = false;
+            gladiatorAi.initiateEnemy();
         }
     }
     void Respawn()

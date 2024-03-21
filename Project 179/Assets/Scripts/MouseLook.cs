@@ -47,7 +47,19 @@ public class MouseLook : MonoBehaviour
                 isLockedOnTarget = !isLockedOnTarget;
                 // GameObject Enemy = GameObject.FindGameObjectsWithTag("Prisoner");
                 // lockTarget = Enemy.transform;
-                lockTarget = GameObject.FindWithTag(tagList[(int)currentTarget]).transform;
+                if (!isLockedOnTarget)
+                {
+                    xRotation = transform.localEulerAngles.x;
+                    if (xRotation > 180)
+                    {
+                        xRotation -= 360;
+                    }
+                    playerBody.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
+                }
+                else
+                {
+                    lockTarget = GameObject.FindWithTag(tagList[(int)currentTarget]).transform;
+                }
             }
 
             // Manual camera movement if camera is not locked

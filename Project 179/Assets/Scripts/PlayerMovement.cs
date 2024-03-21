@@ -14,11 +14,12 @@ public class PlayerMovement : MonoBehaviour
     // [SerializeField] private Transform groundCheck;
     // [SerializeField] private float groundDistance = 0.4f;
     [SerializeField] private LayerMask groundMask;
-    [SerializeField] private float PlayerDamage = 50f;
+    [SerializeField] private float PlayerDamage = 60f;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject sword;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float regenRate = 2.5f;
     private float currentHealth;
     private float currentStamina;
     private Vector3 velocity;
@@ -33,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     private float attackRange = 7.0f;
     private bool cutsceneControlled = false;
     private bool HUDactive = false;
+    private bool gameOver = false;
     private Transform currentAnchor;
     [SerializeField] private bool inCutscene = false;
     [SerializeField] private NavMeshAgent navMesh;
@@ -60,6 +62,10 @@ public class PlayerMovement : MonoBehaviour
     {
         cutsceneControlled = true;
         currentAnchor = anchor;
+    }
+    public bool getGameOver()
+    {
+        return gameOver;
     }    
     void Update()
     {
@@ -69,6 +75,11 @@ public class PlayerMovement : MonoBehaviour
         //     velocity.y = -2.0f;
         // }
         velocity.y = -2.0f;
+        if (currentStamina < maxStamina)
+        {
+            currentStamina += Time.deltaTime * regenRate;
+            PlayerStamina.SetHealth(currentStamina);
+        }
         if (this.cutsceneControlled)
         {
             if (Vector3.Distance(transform.position, currentAnchor.position) < 1f)
@@ -84,10 +95,12 @@ public class PlayerMovement : MonoBehaviour
         }
         if (!inCutscene)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && !isDodging)
+            if (Input.GetKeyDown(KeyCode.Space) && !isDodging && currentStamina > 20f)
             {
                 StartCoroutine(Dodge());
                 StartCoroutine(HeadDown());
+                currentStamina -= 20f;
+                PlayerStamina.SetHealth(currentStamina);
             }
 
             if (!isDodging)
@@ -228,6 +241,7 @@ public class PlayerMovement : MonoBehaviour
     void GameOver()
     {
         // Call the Game Over screen
+        gameOver = true;
     }
 
     public void TakeDamage (float damage)
@@ -244,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
             // Add Blocking Sound Here
         }
         currentHealth -= damage;
-
+        PlayerHealth.SetHealth(currentHealth);
         if (currentHealth < 0f)
         {
             GameOver();

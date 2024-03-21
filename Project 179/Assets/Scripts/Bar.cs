@@ -16,7 +16,10 @@ public class Bar : MonoBehaviour
 
     public void SetHealth(float health)
     {
-        StartCoroutine(DecreaseHealthOverTime(health));
+        if (gameObject.activeSelf)
+        {
+            StartCoroutine(DecreaseHealthOverTime(health));
+        }
     }
     // Gradually decrease health for smoother look
     private IEnumerator DecreaseHealthOverTime(float currentHealth)
