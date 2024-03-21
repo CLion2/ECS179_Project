@@ -124,19 +124,19 @@ public class EnemyAi : MonoBehaviour
                 else if (WhatAttackRoll >= 2f && WhatAttackRoll < 6f)
                 {
                     DamageDone = false;
-                    Debug.Log("light attk");
+                    // Debug.Log("light attk");
                     animateEnemy.SetTrigger("Attack");
                 }
                 else if (WhatAttackRoll >= 6f && WhatAttackRoll < 8f)
                 {
                     DamageDone = false;
-                    Debug.Log("med attk");
+                    // Debug.Log("med attk");
                     animateEnemy.SetTrigger("MediumAttk");
                 }
                 else if (WhatAttackRoll >= 8f && WhatAttackRoll < 10f)
                 {
                     DamageDone = false;
-                    Debug.Log("heavy attk");
+                    // Debug.Log("heavy attk");
                     animateEnemy.SetTrigger("HeavyAttk");
                 }
 
@@ -151,7 +151,7 @@ public class EnemyAi : MonoBehaviour
             else if(ComboDone == true) // then block
             {
                 GetComponentInChildren<Collider>().isTrigger = false;
-                Debug.Log("Blocking");
+                // Debug.Log("Blocking");
                 Block();
             }
             // TimeSinceLastATTK = 0;
@@ -311,6 +311,8 @@ public class EnemyAi : MonoBehaviour
                 Attacking = false;
                 ComboDone = true;
             }
+            Debug.Log("attacking: " + Attacking);
+            Debug.Log("ComboDone: " + ComboDone);
         }
         else if(gameObject.CompareTag("Gladiator") && (this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack2") || 
                         this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack shield")||
@@ -318,8 +320,6 @@ public class EnemyAi : MonoBehaviour
         {
             DamageDone = false;
         }
-        Debug.Log("attacking: " + Attacking);
-        Debug.Log("ComboDone: " + ComboDone);
     }
     void Block()
     {
