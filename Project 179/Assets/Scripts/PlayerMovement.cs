@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     public void resetHP()
     {
         currentHealth = maxhHealth;
+        PlayerHealth.SetHealth(currentHealth);
     }
     public void setActiveHUD()
     {

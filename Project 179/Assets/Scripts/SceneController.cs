@@ -40,7 +40,7 @@ public class SceneController : MonoBehaviour
     [SerializeField] private CanvasGroup gameOverScreen;
     private bool HUDactive = true;
     private Subtitles subtitleScript;
-    private bool hideGameOver = true;
+    [SerializeField] private bool hideGameOver = true;
     private float timedDelay = 0f;
     // private Subtitles subtitles;
     void Start()
@@ -90,6 +90,8 @@ public class SceneController : MonoBehaviour
         hideGameOver = false;
         gameOverScreen.blocksRaycasts = true;
         mouseLook.unlockMouse();
+        toggleControls();
+        gameOverScreen.alpha = 0.5f;
         if (title.text == "Gladiator")
         {
             float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect("15");
@@ -107,7 +109,7 @@ public class SceneController : MonoBehaviour
         }
         else
         {
-            if (gameOverScreen.alpha < 1)
+            if (gameOverScreen.alpha < 0.5)
             {
                 gameOverScreen.alpha += Time.deltaTime*2;
             }
@@ -127,8 +129,10 @@ public class SceneController : MonoBehaviour
             stateTime = 0f;
             timedDelay = 0f;
             sceneState = 0;
+            playerScript.resetHP();
             gladiator = GameObject.FindGameObjectsWithTag("Gladiator")[0];
-        } else if (enemyController.TutorialDone && scenes[1] == false)
+        } 
+        else if (enemyController.TutorialDone && scenes[1] == false)
         {
             timedDelay += Time.deltaTime;
         }
@@ -341,6 +345,7 @@ public class SceneController : MonoBehaviour
             HideHud();
             gladiatorAi.initiateEnemy();
             playerScript.resetHP();
+            ShowSubtitles();
         }
     }
     public void Respawn()
@@ -355,8 +360,10 @@ public class SceneController : MonoBehaviour
         {
             prisonerAi.resetFight();
         }
+        gameOverScreen.alpha = 0;
         hideGameOver = true;
         gameOverScreen.blocksRaycasts = false;
         mouseLook.LockMouse();
+        toggleControls();
     }
 }

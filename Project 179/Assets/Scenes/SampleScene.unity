@@ -22685,9 +22685,9 @@ MonoBehaviour:
   - "You really think I\u2019d let you leave so easily!?"
   - "This will be your death penalty! Fitting of a warrior\u2019s death!"
   - I never should have expected anything from you. . .
-  - So this is our famed captain. I've heard stories of you. But how strong can a
-    gaunt man really\n\n\n be?
-  - 'Run, run, run! I should plant you where you stand! '
+  - <line-height=200%>So this is our famed captain. I've heard stories of you. But
+    how strong can a gaunt man really be?
+  - '<line-height=200%>Run, run, run! I should plant you where you stand! '
   - It seems like status and prestige doesn't come with strength.
   - Impossible!
   - 
@@ -28453,6 +28453,7 @@ MonoBehaviour:
   title: {fileID: 1127644837}
   subtitle: {fileID: 1228885161}
   gameOverScreen: {fileID: 1111952965}
+  hideGameOver: 1
 --- !u!4 &1522285325
 Transform:
   m_ObjectHideFlags: 0
