@@ -103,7 +103,7 @@ public class EnemyAi : MonoBehaviour
             GetComponentInChildren<BoxCollider>().isTrigger = false;
             TimeSinceLastATTK = 0;
         }
-        else if(Stage1Done == true && TimeSinceLastATTK > this.Boss.AttackSpd)// then we are in boss fight
+        else if(Stage1Done == true && TimeSinceLastATTK > this.Boss.AttackSpd && ComboDone == true)// then we are in boss fight
         {
             if(AttackRoll <= 6f && ComboDone == true) // then attack goes through
             {
@@ -117,22 +117,26 @@ public class EnemyAi : MonoBehaviour
                 if(WhatAttackRoll >= 0f && WhatAttackRoll < 2f)
                 {
                     DamageDone = false;
+                    Debug.Log("combo");
                     animateEnemy.SetTrigger("Combo1");
                     ComboDone = false;
                 }
                 else if (WhatAttackRoll >= 2f && WhatAttackRoll < 6f)
                 {
                     DamageDone = false;
+                    Debug.Log("light attk");
                     animateEnemy.SetTrigger("Attack");
                 }
                 else if (WhatAttackRoll >= 6f && WhatAttackRoll < 8f)
                 {
                     DamageDone = false;
+                    Debug.Log("med attk");
                     animateEnemy.SetTrigger("MediumAttk");
                 }
                 else if (WhatAttackRoll >= 8f && WhatAttackRoll < 10f)
                 {
                     DamageDone = false;
+                    Debug.Log("heavy attk");
                     animateEnemy.SetTrigger("HeavyAttk");
                 }
 
@@ -142,14 +146,15 @@ public class EnemyAi : MonoBehaviour
                     // Attacking = false;
                 }
                 //TODO: get information from soma and then finish up attack here
+                TimeSinceLastATTK = 0;
             }
             else if(ComboDone == true) // then block
             {
                 GetComponentInChildren<Collider>().isTrigger = false;
-                // Debug.Log("Blocking");
+                Debug.Log("Blocking");
                 Block();
             }
-            TimeSinceLastATTK = 0;
+            // TimeSinceLastATTK = 0;
             DamageDone = false;
         }
         TimeSinceLastATTK += Time.deltaTime;
@@ -263,7 +268,7 @@ public class EnemyAi : MonoBehaviour
                     DamagePlayersHealth.TakeDamage(Boss.AttackDmg + 5f); // Base Damage for Now
                     DamageDone = true;
                 }
-                else if((this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("AttackEnd") ||
+                else if((this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack3") ||
                  this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Heavy")) && DamageDone == false)
                 {
                     // Debug.Log("Gladiator heavy attack lands");
@@ -276,7 +281,7 @@ public class EnemyAi : MonoBehaviour
                     DamagePlayersHealth.TakeDamage(0f); // Base Damage for Now
                     DamageDone = true;
                 }
-                if (this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("AttackEnd") && ComboDone == false)
+                if (this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack3") && ComboDone == false)
                 {
                     ComboDone = true;
                     Attacking = false;
@@ -299,7 +304,7 @@ public class EnemyAi : MonoBehaviour
         else if (gameObject.CompareTag("Gladiator") && (this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Attack") || 
                         this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Heavy")||
                         this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Medium") || 
-                        this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("AttackEnd")))
+                        this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack3")))
         {
             if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
             {
@@ -307,8 +312,14 @@ public class EnemyAi : MonoBehaviour
                 ComboDone = true;
             }
         }
-        // Debug.Log("attacking: " + Attacking);
-        // Debug.Log("ComboDone: " + ComboDone);
+        else if(gameObject.CompareTag("Gladiator") && (this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack2") || 
+                        this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack shield")||
+                        this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack1") ))
+        {
+            DamageDone = false;
+        }
+        Debug.Log("attacking: " + Attacking);
+        Debug.Log("ComboDone: " + ComboDone);
     }
     void Block()
     {
@@ -371,7 +382,14 @@ public class EnemyAi : MonoBehaviour
             CheckDead();
             float step = speed * Time.deltaTime; 
             // If the enemy is close to the player
-            target.position = new Vector3(target.position.x,target.position.y,target.position.z);
+            if(Stage1Done == false)
+            {
+                target.position = new Vector3(target.position.x,0f,target.position.z);
+            }
+            else
+            {
+                target.position = new Vector3(target.position.x,10f,target.position.z);
+            }
             this.transform.LookAt(target);
             if ((Vector3.Distance(transform.position, target.position) < TetherDistance || LastATK >= 1.0f) && Attacking == false)
             {
