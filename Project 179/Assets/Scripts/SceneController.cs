@@ -41,6 +41,7 @@ public class SceneController : MonoBehaviour
     private bool HUDactive = true;
     private Subtitles subtitleScript;
     [SerializeField] private bool hideGameOver = true;
+    [SerializeField] private bool firstEntry = true;
     private float timedDelay = 0f;
     // private Subtitles subtitles;
     void Start()
@@ -119,20 +120,20 @@ public class SceneController : MonoBehaviour
             toggleControls();
             gameOver();
         }
-        if (enemyController.TutorialDone && scenes[1] == false && timedDelay >= 3f)
+        if (enemyController.TutorialDone && scenes[1] == false && timedDelay >= 3f && firstEntry)
         {
             toggleControls();
             HideHud();
+            firstEntry = false;
             scenes[1] = true;
             cutscene = true;
             stateTransition = true;
             stateTime = 0f;
-            timedDelay = 0f;
             sceneState = 0;
             playerScript.resetHP();
             gladiator = GameObject.FindGameObjectsWithTag("Gladiator")[0];
         } 
-        else if (enemyController.TutorialDone && scenes[1] == false)
+        else if (enemyController.TutorialDone && scenes[1] == false && firstEntry)
         {
             timedDelay += Time.deltaTime;
         }
