@@ -3996,7 +3996,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 2.2
+  m_BaseOffset: 2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!1001 &236143076
@@ -16200,7 +16200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2100648824562392762, guid: 43b65d56d5f7ab746bf741bf5fb05032, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.94
+      value: 0.53
       objectReference: {fileID: 0}
     - target: {fileID: 2100648824562392762, guid: 43b65d56d5f7ab746bf741bf5fb05032, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16242,6 +16242,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Guard
       objectReference: {fileID: 0}
+    - target: {fileID: 2697188141428744917, guid: 43b65d56d5f7ab746bf741bf5fb05032, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3255159346455280380, guid: 43b65d56d5f7ab746bf741bf5fb05032, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -16253,6 +16257,14 @@ PrefabInstance:
     - target: {fileID: 7652440044981361153, guid: 43b65d56d5f7ab746bf741bf5fb05032, type: 3}
       propertyPath: m_TagString
       value: GuardAnchor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487120622362591968, guid: 43b65d56d5f7ab746bf741bf5fb05032, type: 3}
+      propertyPath: m_Speed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8487120622362591968, guid: 43b65d56d5f7ab746bf741bf5fb05032, type: 3}
+      propertyPath: m_BaseOffset
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8487120622362591968, guid: 43b65d56d5f7ab746bf741bf5fb05032, type: 3}
       propertyPath: m_StoppingDistance
