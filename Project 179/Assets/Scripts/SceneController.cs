@@ -91,7 +91,7 @@ public class SceneController : MonoBehaviour
         gameOverScreen.blocksRaycasts = true;
         mouseLook.unlockMouse();
         toggleControls();
-        gameOverScreen.alpha = 0.5f;
+        gameOverScreen.alpha = 0.8f;
         if (title.text == "Gladiator")
         {
             float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect("15");
