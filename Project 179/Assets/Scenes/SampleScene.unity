@@ -4751,50 +4751,122 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: 088329a85facdf447a8bfa217d4d6627, type: 3}
     audioSource: {fileID: 0}
     title: 00
-    volume: 0
-    pitch: 0
+    volume: 0.59999996
+    pitch: 1
     loop: 0
-  - clip: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 59d1dc902c56aa242a9fa464c29362a9, type: 3}
     audioSource: {fileID: 0}
-    title: 
-    volume: 0
-    pitch: 0
+    title: 01
+    volume: 0.6
+    pitch: 1
     loop: 0
-  - clip: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 12e5668a1a4d1254b87f1a398d11dd74, type: 3}
     audioSource: {fileID: 0}
-    title: 
-    volume: 0
-    pitch: 0
+    title: 02
+    volume: 0.6
+    pitch: 1
     loop: 0
-  - clip: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 5bcea4e560d19ac45a76f3b3a62f4a66, type: 3}
     audioSource: {fileID: 0}
-    title: 
-    volume: 0
-    pitch: 0
+    title: 03
+    volume: 0.6
+    pitch: 1
     loop: 0
-  - clip: {fileID: 0}
+  - clip: {fileID: 8300000, guid: a4490fcdc2186064699d743dc84ebb19, type: 3}
     audioSource: {fileID: 0}
-    title: 
-    volume: 0
-    pitch: 0
+    title: 04
+    volume: 0.6
+    pitch: 1
     loop: 0
-  - clip: {fileID: 0}
+  - clip: {fileID: 8300000, guid: f3fb7e6a7e7bc2343a276abcdd18b53b, type: 3}
     audioSource: {fileID: 0}
-    title: 
-    volume: 0
-    pitch: 0
+    title: 06
+    volume: 0.6
+    pitch: 1
     loop: 0
-  - clip: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 44b48373d8bac924f8a486d1e376f7c1, type: 3}
     audioSource: {fileID: 0}
-    title: 
-    volume: 0
-    pitch: 0
+    title: 07
+    volume: 0.6
+    pitch: 1
     loop: 0
-  - clip: {fileID: 0}
+  - clip: {fileID: 8300000, guid: 5071ac33b9718e442bf4fe6023421d5c, type: 3}
     audioSource: {fileID: 0}
-    title: 
-    volume: 0
-    pitch: 0
+    title: 08
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 1feca2aa068bb4144aace7228301d4ba, type: 3}
+    audioSource: {fileID: 0}
+    title: 09
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: be851279d132f3c419b0527b46af1b87, type: 3}
+    audioSource: {fileID: 0}
+    title: 10
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 843a90a19f3444240a3cdd01b1193a62, type: 3}
+    audioSource: {fileID: 0}
+    title: 11
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 94e7a57ef07963d499256912a3df6fad, type: 3}
+    audioSource: {fileID: 0}
+    title: 13
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 6d435ade9375c5f429dc6c19d7c5cb6c, type: 3}
+    audioSource: {fileID: 0}
+    title: 12
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 180a2bfd47b3a0c47b0184afcd6d4b9b, type: 3}
+    audioSource: {fileID: 0}
+    title: 14
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: acf3c611f81bb79488c02dc0a1308a3a, type: 3}
+    audioSource: {fileID: 0}
+    title: 15
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: a558aabfb0083c44b9651c786946675d, type: 3}
+    audioSource: {fileID: 0}
+    title: 16
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: f486a82b9cbd8ff4eb23ce01b3b5ab1e, type: 3}
+    audioSource: {fileID: 0}
+    title: step
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: d748bf20fd4cd7f4691cdbbf127459ee, type: 3}
+    audioSource: {fileID: 0}
+    title: water
+    volume: 0.6
+    pitch: 1
+    loop: 1
+  - clip: {fileID: 8300000, guid: 6637232e7f8bc6d4f8ffc33547c609a2, type: 3}
+    audioSource: {fileID: 0}
+    title: DoorSlide
+    volume: 0.6
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: a558aabfb0083c44b9651c786946675d, type: 3}
+    audioSource: {fileID: 0}
+    title: 16
+    volume: 0.6
+    pitch: 1
     loop: 0
 --- !u!4 &310887847
 Transform:
@@ -16529,6 +16601,7 @@ MonoBehaviour:
   - ExitAnchor
   - ColiseumAnchor
   - EndStairAnchor
+  isLockedOnTarget: 0
   currentTarget: 0
 --- !u!1001 &964758460
 PrefabInstance:

@@ -77,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
                 cutsceneControlled = false;
                 navMesh.isStopped = true; // Stop the agent's movement
                 navMesh.enabled = false;
+                navMesh.updateRotation = false;
             }
             else
             {

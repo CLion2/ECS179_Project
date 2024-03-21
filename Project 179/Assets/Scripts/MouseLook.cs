@@ -10,12 +10,11 @@ public class MouseLook : MonoBehaviour
     [SerializeField] private Transform lockTarget;
     [SerializeField] public enum LockTargetEnemy {NONE, PRISONER, BOSS, GUARD, STAIR, EXIT};
     [SerializeField] private List<string> tagList = new List<string>{"Untagged", "PrisonerAnchor", "GladiatorAnchor", "GuardAnchor", "ExitAnchor", "ArenaAnchor"};
-    bool isLockedOnTarget = false;
+    public bool isLockedOnTarget = false;
     [SerializeField] private LockTargetEnemy currentTarget = LockTargetEnemy.PRISONER;
     float xRotation = 0f;
     private Quaternion lastRotation;
     private bool cutscene = false;
-    
 
     void Start()
     {
@@ -28,11 +27,14 @@ public class MouseLook : MonoBehaviour
     }
     public void SetTargetLocking(int lockTargetEnum)
     {
-        isLockedOnTarget = true;
         if (lockTargetEnum != 0)
         {
             currentTarget = (LockTargetEnemy)lockTargetEnum;
             lockTarget = GameObject.FindWithTag(tagList[(int)currentTarget]).transform;
+        }
+        else
+        {
+            isLockedOnTarget = false;
         }
     }
     void Update()
@@ -52,13 +54,6 @@ public class MouseLook : MonoBehaviour
             if (!isLockedOnTarget)
             {
                 ManualCameraMovement();
-            }
-        
-            else if (lockTarget != null)
-            {
-                // Lock the camera @ the target 
-                // PositionLockCamera();
-
             }
         }
     }

@@ -78,6 +78,19 @@ public class SoundManager : MonoBehaviour
         track.audioSource.Play();
         return track.audioSource.clip.length;
     }
+    public float PauseSoundEffect(string title)
+    {
+        var track = this.sfxClips.Find(track => track.title == title);
+
+        if(null == track) 
+        {
+            Debug.Log("Sound track not found: " + title);
+            return 0f;
+        }
+
+        track.audioSource.Pause();
+        return track.audioSource.clip.length;
+    }
 
     public void StopSoundEffect(string title)
     {

@@ -88,6 +88,7 @@ public class SceneController : MonoBehaviour
         {
             sceneState += 1;
             stateTransition = false;
+            mouseLook.isLockedOnTarget = true;
         }
         // States
         if (sceneState == 1)
@@ -104,6 +105,7 @@ public class SceneController : MonoBehaviour
         {
             mouseLook.SetTargetLocking(3);
             guardAi.cutsceneMovement(anchors[0], true);
+            guardAi.turnEnemy();
             stateTimeEnd = soundManager.PlaySoundEffect("03");
         }
         if (sceneState == 4)
@@ -130,11 +132,12 @@ public class SceneController : MonoBehaviour
         }
         if (sceneState == 8)
         {
-            stateTimeEnd = 10f;
+            stateTimeEnd = 8f;
             mouseLook.SetTargetLocking(4);
             guardAi.cutsceneMovement(anchors[3], true);
             prisonerAi.cutsceneMovement(anchors[2], true);
             playerScript.CutsceneMovement(anchors[1]);
+            guardAi.turnEnemy();
         }
         if (sceneState == 9)
         {
@@ -145,7 +148,6 @@ public class SceneController : MonoBehaviour
             scenes[0] = false;
             toggleControls();
             prisonerAi.initiateEnemy();
-
         }
             
     }
@@ -156,11 +158,12 @@ public class SceneController : MonoBehaviour
         {
             sceneState += 1;
             stateTransition = false;
+            mouseLook.isLockedOnTarget = true;
         }
         // States
         if (sceneState == 1)
         {
-            mouseLook.SetTargetLocking(1);
+            mouseLook.SetTargetLocking(3);
         }
         if (sceneState == 2)
         {
