@@ -370,6 +370,8 @@ public class EnemyAi : MonoBehaviour
                 cutsceneControlled = false;
                 navMeshAgent.isStopped = true; // Stop the agent's movement
                 navMeshAgent.enabled = false;
+                target.position = new Vector3(target.position.x,0f,target.position.z);
+                this.transform.LookAt(target);
                 animateEnemy.SetFloat("Speed",0f);
             }
             else
