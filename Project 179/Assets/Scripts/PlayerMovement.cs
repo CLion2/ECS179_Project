@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
                 navMesh.SetDestination(this.currentAnchor.position);
             }
         }
-        else if (!inCutscene)
+        if (!inCutscene)
         {
             if (Input.GetKeyDown(KeyCode.Space) && !isDodging)
             {
