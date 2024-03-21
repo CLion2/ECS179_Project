@@ -341,11 +341,14 @@ public class SceneController : MonoBehaviour
         }
         if (sceneState == 11)
         {
+            stateTimeEnd = 2f;
             toggleControls();
             HideHud();
             gladiatorAi.initiateEnemy();
             playerScript.resetHP();
             ShowSubtitles();
+            scenes[0] = false;
+            cutscene = false;
         }
     }
     public void Respawn()
