@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     // [SerializeField] private Transform groundCheck;
     // [SerializeField] private float groundDistance = 0.4f;
     [SerializeField] private LayerMask groundMask;
+    [SerializeField] private ParticleSystem particleSwordTrail;
     [SerializeField] private float PlayerDamage = 30f;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject sword;
@@ -28,16 +29,19 @@ public class PlayerMovement : MonoBehaviour
     private float lastDodgeTime;
     private bool isDodging = false;
     private bool isAttacking = false;
+    private bool isStrongAttacking = false;
+    //private float attackCooldown = 0.28f; 
+    private float lastAttackTime = 0.0f;
     private bool isBlocking = false;
     private bool isGrounded;
-    private float attackRange = 7.0f;
+    private float attackRange = 5.0f;
     private bool cutsceneControlled = false;
     private bool HUDactive = false;
     private bool gameOver = false;
     private Transform currentAnchor;
     [SerializeField] private bool inCutscene = false;
     [SerializeField] private NavMeshAgent navMesh;
-    [SerializeField] private float attackCooldown = 0;
+    [SerializeField] private float attackCooldown = 0.4f;
     void Start()
     {
         lastDodgeTime = 0f;
@@ -45,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
         currentStamina = maxStamina;
         PlayerHealth.SetMaxHealth(maxhHealth);
         PlayerStamina.SetMaxHealth(maxStamina);
+        particleSwordTrail.Stop();
         navMesh = GetComponent<NavMeshAgent>();
         navMesh.updateRotation = false;
     }
@@ -117,10 +122,14 @@ public class PlayerMovement : MonoBehaviour
                 NormalMovement();
             }
 
-            if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking && attackCooldown >= 1f)
+            if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking && (Time.time > lastAttackTime + attackCooldown))
             {
                 Attack();
-                attackCooldown = 0f;
+            }
+
+            if (Input.GetKeyDown(KeyCode.U) && !isStrongAttacking)
+            {
+                StrongAttack();
             }
 
             if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Mouse1))
@@ -131,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
             // Add gravity to the player
             // Equation: Y - Y0 = (1/2) * g * t^2
             controller.Move(velocity * Time.deltaTime);
-            attackCooldown += Time.deltaTime;
+            //attackCooldown += Time.deltaTime;
             //Debug for now to check health
 
         }
@@ -140,6 +149,11 @@ public class PlayerMovement : MonoBehaviour
     {
         isAttacking = true;
         animator.SetTrigger("Attack");
+
+        lastAttackTime = Time.time;
+
+        particleSwordTrail.Play();
+        StartCoroutine(TrailEffect(attackCooldown));
         
         RaycastHit hit;
         if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, attackRange))
@@ -159,6 +173,46 @@ public class PlayerMovement : MonoBehaviour
         }
         isAttacking = false;
         
+    }
+
+    void StrongAttack()
+    {
+        isStrongAttacking = true;
+        animator.SetTrigger("StrongAttack");
+
+
+        //swordTrail.emitting = true;
+        particleSwordTrail.Play();
+        StartCoroutine(TrailEffect(attackCooldown + 0.5f));
+        
+        RaycastHit hit;
+        if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, attackRange))
+        {
+            //audioSource.PlayOneShot(attackSound);
+            Debug.Log("Strong Attacked: " + hit.collider.name);
+
+            if (hit.collider.tag =="Prisoner" || hit.collider.tag == "Gladiator")
+            {
+                // Debug.Log("got into the attack");
+                hit.collider.GetComponent<EnemyAi>().EnemyTakeDamage(PlayerDamage); // probably to high for right now
+                // Debug.Log("This is called");
+            }
+            
+            
+        }
+        else
+        {
+            //audioSource.PlayOneShot(missedAttackSound);
+        }
+        isStrongAttacking = false;
+        
+    }
+
+    IEnumerator TrailEffect(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        //swordTrail.emitting = false;
+        particleSwordTrail.Stop();
     }
 
     void Block()
