@@ -59,6 +59,19 @@ public class EnemyAi : MonoBehaviour
         }
         return 0f;
     }
+    public void resetFight()
+    {
+        if(Stage1Done == false)
+        {
+            Tutorial.Health = 150f;
+            transform.position = currentAnchor.transform.position;
+        }
+        else if(Stage1Done == true)
+        {
+            Boss.Health = 1000f;
+            transform.position = GameObject.FindWithTag("BossRespawn").transform.position;
+        }
+    }
     public void Attack()
     // TODO: physics.Raycast for attacking with the swords
     {
@@ -71,6 +84,9 @@ public class EnemyAi : MonoBehaviour
         {
             if(AttackRoll <= 6f) // then attack goes through
             {
+                int attackLine = Random.Range(1, 5);
+                string lineTag = attackLine.ToString() + "b";
+                float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect(lineTag);
                 // Debug.Log("Prisoner Attack is made");
                 Attacking = true;
                 animateEnemy.SetTrigger("Attack");
@@ -94,6 +110,9 @@ public class EnemyAi : MonoBehaviour
                 float WhatAttackRoll = Random.Range(0f,10f);
                 Debug.Log("Attack is made by gladiator");
                 Attacking = true;
+                int attackLine = Random.Range(1, 6);
+                string lineTag = attackLine.ToString() + "a";
+                float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect(lineTag);
                 // GetComponentInChildren<Collider>().isTrigger = true;
                 if(WhatAttackRoll >= 0f && WhatAttackRoll < 2f)
                 {
@@ -196,6 +215,7 @@ public class EnemyAi : MonoBehaviour
             Boss.RageMeter = Boss.RageMeter + Rage; // increase ragemeter
             if(Boss.RageMeter == 100f)
             {
+                float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect("14");
                 Boss.AttackDmg = Boss.AttackDmg + Boss.AttackDmg;
                 Boss.AttackSpd = Boss.AttackSpd - 0.5f;
             }
@@ -351,7 +371,7 @@ public class EnemyAi : MonoBehaviour
             CheckDead();
             float step = speed * Time.deltaTime; 
             // If the enemy is close to the player
-            target.position = new Vector3(target.position.x,0f,target.position.z);
+            target.position = new Vector3(target.position.x,target.position.y,target.position.z);
             this.transform.LookAt(target);
             if ((Vector3.Distance(transform.position, target.position) < TetherDistance || LastATK >= 1.0f) && Attacking == false)
             {

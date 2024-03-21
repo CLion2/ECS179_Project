@@ -14,11 +14,10 @@ public class PlayerMovement : MonoBehaviour
     // [SerializeField] private Transform groundCheck;
     // [SerializeField] private float groundDistance = 0.4f;
     [SerializeField] private LayerMask groundMask;
-    [SerializeField] private float PlayerDamage = 60f;
+    [SerializeField] private float PlayerDamage = 30f;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject sword;
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float regenRate = 2.5f;
     private float currentHealth;
     private float currentStamina;
@@ -38,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private Transform currentAnchor;
     [SerializeField] private bool inCutscene = false;
     [SerializeField] private NavMeshAgent navMesh;
+    [SerializeField] private float attackCooldown = 0;
     void Start()
     {
         lastDodgeTime = 0f;
@@ -48,7 +48,10 @@ public class PlayerMovement : MonoBehaviour
         navMesh = GetComponent<NavMeshAgent>();
         navMesh.updateRotation = false;
     }
-
+    public void resetHP()
+    {
+        currentHealth = maxhHealth;
+    }
     public void setActiveHUD()
     {
         HUDactive = !HUDactive;
@@ -66,7 +69,12 @@ public class PlayerMovement : MonoBehaviour
     public bool getGameOver()
     {
         return gameOver;
-    }    
+    }
+    public void setGameOver()
+    {
+        gameOver = false;
+        this.gameObject.transform.position = currentAnchor.transform.position;
+    } 
     void Update()
     {
         //isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -108,9 +116,10 @@ public class PlayerMovement : MonoBehaviour
                 NormalMovement();
             }
 
-            if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking)
+            if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking && attackCooldown >= 1f)
             {
                 Attack();
+                attackCooldown = 0f;
             }
 
             if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Mouse1))
@@ -120,9 +129,8 @@ public class PlayerMovement : MonoBehaviour
 
             // Add gravity to the player
             // Equation: Y - Y0 = (1/2) * g * t^2
-            velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
-
+            attackCooldown += Time.deltaTime;
             //Debug for now to check health
 
         }

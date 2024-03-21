@@ -39,7 +39,6 @@ public class SceneController : MonoBehaviour
     [SerializeField] private GameObject subtitle;
     [SerializeField] private CanvasGroup gameOverScreen;
     private bool HUDactive = true;
-    private bool subtitlesActive = false;
     private Subtitles subtitleScript;
     private bool hideGameOver = true;
     private float timedDelay = 0f;
@@ -84,16 +83,35 @@ public class SceneController : MonoBehaviour
     }
     void ShowSubtitles()
     {
-        subtitlesActive = !subtitlesActive;
-        subtitle.gameObject.SetActive(HUDactive);
+        subtitleScript.UpdateText(20);
     }
     void gameOver()
     {
         hideGameOver = false;
+        gameOverScreen.blocksRaycasts = true;
+        mouseLook.unlockMouse();
+        if (title.text == "Gladiator")
+        {
+            float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect("15");
+        }
     }
     // Update is called once per frame
     void Update()
     {
+        if (hideGameOver)
+        {
+            if (gameOverScreen.alpha >= 0)
+            {
+                gameOverScreen.alpha -= Time.deltaTime*2;
+            }
+        }
+        else
+        {
+            if (gameOverScreen.alpha < 1)
+            {
+                gameOverScreen.alpha += Time.deltaTime*2;
+            }
+        }
         if (playerScript.getGameOver())
         {
             toggleControls();
@@ -101,6 +119,8 @@ public class SceneController : MonoBehaviour
         }
         if (enemyController.TutorialDone && scenes[1] == false && timedDelay >= 3f)
         {
+            toggleControls();
+            HideHud();
             scenes[1] = true;
             cutscene = true;
             stateTransition = true;
@@ -108,14 +128,7 @@ public class SceneController : MonoBehaviour
             timedDelay = 0f;
             sceneState = 0;
             gladiator = GameObject.FindGameObjectsWithTag("Gladiator")[0];
-            if (gladiator != null)
-            {
-                gladiatorAi = gladiator.GetComponent<EnemyAi>();
-                enemyHealth.SetMaxHealth(gladiatorAi.getEnemyCurrentHP());
-            }
-            toggleControls();
-            HideHud();
-        } else
+        } else if (enemyController.TutorialDone && scenes[1] == false)
         {
             timedDelay += Time.deltaTime;
         }
@@ -136,35 +149,22 @@ public class SceneController : MonoBehaviour
                 Scene1Coliseum();
             }
         }
-        if (hideGameOver)
-        {
-            if (gameOverScreen.alpha >= 0)
-            {
-                gameOverScreen.alpha -= Time.deltaTime*2;
-            }
-        }
-        else
-        {
-            if (gameOverScreen.alpha < 1)
-            {
-                gameOverScreen.alpha += Time.deltaTime*2;
-            }
-        }
     }
     void LateUpdate()
     {
         if (title.text == "Gladiator")
         {
+            if (gladiator != null)
+            {
+                gladiatorAi = gladiator.GetComponent<EnemyAi>();
+                enemyHealth.SetMaxHealth(gladiatorAi.getEnemyCurrentHP());
+            }
             enemyHealth.SetHealth(gladiatorAi.getEnemyCurrentHP());
         }
         else
         {
             enemyHealth.SetHealth(prisonerAi.getEnemyCurrentHP());
         }
-    }
-    void PlayerDeath()
-    {
-        // idk
     }
     void toggleControls()
     {
@@ -272,18 +272,20 @@ public class SceneController : MonoBehaviour
         // States
         if (sceneState == 1)
         {
-            ShowSubtitles();
             mouseLook.SetTargetLocking(3);
             stateTimeEnd = soundManager.PlaySoundEffect("08") + 2;
+            subtitleScript.UpdateText(11);
         }
         if (sceneState == 2)
         {
             mouseLook.SetTargetLocking(3);
             stateTimeEnd = soundManager.PlaySoundEffect("09") + 4;
             guardAi.cutsceneMovement(anchors[7], true);
+            subtitleScript.UpdateText(12);
         }
         if (sceneState == 3)
         {
+            ShowSubtitles();
             stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide") - 3f;
             mouseLook.SetTargetLocking(4);
             stair.SetOpening();
@@ -291,6 +293,7 @@ public class SceneController : MonoBehaviour
         }
         if (sceneState == 4)
         {
+            soundManager.StopSoundEffect("water");
             mouseLook.SetTargetLocking(4);
             stair.SetOpening();
             playerScript.CutsceneMovement(anchors[4]);
@@ -312,32 +315,48 @@ public class SceneController : MonoBehaviour
         if (sceneState == 7)
         {
             stateTimeEnd = soundManager.PlaySoundEffect("10");
-            mouseLook.SetTargetLocking(3); 
+            mouseLook.SetTargetLocking(3);
+            subtitleScript.UpdateText(13); 
         }
         if (sceneState == 8)
         {
             stateTimeEnd = soundManager.PlaySoundEffect("11");
-            mouseLook.SetTargetLocking(3); 
+            mouseLook.SetTargetLocking(3);
         }
         if (sceneState == 9)
         {
             stateTimeEnd = soundManager.PlaySoundEffect("12");
-            mouseLook.SetTargetLocking(3); 
+            mouseLook.SetTargetLocking(3);
+            subtitleScript.UpdateText(14);
         }
         if (sceneState == 10)
         {
             stateTimeEnd = soundManager.PlaySoundEffect("13");
-            mouseLook.SetTargetLocking(2); 
+            mouseLook.SetTargetLocking(2);
+            subtitleScript.UpdateText(16);
         }
         if (sceneState == 11)
         {
             toggleControls();
             HideHud();
             gladiatorAi.initiateEnemy();
+            playerScript.resetHP();
         }
     }
     public void Respawn()
     {
-        return;
+        playerScript.resetHP();
+        playerScript.setGameOver();
+        if (title.text == "Gladiator")
+        {
+            gladiatorAi.resetFight();
+        }
+        else 
+        {
+            prisonerAi.resetFight();
+        }
+        hideGameOver = true;
+        gameOverScreen.blocksRaycasts = false;
+        mouseLook.LockMouse();
     }
 }

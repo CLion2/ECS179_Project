@@ -16,6 +16,7 @@ TagManager:
   - GuardAnchor
   - ExitAnchor
   - ArenaAnchor
+  - BossRespawn
   layers:
   - Default
   - TransparentFX

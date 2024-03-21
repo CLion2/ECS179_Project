@@ -7,6 +7,7 @@ public class MouseLook : MonoBehaviour
     [SerializeField] private float mouseSensitivity = 1500f;
     [SerializeField] private float angleSpeed = 10f;
     [SerializeField] private Transform playerBody;
+    [SerializeField] private Transform playerHitbox;
     [SerializeField] private Transform lockTarget;
     [SerializeField] public enum LockTargetEnemy {NONE, PRISONER, BOSS, GUARD, STAIR, EXIT};
     [SerializeField] private List<string> tagList = new List<string>{"Untagged", "PrisonerAnchor", "GladiatorAnchor", "GuardAnchor", "ExitAnchor", "ArenaAnchor"};
@@ -37,8 +38,19 @@ public class MouseLook : MonoBehaviour
             isLockedOnTarget = false;
         }
     }
+    public void unlockMouse()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    public void LockMouse()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
     void Update()
     {
+        playerHitbox.transform.position = new Vector3(playerBody.transform.position.x,playerBody.transform.position.y-0.934f,playerBody.transform.position.z);
         // Pressing the L key toggles on and off for camera lock feature
         if (!cutscene)
         {
