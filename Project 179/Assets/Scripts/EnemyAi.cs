@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 // using UnityEngine.AI;
 
 public class EnemyAi : MonoBehaviour
@@ -23,7 +24,7 @@ public class EnemyAi : MonoBehaviour
     // private GameObject Player;
 
     // following a vid here
-    // public UnityEngine.AI.NavMeshAgent navMeshAgent;
+    [SerializeField] private NavMeshAgent navMeshAgent;
     public GameObject PlayerLocation;
     // public Transform playerTransform;
     public Animator animateEnemy; // idk following vid here
@@ -123,7 +124,14 @@ public class EnemyAi : MonoBehaviour
         }
         TimeSinceLastATTK += Time.deltaTime;
     }
-
+    public void initiateEnemy()
+    {
+        AggroEnemy = !AggroEnemy;
+    }
+    public bool checkStage()
+    {
+        return Stage1Done;
+    }
     public void CheckDead()
     {
         if(Stage1Done == false && Tutorial.Health == 0)
@@ -357,21 +365,18 @@ public class EnemyAi : MonoBehaviour
         if (this.cutsceneControlled)
         {
             float step = speed * Time.deltaTime;
-            
-            if (Vector3.Distance(transform.position, this.currentAnchor.position) < 1f)
+            if (Vector3.Distance(transform.position, this.currentAnchor.position) < 3f)
             {
-                this.cutsceneControlled = false;
-                if (this.lookAtPlayer)
-                {
-                    this.transform.LookAt(target);
-                    this.lookAtPlayer = false;
-                    animateEnemy.SetFloat("Speed", 0f);
-                }
+                cutsceneControlled = false;
+                navMeshAgent.isStopped = true; // Stop the agent's movement
+                navMeshAgent.enabled = false;
+                animateEnemy.SetFloat("Speed",0f);
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, this.currentAnchor.position, step);
-                
+                navMeshAgent.enabled = true;
+                navMeshAgent.isStopped = false; // Enable the agent's movement
+                navMeshAgent.SetDestination(this.currentAnchor.position);
                 animateEnemy.SetFloat("Speed", step);
             }
         }

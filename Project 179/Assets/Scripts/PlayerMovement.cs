@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Bar PlayerHealth;
@@ -31,8 +31,11 @@ public class PlayerMovement : MonoBehaviour
     private bool isBlocking = false;
     private bool isGrounded;
     private float attackRange = 7.0f;
-    
+    private bool cutsceneControlled = false;
     private bool HUDactive = false;
+    private Transform currentAnchor;
+    [SerializeField] private bool inCutscene = false;
+    [SerializeField] private NavMeshAgent navMesh;
     void Start()
     {
         lastDodgeTime = 0f;
@@ -40,14 +43,24 @@ public class PlayerMovement : MonoBehaviour
         currentStamina = maxStamina;
         PlayerHealth.SetMaxHealth(maxhHealth);
         PlayerStamina.SetMaxHealth(maxStamina);
+        navMesh = GetComponent<NavMeshAgent>();
     }
 
-    public void setActiveSword()
+    public void setActiveHUD()
     {
         HUDactive = !HUDactive;
         sword.gameObject.SetActive(HUDactive);
         PlayerHealth.gameObject.SetActive(HUDactive);
         PlayerStamina.gameObject.SetActive(HUDactive);
+    }
+    public void SetCutscene()
+    {
+        inCutscene = !inCutscene;
+    }
+    public void CutsceneMovement(Transform anchor)
+    {
+        cutsceneControlled = true;
+        currentAnchor = anchor;
     }    
     void Update()
     {
@@ -57,34 +70,52 @@ public class PlayerMovement : MonoBehaviour
         //     velocity.y = -2.0f;
         // }
         velocity.y = -2.0f;
-
-        if (Input.GetKeyDown(KeyCode.Space) && !isDodging)
+        if (this.cutsceneControlled)
         {
-            StartCoroutine(Dodge());
-            StartCoroutine(HeadDown());
+            if (Vector3.Distance(transform.position, currentAnchor.position) < 1f)
+            {
+                cutsceneControlled = false;
+                navMesh.isStopped = true; // Stop the agent's movement
+                navMesh.enabled = false;
+            }
+            else
+            {
+                navMesh.isStopped = false; // Enable the agent's movement
+                navMesh.enabled = true;
+                navMesh.SetDestination(this.currentAnchor.position);
+            }
         }
-
-        if (!isDodging)
+        else if (!inCutscene)
         {
-            NormalMovement();
+            if (Input.GetKeyDown(KeyCode.Space) && !isDodging)
+            {
+                StartCoroutine(Dodge());
+                StartCoroutine(HeadDown());
+            }
+
+            if (!isDodging)
+            {
+                NormalMovement();
+            }
+
+            if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking)
+            {
+                Attack();
+            }
+
+            if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                Block();
+            }
+
+            // Add gravity to the player
+            // Equation: Y - Y0 = (1/2) * g * t^2
+            velocity.y += gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
+
+            //Debug for now to check health
+
         }
-
-        if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking)
-        {
-            Attack();
-        }
-
-        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            Block();
-        }
-
-        // Add gravity to the player
-        // Equation: Y - Y0 = (1/2) * g * t^2
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
-
-        //Debug for now to check health
     }
     void ScriptedMovement()
     {

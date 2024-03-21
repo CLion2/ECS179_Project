@@ -3749,9 +3749,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416255913833970626}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.4888153, y: 0.0000019073486, z: 7.6702833}
-  m_LocalScale: {x: 2, y: 1.5, z: 1.5}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0.88, y: 10.17, z: 84.46}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7334139310222884403}
@@ -3760,7 +3760,7 @@ Transform:
   - {fileID: 2209544374149082718}
   - {fileID: 8828325411971863787}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!95 &8613437765394325914
 Animator:
   serializedVersion: 5
@@ -3799,6 +3799,7 @@ MonoBehaviour:
   Stage1Done: 1
   TetherDistance: 3
   speed: 5
+  navMeshAgent: {fileID: 5701722564918963156}
   PlayerLocation: {fileID: 0}
   animateEnemy: {fileID: 0}
   target: {fileID: 0}
@@ -3864,7 +3865,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1
+  m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1

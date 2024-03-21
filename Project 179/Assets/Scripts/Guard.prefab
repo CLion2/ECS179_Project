@@ -1047,6 +1047,7 @@ MonoBehaviour:
   Stage1Done: 0
   TetherDistance: 3
   speed: 5
+  navMeshAgent: {fileID: 8487120622362591968}
   PlayerLocation: {fileID: 0}
   animateEnemy: {fileID: 0}
   target: {fileID: 0}

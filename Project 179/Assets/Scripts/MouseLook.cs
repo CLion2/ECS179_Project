@@ -8,18 +8,23 @@ public class MouseLook : MonoBehaviour
     [SerializeField] private float angleSpeed = 10f;
     [SerializeField] private Transform playerBody;
     [SerializeField] private Transform lockTarget;
-    [SerializeField] public enum LockTargetEnemy {NONE, PRISONER, BOSS, GUARD};
-    [SerializeField] private List<string> tagList = new List<string>{"Untagged", "PrisonerAnchor", "GladiatorAnchor","GuardAnchor"};
+    [SerializeField] public enum LockTargetEnemy {NONE, PRISONER, BOSS, GUARD, STAIR};
+    [SerializeField] private List<string> tagList = new List<string>{"Untagged", "PrisonerAnchor", "GladiatorAnchor", "GuardAnchor", "ExitAnchor"};
     bool isLockedOnTarget = false;
     [SerializeField] private LockTargetEnemy currentTarget = LockTargetEnemy.PRISONER;
     float xRotation = 0f;
     private Quaternion lastRotation;
+    private bool cutscene = false;
     
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+    public void SetCutscene()
+    {
+        cutscene = !cutscene;
     }
     public void SetTargetLocking(int lockTargetEnum)
     {
@@ -33,27 +38,29 @@ public class MouseLook : MonoBehaviour
     void Update()
     {
         // Pressing the L key toggles on and off for camera lock feature
-        if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.Mouse2))
+        if (!cutscene)
         {
-            isLockedOnTarget = !isLockedOnTarget;
-            // GameObject Enemy = GameObject.FindGameObjectsWithTag("Prisoner");
-            // lockTarget = Enemy.transform;
-            lockTarget = GameObject.FindWithTag(tagList[(int)currentTarget]).transform;
-        }
+            if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.Mouse2))
+            {
+                isLockedOnTarget = !isLockedOnTarget;
+                // GameObject Enemy = GameObject.FindGameObjectsWithTag("Prisoner");
+                // lockTarget = Enemy.transform;
+                lockTarget = GameObject.FindWithTag(tagList[(int)currentTarget]).transform;
+            }
 
-        // Manual camera movement if camera is not locked
-        if (!isLockedOnTarget)
-        {
-            ManualCameraMovement();
-        }
-    
-        else if (lockTarget != null)
-        {
-            // Lock the camera @ the target 
-            // PositionLockCamera();
+            // Manual camera movement if camera is not locked
+            if (!isLockedOnTarget)
+            {
+                ManualCameraMovement();
+            }
+        
+            else if (lockTarget != null)
+            {
+                // Lock the camera @ the target 
+                // PositionLockCamera();
 
+            }
         }
-
     }
 
     void LateUpdate()

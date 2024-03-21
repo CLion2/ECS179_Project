@@ -14,6 +14,14 @@ public class SlideGate : MonoBehaviour
     {
         this.startPosition = transform.position;
     }
+    public void SetOpening()
+    {
+        this.opening = true;
+    }
+    public void SetClosing()
+    {
+        this.closing = true;
+    }
 
     // Update is called once per frame
     void Update()
