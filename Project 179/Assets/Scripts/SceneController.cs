@@ -158,7 +158,7 @@ public class SceneController : MonoBehaviour
     {
         if (title.text == "Gladiator")
         {
-            if (gladiator != null)
+            if (gladiator != null && scenes[1] == true)
             {
                 gladiatorAi = gladiator.GetComponent<EnemyAi>();
                 enemyHealth.SetMaxHealth(gladiatorAi.getEnemyCurrentHP());
@@ -238,7 +238,6 @@ public class SceneController : MonoBehaviour
         }
         if (sceneState == 8)
         {
-            soundManager.PauseSoundEffect("water");
             stateTimeEnd = 4f;
             mouseLook.SetTargetLocking(4);
             guardAi.cutsceneMovement(anchors[3], true);
@@ -347,7 +346,7 @@ public class SceneController : MonoBehaviour
             gladiatorAi.initiateEnemy();
             playerScript.resetHP();
             ShowSubtitles();
-            scenes[0] = false;
+            scenes[1] = false;
             cutscene = false;
         }
     }
