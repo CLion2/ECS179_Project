@@ -37,6 +37,7 @@ public class SceneController : MonoBehaviour
     [SerializeField] private GameObject playerStamina;
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private GameObject subtitle;
+    [SerializeField] private CanvasGroup gameOverScreen;
     private bool HUDactive = true;
     private bool subtitlesActive = false;
     private Subtitles subtitleScript;
@@ -86,9 +87,9 @@ public class SceneController : MonoBehaviour
         subtitlesActive = !subtitlesActive;
         subtitle.gameObject.SetActive(HUDactive);
     }
-    void gameOverScreen()
+    void gameOver()
     {
-        
+        hideGameOver = false;
     }
     // Update is called once per frame
     void Update()
@@ -96,9 +97,9 @@ public class SceneController : MonoBehaviour
         if (playerScript.getGameOver())
         {
             toggleControls();
-
+            gameOver();
         }
-        if (enemyController.TutorialDone && scenes[1] == false && timedDelay >= 3f || )
+        if (enemyController.TutorialDone && scenes[1] == false && timedDelay >= 3f)
         {
             scenes[1] = true;
             cutscene = true;
@@ -135,18 +136,18 @@ public class SceneController : MonoBehaviour
                 Scene1Coliseum();
             }
         }
-        if (hideUI)
+        if (hideGameOver)
         {
-            if (ControlScreen.alpha >= 0)
+            if (gameOverScreen.alpha >= 0)
             {
-                ControlScreen.alpha -= Time.deltaTime*2;
+                gameOverScreen.alpha -= Time.deltaTime*2;
             }
         }
         else
         {
-            if (ControlScreen.alpha < 1)
+            if (gameOverScreen.alpha < 1)
             {
-                ControlScreen.alpha += Time.deltaTime*2;
+                gameOverScreen.alpha += Time.deltaTime*2;
             }
         }
     }
