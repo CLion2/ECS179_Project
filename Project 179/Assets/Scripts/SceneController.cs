@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro; 
 public class SceneController : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -16,18 +16,31 @@ public class SceneController : MonoBehaviour
     [SerializeField] private Transform[] anchors;
     [SerializeField] private int sceneState = 0;
     [SerializeField] private bool stateTransition = false;
-    [SerializeField] private bool[] scenes = {false, false, false, false, false};
+    [SerializeField] private bool[] scenes = {false, false, false};
     private MouseLook mouseLook;
     private EnemyAi guardAi;
     private EnemyAi prisonerAi;
+    private EnemyAi gladiatorAi;
     private PlayerMovement playerScript;
     private SlideGate cell;
     private SlideGate stair;
     private SlideGate coliseum;
     [SerializeField] private float stateTime;
     [SerializeField] private float stateTimeEnd;
+    [SerializeField] private GameObject enemyGroup;
     private bool cutscene = true;
     private SoundManager soundManager;
+    private EnemyController enemyController;
+    [SerializeField] private Bar enemyHealth;
+    [SerializeField] private GameObject sword;
+    [SerializeField] private GameObject playerHealth;
+    [SerializeField] private GameObject playerStamina;
+    [SerializeField] private TextMeshProUGUI title;
+    [SerializeField] private GameObject subtitle;
+    private bool HUDactive = true;
+    private bool subtitlesActive = false;
+    private Subtitles subtitleScript;
+    // private Subtitles subtitles;
     void Start()
     {
         prisoner = GameObject.FindGameObjectsWithTag("Prisoner")[0];
@@ -45,19 +58,46 @@ public class SceneController : MonoBehaviour
         cell = cellDoor.GetComponent<SlideGate>();
 
         stair = stairDoor.GetComponent<SlideGate>();
-
+        subtitleScript = subtitle.GetComponent<Subtitles>();
         coliseum = arenaDoor.GetComponent<SlideGate>();
+        enemyController = enemyGroup.GetComponent<EnemyController>();
 
         soundManager = FindObjectOfType<SoundManager>();
         stateTimeEnd = soundManager.PlaySoundEffect("water");
         stateTimeEnd = 2f;
         stateTime = 0f;
         toggleControls();
+        HideHud();
     }
-
+    void HideHud()
+    {
+        HUDactive = !HUDactive;
+        sword.gameObject.SetActive(HUDactive);
+        playerHealth.gameObject.SetActive(HUDactive);
+        playerStamina.gameObject.SetActive(HUDactive);
+        enemyHealth.gameObject.SetActive(HUDactive);
+        title.gameObject.SetActive(HUDactive);
+    }
+    void ShowSubtitles()
+    {
+        subtitlesActive = !subtitlesActive;
+        subtitle.gameObject.SetActive(HUDactive);
+    }
     // Update is called once per frame
     void Update()
     {
+        if (enemyController.TutorialDone && scenes[1] == false)
+        {
+            scenes[1] = true;
+            cutscene = true;
+            stateTransition = true;
+            stateTime = 0f;
+            sceneState = 0;
+            title.text = "Gladiator";
+            toggleControls();
+            HideHud();
+            ShowSubtitles();
+        }
         if (cutscene)
         {
             stateTime += Time.deltaTime;
@@ -70,7 +110,15 @@ public class SceneController : MonoBehaviour
             {
                 Scene0prison();
             }
+            if(scenes[1] && stateTransition)
+            {
+                Scene1Coliseum();
+            }
         }
+    }
+    void PlayerDeath()
+    {
+        // idk
     }
     void toggleControls()
     {
@@ -95,11 +143,13 @@ public class SceneController : MonoBehaviour
         {
             mouseLook.SetTargetLocking(1);
             stateTimeEnd = soundManager.PlaySoundEffect("00");
+            subtitleScript.UpdateText(0);
         }
         if (sceneState == 2)
         {
             mouseLook.SetTargetLocking(1);
             stateTimeEnd = soundManager.PlaySoundEffect("01");
+            subtitleScript.UpdateText(2);
         }
         if (sceneState == 3)
         {
@@ -107,32 +157,38 @@ public class SceneController : MonoBehaviour
             guardAi.cutsceneMovement(anchors[0], true);
             guardAi.turnEnemy();
             stateTimeEnd = soundManager.PlaySoundEffect("03");
+            subtitleScript.UpdateText(3);
         }
         if (sceneState == 4)
         {
             mouseLook.SetTargetLocking(3);
             stateTimeEnd = soundManager.PlaySoundEffect("04");
+            subtitleScript.UpdateText(4);
+            guardAi.turnEnemy();
         }
         if (sceneState == 5)
         {
             mouseLook.SetTargetLocking(1);
             prisonerAi.turnEnemy();
             stateTimeEnd = soundManager.PlaySoundEffect("02");
+            subtitleScript.UpdateText(8);
         }
         if (sceneState == 6)
         {
             mouseLook.SetTargetLocking(3);
             stateTimeEnd = soundManager.PlaySoundEffect("06");
+            subtitleScript.UpdateText(10);
         }
         if (sceneState == 7)
         {
-            stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide");
+            ShowSubtitles();
+            stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide") - 3f;
             mouseLook.SetTargetLocking(3);
             cell.SetOpening();
         }
         if (sceneState == 8)
         {
-            stateTimeEnd = 8f;
+            stateTimeEnd = 4f;
             mouseLook.SetTargetLocking(4);
             guardAi.cutsceneMovement(anchors[3], true);
             prisonerAi.cutsceneMovement(anchors[2], true);
@@ -141,13 +197,20 @@ public class SceneController : MonoBehaviour
         }
         if (sceneState == 9)
         {
-            stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide");
+            stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide") - 3f;
             cell.SetClosing();
+            guardAi.turnEnemy();
+        }
+        if (sceneState == 10)
+        {
             stateTimeEnd = 2f;
             mouseLook.SetTargetLocking(1);
             scenes[0] = false;
             toggleControls();
+            HideHud();
+            ShowSubtitles();
             prisonerAi.initiateEnemy();
+            cutscene = false;
         }
             
     }
@@ -164,16 +227,65 @@ public class SceneController : MonoBehaviour
         if (sceneState == 1)
         {
             mouseLook.SetTargetLocking(3);
+            stateTimeEnd = soundManager.PlaySoundEffect("08") + 2;
         }
         if (sceneState == 2)
         {
-            stateTimeEnd = 5f;
             mouseLook.SetTargetLocking(3);
-            guardAi.cutsceneMovement(anchors[0], true);
+            stateTimeEnd = soundManager.PlaySoundEffect("09") + 2;
+            guardAi.cutsceneMovement(anchors[7], true);
         }
         if (sceneState == 3)
         {
+            stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide") - 3f;
+            mouseLook.SetTargetLocking(4);
+            stair.SetOpening();
+            playerScript.CutsceneMovement(anchors[4]);
+        }
+        if (sceneState == 4)
+        {
+            mouseLook.SetTargetLocking(4);
+            stair.SetOpening();
+            playerScript.CutsceneMovement(anchors[4]);
+        }
+        if (sceneState == 5)
+        {
+            stateTimeEnd = 8f;
+            mouseLook.SetTargetLocking(5);
+            guardAi.cutsceneMovement(anchors[6], false);
+            playerScript.CutsceneMovement(anchors[5]);
+        }
+        if (sceneState == 6)
+        {
+            stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide") - 3f;
+            // mouseLook.SetTargetLocking(2);
+            coliseum.SetClosing();
+        }
+        if (sceneState == 7)
+        {
+            stateTimeEnd = soundManager.PlaySoundEffect("10");
+            mouseLook.SetTargetLocking(3); 
+        }
+        if (sceneState == 8)
+        {
+            stateTimeEnd = soundManager.PlaySoundEffect("11");
+            mouseLook.SetTargetLocking(3); 
+        }
+        if (sceneState == 9)
+        {
+            stateTimeEnd = soundManager.PlaySoundEffect("12");
+            mouseLook.SetTargetLocking(3); 
+        }
+        if (sceneState == 10)
+        {
+            stateTimeEnd = soundManager.PlaySoundEffect("13");
+            // mouseLook.SetTargetLocking(2); 
+        }
+        if (sceneState == 11)
+        {
             toggleControls();
+            HideHud();
+            // gladiatorAi.initiateEnemy();
             scenes[1] = false;
         }
     }

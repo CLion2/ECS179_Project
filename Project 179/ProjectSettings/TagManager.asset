@@ -15,6 +15,7 @@ TagManager:
   - Guard
   - GuardAnchor
   - ExitAnchor
+  - ArenaAnchor
   layers:
   - Default
   - TransparentFX

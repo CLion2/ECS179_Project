@@ -44,14 +44,13 @@ public class PlayerMovement : MonoBehaviour
         PlayerHealth.SetMaxHealth(maxhHealth);
         PlayerStamina.SetMaxHealth(maxStamina);
         navMesh = GetComponent<NavMeshAgent>();
+        navMesh.updateRotation = false;
     }
 
     public void setActiveHUD()
     {
         HUDactive = !HUDactive;
         sword.gameObject.SetActive(HUDactive);
-        PlayerHealth.gameObject.SetActive(HUDactive);
-        PlayerStamina.gameObject.SetActive(HUDactive);
     }
     public void SetCutscene()
     {
@@ -76,13 +75,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 cutsceneControlled = false;
                 navMesh.isStopped = true; // Stop the agent's movement
-                navMesh.enabled = false;
-                navMesh.updateRotation = false;
             }
             else
             {
                 navMesh.isStopped = false; // Enable the agent's movement
-                navMesh.enabled = true;
                 navMesh.SetDestination(this.currentAnchor.position);
             }
         }
@@ -117,10 +113,6 @@ public class PlayerMovement : MonoBehaviour
             //Debug for now to check health
 
         }
-    }
-    void ScriptedMovement()
-    {
-
     }
     void Attack()
     {
@@ -257,7 +249,7 @@ public class PlayerMovement : MonoBehaviour
         {
             GameOver();
         }
-        Debug.Log("health is: " + currentHealth);
+        // Debug.Log("health is: " + currentHealth);
     }
 
     

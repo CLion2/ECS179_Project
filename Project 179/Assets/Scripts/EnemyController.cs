@@ -12,7 +12,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private GameObject GladiatorPrefab;
     [SerializeField] private GameObject EnemySpawnPrisoner;
     [SerializeField] private GameObject EnemySpawnGladiator;
-    [SerializeField] private bool TutorialDone;
+    [SerializeField] public bool TutorialDone;
     void Awake() // creates the first enemy to be used
     { // should work the second its created
         // GameObject parent = GameObject.Find("Enemies");

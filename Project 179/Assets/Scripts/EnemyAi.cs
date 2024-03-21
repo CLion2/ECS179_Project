@@ -22,7 +22,6 @@ public class EnemyAi : MonoBehaviour
     [SerializeField] private float TetherDistance = 1.0f; // set it to nav mesh
     [SerializeField] private float speed = 5f; // set this to nav mesh
     // private GameObject Player;
-
     // following a vid here
     [SerializeField] private NavMeshAgent navMeshAgent;
     public GameObject PlayerLocation;
@@ -60,7 +59,7 @@ public class EnemyAi : MonoBehaviour
         {
             if(AttackRoll <= 6f) // then attack goes through
             {
-                Debug.Log("Prisoner Attack is made");
+                // Debug.Log("Prisoner Attack is made");
                 Attacking = true;
                 animateEnemy.SetTrigger("Attack");
                 // GetComponentInChildren<BoxCollider>().isTrigger = true;
@@ -116,7 +115,7 @@ public class EnemyAi : MonoBehaviour
             else if(ComboDone == true) // then block
             {
                 GetComponentInChildren<Collider>().isTrigger = false;
-                Debug.Log("Blocking");
+                // Debug.Log("Blocking");
                 Block();
             }
             TimeSinceLastATTK = 0;
@@ -138,6 +137,8 @@ public class EnemyAi : MonoBehaviour
         {
             Stage1Done = true;
             // need to add in a death animation or ragdoll here
+            float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect("07");
+            Debug.Log(unusedValue);
             this.animateEnemy.SetTrigger("Death");
             spawnDead = true;
             
@@ -164,7 +165,7 @@ public class EnemyAi : MonoBehaviour
         {
             if(Tutorial.Health <= 0f)
             {
-                Debug.Log("Prisoner Health already 0");
+                // Debug.Log("Prisoner Health already 0");
                 CheckDead();
                 return;
             }
@@ -175,7 +176,7 @@ public class EnemyAi : MonoBehaviour
         {
             if(Boss.Health <= 0f)
             {
-                Debug.Log("Gladiator Health already 0");
+                // Debug.Log("Gladiator Health already 0");
                 CheckDead();
                 return;
             }
@@ -193,9 +194,9 @@ public class EnemyAi : MonoBehaviour
             }
             animateEnemy.SetTrigger("TakeDamage");
         }
-        Debug.Log("Prisoner health: " + Tutorial.Health);
-        Debug.Log("Gladiator health: " + Boss.Health);
-        Debug.Log("Gladiator Rage Meter: "+ Boss.RageMeter);
+        // Debug.Log("Prisoner health: " + Tutorial.Health);
+        // Debug.Log("Gladiator health: " + Boss.Health);
+        // Debug.Log("Gladiator Rage Meter: "+ Boss.RageMeter);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -255,11 +256,11 @@ public class EnemyAi : MonoBehaviour
     {
         if(gameObject.CompareTag("Prisoner") && this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
-            Debug.Log("Correct name");
-            Debug.Log("time is: " + this.animateEnemy.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            // Debug.Log("Correct name");
+            // Debug.Log("time is: " + this.animateEnemy.GetCurrentAnimatorStateInfo(0).normalizedTime);
             if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9)
             {
-                Debug.Log("Anim is done");
+                // Debug.Log("Anim is done");
                 Attacking = false;
             }
         }
@@ -274,8 +275,8 @@ public class EnemyAi : MonoBehaviour
                 ComboDone = true;
             }
         }
-        Debug.Log("attacking: " + Attacking);
-        Debug.Log("ComboDone: " + ComboDone);
+        // Debug.Log("attacking: " + Attacking);
+        // Debug.Log("ComboDone: " + ComboDone);
     }
     void Block()
     {
@@ -373,7 +374,10 @@ public class EnemyAi : MonoBehaviour
             {
                 cutsceneControlled = false;
                 navMeshAgent.isStopped = true; // Stop the agent's movement
-                navMeshAgent.enabled = false;
+                if (StageDone())
+                {
+                    navMeshAgent.enabled = false;
+                }
                 target.position = new Vector3(target.position.x,0f,target.position.z);
                 this.transform.LookAt(target);
                 animateEnemy.SetFloat("Speed",0f);

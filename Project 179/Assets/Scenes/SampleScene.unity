@@ -4853,7 +4853,7 @@ MonoBehaviour:
   - clip: {fileID: 8300000, guid: d748bf20fd4cd7f4691cdbbf127459ee, type: 3}
     audioSource: {fileID: 0}
     title: water
-    volume: 0.6
+    volume: 0.299
     pitch: 1
     loop: 1
   - clip: {fileID: 8300000, guid: 6637232e7f8bc6d4f8ffc33547c609a2, type: 3}
@@ -8892,6 +8892,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2689051143384205797, guid: acf3df6fa97346e489dca6ce9c745687, type: 3}
   m_PrefabInstance: {fileID: 548237110}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &558345911
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 558345912}
+  m_Layer: 0
+  m_Name: ExitPrison (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &558345912
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558345911}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.87, y: 0, z: 18.71}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &558939238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16323,7 +16354,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8487120622362591968, guid: 43b65d56d5f7ab746bf741bf5fb05032, type: 3}
       propertyPath: m_Speed
-      value: 7
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8487120622362591968, guid: 43b65d56d5f7ab746bf741bf5fb05032, type: 3}
       propertyPath: m_BaseOffset
@@ -16596,10 +16627,10 @@ MonoBehaviour:
   tagList:
   - Player
   - PrisonerAnchor
-  - BossAnchor
+  - GladiatorAnchor
   - GuardAnchor
   - ExitAnchor
-  - ColiseumAnchor
+  - ArenaAnchor
   - EndStairAnchor
   isLockedOnTarget: 0
   currentTarget: 0
@@ -22017,6 +22048,7 @@ GameObject:
   - component: {fileID: 1228885162}
   - component: {fileID: 1228885164}
   - component: {fileID: 1228885163}
+  - component: {fileID: 1228885165}
   m_Layer: 5
   m_Name: Subtitles
   m_TagString: Untagged
@@ -22040,8 +22072,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -140}
-  m_SizeDelta: {x: 600, y: 50}
+  m_AnchoredPosition: {x: 0, y: -117.72984}
+  m_SizeDelta: {x: 691.74, y: 39.9498}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1228885163
 MonoBehaviour:
@@ -22063,7 +22095,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Subtitles
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 32faa19652fa4d34fb6a33b2985b8250, type: 2}
   m_sharedMaterial: {fileID: -4570536267441202163, guid: 32faa19652fa4d34fb6a33b2985b8250, type: 2}
@@ -22091,9 +22123,9 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontSize: 20
-  m_fontSizeBase: 36
+  m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 15
   m_fontSizeMax: 20
   m_fontStyle: 0
@@ -22126,7 +22158,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -1.5366211, y: 0, z: -0.06616211, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -22140,6 +22172,45 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1228885161}
   m_CullTransparentMesh: 1
+--- !u!114 &1228885165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228885161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7354af6dd1fa3f446b22781c133bdc6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  subtitles: {fileID: 1228885163}
+  lines:
+  - "It\u2019s so dark. . . How long have we been here?"
+  - "It's all over already. We\u2019ll soon leave this place one way or another."
+  - "If I simply participated more I wouldn\u2019t have to be here!"
+  - '<line-height=200%>Oh, how the mighty fall. Your loyalty was your ruin. And now
+    here I am, presiding over your fates. '
+  - '<line-height=200%>Oh, but do not worry. For I am gracious! I will give you both
+    an opportunity to earn your freedom. Fight to the death and I will let the survivor
+    exit through those stairs. '
+  - 'Fight to the death and I will let the survivor exit through those stairs. '
+  - You!
+  - Traitor!
+  - "Wait. . . Let\u2019s take his offer, rather than both of us rotting in here.
+    We've already broken our pledge to the crown."
+  - "Alright, we\u2019ll take up your offer."
+  - Wise choice. . .
+  - Congratulations captain. Always the role model.
+  - As promised, I will allow you to leave through that stairway.
+  - "You really think I\u2019d let you leave so easily!?"
+  - "This will be your death penalty! Fitting of a warrior\u2019s death!"
+  - I never should have expected anything from you. . .
+  - So this is our famed captain. I've heard stories of you. But how strong can a
+    gaunt man really\n\n\n be?
+  - 'Run, run, run! I should plant you where you stand! '
+  - It seems like status and prestige doesn't come with strength.
+  - Impossible!
 --- !u!1001 &1229073673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27812,11 +27883,19 @@ MonoBehaviour:
   - {fileID: 239918338}
   - {fileID: 513060016}
   - {fileID: 1606438758}
+  - {fileID: 558345912}
   sceneState: 0
   stateTransition: 0
   scenes: 0000000000
   stateTime: 0
   stateTimeEnd: 0
+  enemyGroup: {fileID: 1047886843}
+  enemyHealth: {fileID: 45318978}
+  sword: {fileID: 7706087352199260633}
+  playerHealth: {fileID: 180925998}
+  playerStamina: {fileID: 1227793652}
+  title: {fileID: 1127644837}
+  subtitle: {fileID: 1228885161}
 --- !u!4 &1522285325
 Transform:
   m_ObjectHideFlags: 0
@@ -35316,7 +35395,7 @@ GameObject:
   - component: {fileID: 1881685121}
   m_Layer: 0
   m_Name: UpStairs
-  m_TagString: Untagged
+  m_TagString: ArenaAnchor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36565,37 +36644,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccc7b9bbfee24b1428e135505aa54153, type: 3}
---- !u!1 &1941454802
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1941454803}
-  m_Layer: 0
-  m_Name: Gate
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1941454803
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1941454802}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.17, y: 12.16, z: 48.57}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1943085680 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2689051143384205797, guid: acf3df6fa97346e489dca6ce9c745687, type: 3}
@@ -40602,8 +40650,8 @@ SceneRoots:
   - {fileID: 1483260664}
   - {fileID: 474072191}
   - {fileID: 239918338}
+  - {fileID: 558345912}
   - {fileID: 1881685121}
-  - {fileID: 1941454803}
   - {fileID: 513060016}
   - {fileID: 1606438758}
   - {fileID: 1522285325}
