@@ -39,6 +39,7 @@ public class EnemyController : MonoBehaviour
         Enemies = Instantiate(GladiatorPrefab,EnemySpawnGladiator.transform.position,Quaternion.identity);
         EnemyAi checking = Enemies.GetComponent<EnemyAi>();
         checking.IsStageDone(true);
+        checking.initiateEnemy();
     }
     // void Build() // creates a new enemy when needed
     // {
