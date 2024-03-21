@@ -27,6 +27,7 @@ public class SceneController : MonoBehaviour
     [SerializeField] private float stateTime;
     [SerializeField] private float stateTimeEnd;
     private bool cutscene = true;
+    private SoundManager soundManager;
     void Start()
     {
         prisoner = GameObject.FindGameObjectsWithTag("Prisoner")[0];
@@ -47,6 +48,8 @@ public class SceneController : MonoBehaviour
 
         coliseum = arenaDoor.GetComponent<SlideGate>();
 
+        soundManager = FindObjectOfType<SoundManager>();
+        stateTimeEnd = soundManager.PlaySoundEffect("water");
         stateTimeEnd = 2f;
         stateTime = 0f;
         toggleControls();
@@ -90,31 +93,38 @@ public class SceneController : MonoBehaviour
         if (sceneState == 1)
         {
             mouseLook.SetTargetLocking(1);
+            stateTimeEnd = soundManager.PlaySoundEffect("00");
         }
         if (sceneState == 2)
         {
             mouseLook.SetTargetLocking(1);
+            stateTimeEnd = soundManager.PlaySoundEffect("01");
         }
         if (sceneState == 3)
         {
             mouseLook.SetTargetLocking(3);
             guardAi.cutsceneMovement(anchors[0], true);
+            stateTimeEnd = soundManager.PlaySoundEffect("03");
         }
         if (sceneState == 4)
         {
             mouseLook.SetTargetLocking(3);
+            stateTimeEnd = soundManager.PlaySoundEffect("04");
         }
         if (sceneState == 5)
         {
             mouseLook.SetTargetLocking(1);
+            prisonerAi.turnEnemy();
+            stateTimeEnd = soundManager.PlaySoundEffect("02");
         }
         if (sceneState == 6)
         {
             mouseLook.SetTargetLocking(3);
+            stateTimeEnd = soundManager.PlaySoundEffect("06");
         }
         if (sceneState == 7)
         {
-            stateTimeEnd = 5f;
+            stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide");
             mouseLook.SetTargetLocking(3);
             cell.SetOpening();
         }
@@ -128,11 +138,14 @@ public class SceneController : MonoBehaviour
         }
         if (sceneState == 9)
         {
+            stateTimeEnd = soundManager.PlaySoundEffect("DoorSlide");
+            cell.SetClosing();
             stateTimeEnd = 2f;
             mouseLook.SetTargetLocking(1);
             scenes[0] = false;
             toggleControls();
             prisonerAi.initiateEnemy();
+
         }
             
     }

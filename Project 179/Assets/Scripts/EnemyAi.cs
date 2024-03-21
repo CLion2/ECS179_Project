@@ -300,6 +300,10 @@ public class EnemyAi : MonoBehaviour
     {
         return this.cutsceneControlled;
     }
+    public void turnEnemy()
+    {
+        this.transform.LookAt(target);
+    }
     void Update()
     { 
         // TODO: add delay when distance is 5
