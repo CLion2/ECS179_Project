@@ -2,7 +2,10 @@
 
 ## Summary ##
 
-**A paragraph-length pitch for your game.**
+You have been held prisoner in the dungeons underneath a coliseum. You have grown weak and frail, similar to your cellmate. You have been given an opportunity to escape. “Fight and slay your cellmate and we will give you the freedom you have dreamt of.”
+
+Weave in and out of enemy attacks to gain the advantage in lethal combat. One hit and the fight may be lost.
+
 
 ## Project Resources
 
@@ -17,6 +20,14 @@
 
 
 **Add it here if you did work that should be factored into your grade but does not fit easily into the proscribed roles! Please include links to resources and descriptions of game-related material that does not fit into roles here.**
+
+Player movement is done using the typical **WASD** input conventions. The Camera, by default, locks onto the enemy you are currently facing but can be disabled using `Mouse3/MiddleMouseButton` or  `L`. This allows you to freely move the camera however you please
+
+#### Expected Bugs
+1. Gladiator may get stuck in the blocking animation if a corner case in the code is hit.
+2. Respawning does not reset the position of the player and enemy due to some restrictions with how position is updated.
+3. Blocking animation may get flipped with the regular sword holding animation by accident.
+
 
 # Main Roles #
 
@@ -35,36 +46,50 @@ You should replay any **bold text** with your relevant information. Liberally us
 
 **Describe the steps you took in your role as producer. Typical items include group scheduling mechanisms, links to meeting notes, descriptions of team logistics problems with their resolution, project organization tools (e.g., timelines, dependency/task tracking, Gantt charts, etc.), and repository management methodology.**
 
-## User Interface and Input
+## User Interface - Andrei Bayani
 
-**Describe your user interface and how it relates to gameplay. This can be done via the template.**
-**Describe the default input configuration.**
+The user interface is split into 2 parts, menus and the HUD. The menus are implemented using a CanvasGroup
 
 **Add an entry for each platform or input style your project supports.**
 
-## Movement/Physics
+## Movement/Physics and Input - Soma Matsumoto
 
 **Describe the basics of movement and physics in your game. Is it the standard physics model? What did you change or modify? Did you make your movement scripts that do not use the physics system?**
 
-## Animation and Visuals
+## Animation and Visuals - Soma Matsumoto & David West
 
 **List your assets, including their sources and licenses.**
 
 **Describe how your work intersects with game feel, graphic design, and world-building. Include your visual style guide if one exists.**
 
-## Game Logic
+## Game Logic - David West
 
 **Document the game states and game data you managed and the design patterns you used to complete your task.**
 
 # Sub-Roles
 
-## Audio
+## Audio - Andrei Bayani
 
 **List your assets, including their sources and licenses.**
 
 **Describe the implementation of your audio system.**
 
 **Document the sound style.** 
+All audio assets are either in the [VO](https://github.com/CLion2/ECS179_Project/tree/77ecf6053977d8a3277aea7aa620d13b9597629c/Project%20179/Assets/VO) folder or the [SFX](https://github.com/CLion2/ECS179_Project/tree/77ecf6053977d8a3277aea7aa620d13b9597629c/Project%20179/Assets/SFX) folder.
+
+The audio controller was taken from Project 4 of ECS 179 and directly imported into
+
+All voice lines were recorded with the help of Professor Josh McCoy and Kyle Mitchell. 
+
+Sound effects were taken from websites like mixkit
+
+- [Mixkit License](https://mixkit.co/license/#sfxFree)
+Sword Hit, Sword Block
+- [Pixabay License](https://pixabay.com/service/terms/)
+
+Background sounds: fireplace loop, water dripping, Jail door closing
+Trailer Music: Hum, Tribal Drums, Dramatic reveal
+
 
 ## Gameplay Testing
 
@@ -72,16 +97,19 @@ You should replay any **bold text** with your relevant information. Liberally us
 
 **Summarize the key findings from your gameplay tests.**
 
-## Narrative Design
+## Narrative Design - Andrei Bayani
 
 **Document how the narrative is present in the game via assets, gameplay systems, and gameplay.** 
 
-## Press Kit and Trailer
+## Press Kit and Trailer - Andrei Bayani
 
-**Include links to your presskit materials and trailer.**
 
-**Describe how you showcased your work. How did you choose what to show in the trailer? Why did you choose your screenshots?**
+Press Kit
 
-## Game Feel and Polish
+[Trailer](https://www.youtube.com/watch?v=gAFm3i8_IK8)
+
+The primary goal of the press kit and trailer were to demonstrate the different gameplay features in 
+
+## Game Feel and Polish - Soma Matsumoto
 
 **Document what you added to and how you tweaked your game to improve its game feel.**
