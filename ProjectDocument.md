@@ -44,6 +44,8 @@
 ### Enemy Ai
 
 ### Enemy Factory (Spawner)
+Like exercise 4, I used something like a Factory to instaniate the Prisoner and Gladiator as clones and then they were moved by the Scene Controller. ![]()
+There also was an update that checked when the Prisoner fight was done so that when needed it can immediatly start spawning in the Boss and have it ready for the Colloseum Scene. ![]()
 
 ### Enemy Colliders
 
