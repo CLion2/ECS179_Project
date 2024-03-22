@@ -43,7 +43,7 @@
 
 ### Enemy Ai
 For the Ai movement and figuring out the Nav Mesh Agent + Nav Mesh Surface used this Vid as a reference: 
-![Creating AI](https://www.youtube.com/watch?v=TpQbqRNCgM0)
+[Creating AI](https://www.youtube.com/watch?v=TpQbqRNCgM0)
 
 
 ### Enemy Factory (Spawner)
@@ -60,7 +60,7 @@ These would then be used in the SceneController to help move the Enemies to spot
 ### Enemy Colliders
 For the Weapons, both the Gladiator and the Prisoner had a box collider on their respective weapon that they had equipped. The created box collider was a bit bigger than the actual texture so that when an attack was made, it would for sure be able to register if it was a hit or not. For the Gladiator, he had a shield that also has a box collider which can then be used to try to block attacks but only for a short period of time. The final colliders were on the bodies as they would be used to figure out if the player attacks landed on the enemies or not.
 
-Used this vid here as a reference for colliders: ![vid](https://www.youtube.com/watch?v=TpQbqRNCgM0)
+Used this vid here as a reference for colliders: [vid](https://www.youtube.com/watch?v=TpQbqRNCgM0)
 
 ### Animation System (Enemy)
 Unity premade Animations:
