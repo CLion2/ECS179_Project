@@ -82,10 +82,10 @@ public class PlayerMovement : MonoBehaviour
     {
         return gameOver;
     }
-    public void setGameOver()
+    public void setGameOver(bool setOver)
     {
-        gameOver = false;
-        this.gameObject.transform.position = currentAnchor.transform.position;
+        gameOver = setOver;
+        transform.position = currentAnchor.transform.position;
     } 
     void Update()
     {
@@ -127,13 +127,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 NormalMovement();
             }
-            if ((Input.GetKeyDown(KeyCode.U) || Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Mouse0)) && !isStrongAttacking && currentStamina > 10f && !isBlocking)
+            if ((Input.GetKeyDown(KeyCode.U) || Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Mouse0)) && (Time.time > lastAttackTime + threeAttackCooldown) && !isStrongAttacking && currentStamina > 10f && !isBlocking)
             {
                 StrongAttack();
                 currentStamina -= 10f;
                 PlayerStamina.SetHealth(currentStamina);
-            }
-            if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking && (Time.time > lastAttackTime + attackCooldown) && !isBlocking) 
+            } 
+            else if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking && (Time.time > lastAttackTime + attackCooldown) && !isBlocking) 
             {
                 if (attacks >= 3)
                 {

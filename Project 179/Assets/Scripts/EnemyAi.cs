@@ -39,9 +39,11 @@ public class EnemyAi : MonoBehaviour
     private bool gameEnd = false;
     private bool phase2 = false;
     private bool phase3 = false;
+    private Vector3 startPosition;
     void Start()
     { // should work the second its created
         // Stage1Done = false;
+        startPosition = transform.position;
         Tutorial = new Prisoner();
         Boss = new Gladiator();
         Attacking = false;
@@ -78,7 +80,7 @@ public class EnemyAi : MonoBehaviour
         {
             Boss.Health = 1000f;
             Boss.RageMeter = 0f;
-            transform.position = GameObject.FindWithTag("BossRespawn").transform.position;
+            transform.position = startPosition;
         }
     }
     public void Attack() // attacks that enemy does

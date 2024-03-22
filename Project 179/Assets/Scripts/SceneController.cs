@@ -411,20 +411,33 @@ public class SceneController : MonoBehaviour
     // Respawns player for when they choose to fight again, ensures it's the current fight
     public void Respawn()
     {
-        playerScript.resetHP();
-        playerScript.setGameOver();
-        if (title.text == "Gladiator")
-        {
-            gladiatorAi.resetFight();
-        }
-        else 
-        {
-            prisonerAi.resetFight();
-        }
-        gameOverScreen.alpha = 0;
-        gameOverScreen.blocksRaycasts = false;
-        mouseLook.LockMouse();
-        menuEntered = false;
-        toggleControls();
+       // 1. Reset Health Points
+    playerScript.resetHP();
+
+    // 2. Reset Location and values
+    if (title.text == "Gladiator")
+    {
+        gladiatorAi.resetFight();
+    }
+    else 
+    {
+        prisonerAi.resetFight();
+    }
+
+    // 3. Reset Game Over State
+    playerScript.setGameOver(false);
+
+    // 4. Hide Game Over Screen
+    gameOverScreen.alpha = 0;
+    gameOverScreen.blocksRaycasts = false;
+
+    // 5. Lock Mouse
+    mouseLook.LockMouse();
+
+    // 6. Reset Menu State
+    menuEntered = false;
+
+    // 7. Toggle Controls
+    toggleControls();
     }
 }
