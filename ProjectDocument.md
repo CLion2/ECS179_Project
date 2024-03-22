@@ -24,7 +24,7 @@ Weave in and out of enemy attacks to gain the advantage in lethal combat. One hi
 Player movement is done using the typical **WASD** input conventions. The Camera, by default, locks onto the enemy you are currently facing but can be disabled using `Mouse3/MiddleMouseButton` or  `L`. This allows you to freely move the camera however you please
 
 #### Expected Bugs
-1. Gladiator may get stuck in the blocking animation if a corner case in the code is hit.
+1. Gladiator may get stuck in the blocking animation if a corner case in the code is hit. 
 2. Respawning does not reset the position of the player and enemy due to some restrictions with how position is updated.
 3. Blocking animation may get flipped with the regular sword holding animation by accident.
 
@@ -60,11 +60,58 @@ The user interface is split into 2 parts, menus and the HUD. The menus are imple
 
 **List your assets, including their sources and licenses.**
 
+For the Enemy:
+
+[Prisoner & Guard](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/swordsman-170111)
+
+[Gladiator](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/crusader-tank-101601)
+
+[Basic Motions](https://assetstore.unity.com/packages/3d/animations/basic-motions-free-154271)
+
+[RPG Animations](https://assetstore.unity.com/packages/3d/animations/free-32-rpg-animations-215058)
+
 **Describe how your work intersects with game feel, graphic design, and world-building. Include your visual style guide if one exists.**
 
 ## Game Logic - David West
 
 **Document the game states and game data you managed and the design patterns you used to complete your task.**
+Game Logic is split into 2 different files, an Enemy Controller which spawns in enemies and an Enemy AI which is the logic for all the enemies.
+
+### Enemy Ai
+For the Ai movement and figuring out the Nav Mesh Agent + Nav Mesh Surface used this Vid as a reference: 
+[Creating AI](https://www.youtube.com/watch?v=TpQbqRNCgM0)
+
+Enemy Ai has the bulk of the code for everything that the Enemies need to do, but by doing so the file length is really long. It has conditions to check if they are in a cutscene and need to be controlled by the Nav Mesh, there is the [attacks](Examples/EnemyAttack.png) + [on trigger events for the attacks](Examples/EnemyTrigger.png), [a checker for when animations are done](Examples/EnemyAnimDone.png), even a checker for when the [enemy is dead](Examples/EnemyDead.png) so as to not continuously update that dead enemy with more information. 
+
+### Enemy Factory (Spawner)
+Like exercise 4, I used something like a Factory to instaniate the Prisoner and Gladiator as clones and then they were moved by the Scene Controller. 
+
+![](Examples/spawning.png)
+
+There also was an update that checked when the Prisoner fight was done so that when needed it can immediatly start spawning in the Boss and have it ready for the Colloseum Scene. 
+
+![](Examples/checkingprisoner.png)
+
+These would then be used in the SceneController to help move the Enemies to spots that Andre wanted them to be before the fights ever started.
+
+### Enemy Colliders
+For the Weapons, both the Gladiator and the Prisoner had a box collider on their respective weapon that they had equipped. The created box collider was a bit bigger than the actual texture so that when an attack was made, it would for sure be able to register if it was a hit or not. For the Gladiator, he had a shield that also has a box collider which can then be used to try to block attacks but only for a short period of time. The final colliders were on the bodies as they would be used to figure out if the player attacks landed on the enemies or not.
+
+Used this vid here as a reference for colliders: [vid](https://www.youtube.com/watch?v=TpQbqRNCgM0)
+
+### Enemy Animation System
+Unity premade Animations:
+
+[Prisoner & Guard](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/swordsman-170111)
+
+[Gladiator](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/crusader-tank-101601)
+
+[Basic Motions](https://assetstore.unity.com/packages/3d/animations/basic-motions-free-154271)
+
+[RPG Animations](https://assetstore.unity.com/packages/3d/animations/free-32-rpg-animations-215058)
+
+These animations were used for the Prisoner, Guard and Gladiator units
+
 
 # Sub-Roles
 
@@ -91,9 +138,17 @@ Background sounds: fireplace loop, water dripping, Jail door closing
 Trailer Music: Hum, Tribal Drums, Dramatic reveal
 
 
-## Gameplay Testing
+## Gameplay Testing - David West
 
 **Add a link to the full results of your gameplay tests.**
+
+### Play Tester + Debugger / FineTuning (David)
+Became a debugger for the game as it was getting closer to the due date and was able to help fix issues that both Soma and Andrei had when looking over the code. Play tested after every push to find any issues with the current game and then fix issues or improve upon some aspects of the enemy animations. 
+![](Examples/FineTuning.png)
+
+### Initial Merger (David)
+Created the initial merge here by using the old main as the final product 
+![](Examples/merges.png) 
 
 **Summarize the key findings from your gameplay tests.**
 
@@ -113,3 +168,9 @@ The primary goal of the press kit and trailer were to demonstrate the different 
 ## Game Feel and Polish - Soma Matsumoto
 
 **Document what you added to and how you tweaked your game to improve its game feel.**
+
+
+# Further Improvements + Fixes #
+
+### Enemies
+What would be nice is to have more than one enemy per fight and have the camera switch lock on between enemies. Another thing is to have a more robust movement and attacking system, where the enemy will constantly try to strafe left and right. They would also try to time the blocking to the player attacks so the enemy would not take any damage. In addition maybe adding more scripted fights to the story as there are 2 empty cells for at least 2 more fights in the dungeon portion before the gladiator fight. Included could be more animations for the enemies with a more varied attacks, block breaking and maybe even a jump attack. Then we could also change how fast the animations play based on how much health the enemy has, with lower health enemies attacking faster and doing more damage while blocking less. Then if we want to add more for the visuals, we could add in a trail to show if they are enraged and thus would do more damage to the player.
