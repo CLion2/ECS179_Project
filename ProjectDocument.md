@@ -21,7 +21,16 @@ Weave in and out of enemy attacks to gain the advantage in lethal combat. One hi
 
 **Add it here if you did work that should be factored into your grade but does not fit easily into the proscribed roles! Please include links to resources and descriptions of game-related material that does not fit into roles here.**
 
-Player movement is done using the typical **WASD** input conventions. The Camera, by default, locks onto the enemy you are currently facing but can be disabled using `Mouse3/MiddleMouseButton` or  `L`. This allows you to freely move the camera however you please
+Player movement is done using the typical **WASD** input conventions. The Camera, by default, locks onto the enemy you are currently facing but can be disabled using `Mouse3/MiddleMouseButton` or  `L`. This allows you to freely move the camera however you please.
+
+Mouse 1 or J is used to make an attack
+For dodging you use spacebar + WASD for it to work, bear in mind there is a limit to the amount of dodges one can do before recharge
+U is heavy attack
+Shift + Mouse 0 doesnt currently work for heavy attacks
+I or Mouse 2 is block which doesnt currently work
+
+
+Optimum strategy is to attack then stay out of damage range so that the enemy can't hit you. Included is the fact that the Boss has a hidden rage meter which will increase Damage and Decrease attack delay the lower his health becomes up to a point where he can just one hit you at full health. 
 
 #### Expected Bugs
 1. Gladiator may get stuck in the blocking animation if a corner case in the code is hit. 
@@ -37,7 +46,7 @@ Player movement is done using the typical **WASD** input conventions. The Camera
 
 ## User Interface - Andrei Bayani
 
-The user interface is split into 2 parts, menus and the HUD. The menus are implemented using a CanvasGroup 
+The user interface is split into 2 parts, menus and the HUD. The menus are implemented using a CanvasGroups in [`SceneController`](https://github.com/CLion2/ECS179_Project/blob/da9bf05b46d2a9e8f6f1b3624d3317500885bc0d/Project%20179/Assets/Scripts/SceneController.cs). `ShowMenu()` would trigger each specific CanvasGroup to show or hide. These canvas groups had button elements which would trigger functions in [`MenuController`](https://github.com/CLion2/ECS179_Project/blob/91fa381098ca9ffcdf0b76181bb762269869d346/Project%20179/Assets/Scripts/MenuController.cs) to activate particular functions based on each button. The hud itself was implemented using bars which was updated in [`SceneController`](https://github.com/CLion2/ECS179_Project/blob/da9bf05b46d2a9e8f6f1b3624d3317500885bc0d/Project%20179/Assets/Scripts/SceneController.cs) as well as in [`PlayerMovement`](https://github.com/CLion2/ECS179_Project/blob/91fa381098ca9ffcdf0b76181bb762269869d346/Project%20179/Assets/Scripts/PlayerMovement.cs) using [`Bar`](https://github.com/CLion2/ECS179_Project/blob/91fa381098ca9ffcdf0b76181bb762269869d346/Project%20179/Assets/Scripts/Bar.cs) which is attached to each bar on screen.
 
 ## Movement/Physics and Input - Soma Matsumoto
 
