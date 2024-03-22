@@ -42,6 +42,9 @@
 [Gladiator](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/crusader-tank-101601)
 
 ### Enemy Ai
+For the Ai movement and figuring out the Nav Mesh Agent + Nav Mesh Surface used this Vid as a reference: 
+![](https://www.youtube.com/watch?v=TpQbqRNCgM0)
+
 
 ### Enemy Factory (Spawner)
 Like exercise 4, I used something like a Factory to instaniate the Prisoner and Gladiator as clones and then they were moved by the Scene Controller. 
@@ -55,10 +58,20 @@ There also was an update that checked when the Prisoner fight was done so that w
 These would then be used in the SceneController to help move the Enemies to spots that Andre wanted them to be before the fights ever started.
 
 ### Enemy Colliders
-For the Weapons, both the Gladiator and the Prisoner had a box collider on their respective weapon that they had equipped. The created box collider was a bit bigger than the actual texture so that when an attack was made, it would for sure be able to register if it was a hit or not. For the Gladiator, he had a shield that also has a box collider which can then be used
+For the Weapons, both the Gladiator and the Prisoner had a box collider on their respective weapon that they had equipped. The created box collider was a bit bigger than the actual texture so that when an attack was made, it would for sure be able to register if it was a hit or not. For the Gladiator, he had a shield that also has a box collider which can then be used to try to block attacks but only for a short period of time. The final colliders were on the bodies as they would be used to figure out if the player attacks landed on the enemies
 
 ### Animation System (Enemy)
+Unity premade Animations:
 
+[Prisoner & Guard](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/swordsman-170111)
+
+[Gladiator](https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/crusader-tank-101601)
+
+[Basic Motions](https://assetstore.unity.com/packages/3d/animations/basic-motions-free-154271)
+
+[RPG Animations](https://assetstore.unity.com/packages/3d/animations/free-32-rpg-animations-215058)
+
+These animations were used for the Prisoner, Guard and Gladiator units
 
 # Sub-Roles
 Play Tester + Debugger / FineTuning [David](https://github.com/dt89eor)
@@ -72,7 +85,6 @@ Became a debugger for the game as it was getting closer to the due date and was 
 ### Initial Merger (David)
 Created the initial merge here by using the old main as the final product 
 ![](Examples/merges.png) 
-
 
 
 # Further Improvements + Fixes #
