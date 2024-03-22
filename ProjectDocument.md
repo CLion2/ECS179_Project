@@ -6,10 +6,10 @@
 
 ## Project Resources
 
-[Web-playable version of your game.](https://itch.io/)  
+[Web-playable Game.](https://itch.io/)  
 [Trailor](https://youtube.com)  
 [Press Kit](https://dopresskit.com/)  
-[Proposal: make your own copy of the linked doc.](https://docs.google.com/document/d/1qwWCpMwKJGOLQ-rRJt8G8zisCa2XHFhv6zSWars0eWM/edit?usp=sharing)  
+[Proposal: make your own copy of the linked doc.](https://docs.google.com/document/d/1zCoWcRq2JFVWmfBo8kEtM3IQDmox__Ku/edit?usp=sharing&ouid=107318688404861168600&rtpof=true&sd=true)  
 
 ## Gameplay Explanation ##
 
