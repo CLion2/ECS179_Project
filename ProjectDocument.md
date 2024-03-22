@@ -181,7 +181,17 @@ Created the initial merge here by using the old main as the final product
 
 ## Narrative Design - Andrei Bayani
 
-**Document how the narrative is present in the game via assets, gameplay systems, and gameplay.** 
+The Narrative Design was implemented in a three steps, first the dialogue script and setting, then the environmental design, and finally, the cutscene script given by [`SceneController`](https://github.com/CLion2/ECS179_Project/blob/da9bf05b46d2a9e8f6f1b3624d3317500885bc0d/Project%20179/Assets/Scripts/SceneController.cs). 
+
+The initial setting we came up with was done so to narratively integrate why the player is fighting each enemy one on one. In this case, it would be the guard of the prison rigging the fights to occur.
+
+I wrote down a script I wanted to use for the cutscenes in game from which I related to flowchart in this [document](https://docs.google.com/document/d/18bO_qTMEEXWKuAilj4EK9DWfh_-3ZIXKkjZZTr6iH1Y/edit?usp=sharing).
+
+The environments were place manually and grouped together for ease of adjustment.
+
+Assets used came from unity asset store which are located in the [7th Side](https://github.com/CLion2/ECS179_Project/tree/31787ff947ee031f93dc1560f1a540b75560073c/Project%20179/Assets/7th%20Side) and [SandBrick](https://github.com/CLion2/ECS179_Project/tree/31787ff947ee031f93dc1560f1a540b75560073c/Project%20179/Assets/SandBrick1) folders.
+
+Finally, there's the cutscene script from [`SceneController`](https://github.com/CLion2/ECS179_Project/blob/da9bf05b46d2a9e8f6f1b3624d3317500885bc0d/Project%20179/Assets/Scripts/SceneController.cs) which checks `SceneTransition` and `cutscene` bools to determine the timings and whether or not to revoke player controls using `ToggleControls()` the state of the scene is given by `sceneState` which determines which portion of each function to run in `Scene0Prison()`, `Scene1Coliseum` and `GameEnd()`.
 
 ## Press Kit and Trailer - Andrei Bayani
 
