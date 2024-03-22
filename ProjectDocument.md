@@ -57,7 +57,7 @@ Initial Merger [David](https://github.com/dt89eor)
 
 
 ### Initial Merger (David)
-Created the initial merge here by using the old main as the final product [](Examples/merges.png) 
+Created the initial merge here by using the old main as the final product ![](Examples/merges.png) 
 
 
 
