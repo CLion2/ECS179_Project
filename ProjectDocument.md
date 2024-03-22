@@ -110,7 +110,15 @@ Unity premade Animations:
 
 [RPG Animations](https://assetstore.unity.com/packages/3d/animations/free-32-rpg-animations-215058)
 
-These animations were used for the Prisoner, Guard and Gladiator units
+These animations were used for the Prisoner, Guard and Gladiator units. In some cases, some of the animations needed to be changed so that it can work correctly with the Enemy structure. When it came to using the animator the Prisoner was a lot simplier to do than the Gladiator. Since Guard uses the same Ai as the Prisoner nothing needed to be changed for guard. 
+
+![](Examples/PrisonerAnimator.png)
+
+When it came to Prisoner Animator, it was on the simplier end because all Prisoner needed to do was move, attack, block which was only for testing purposes, getting hit and the animation for its death. It never needed to exit because of the way that the spider was made and when it did hit the end of death animation, update would not longer be called in the Enemy Ai thus no animations needed to every be called again.
+
+![](Examples/GladiatorAnimator.png)
+
+Gladiator Animator on the other hand was not as simple since I needed to include not only what Prisoner had, it needed to add in more attacks, a checker for combo and make sure get hit wouldnt stop animations when being started for attacks.
 
 
 # Sub-Roles
@@ -139,6 +147,16 @@ There was no background music and only the player had sound effects while all of
 **Add a link to the full results of your gameplay tests.**
 
 ### Play Tester + Debugger / FineTuning (David)
+When play testing the issues that I ran into were things like:
+- game was playing in the title screen
+- Prisoner blocked the player from moving in a cutscene
+- guard never opend the door
+- Enemies would fall through the map
+- Enemies would stare at the sky or the ground
+- player would target the sky
+- sword animations were imported incorrectly
+- hud didnt update
+
 Became a debugger for the game as it was getting closer to the due date and was able to help fix issues that both Soma and Andrei had when looking over the code. Play tested after every push to find any issues with the current game and then fix issues or improve upon some aspects of the enemy animations. 
 ![](Examples/FineTuning.png)
 
