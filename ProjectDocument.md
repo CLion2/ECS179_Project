@@ -45,9 +45,13 @@
 
 ### Enemy Factory (Spawner)
 Like exercise 4, I used something like a Factory to instaniate the Prisoner and Gladiator as clones and then they were moved by the Scene Controller. 
+
 ![](Examples/spawning.png)
+
 There also was an update that checked when the Prisoner fight was done so that when needed it can immediatly start spawning in the Boss and have it ready for the Colloseum Scene. 
+
 ![](Examples/checkingprisoner.png)
+
 These would then be used in the SceneController to help move the Enemies to spots that Andre wanted them to be before the fights ever started.
 
 ### Enemy Colliders
@@ -66,7 +70,8 @@ Became a debugger for the game as it was getting closer to the due date and was 
 ![]()
 
 ### Initial Merger (David)
-Created the initial merge here by using the old main as the final product ![](Examples/merges.png) 
+Created the initial merge here by using the old main as the final product 
+![](Examples/merges.png) 
 
 
 
