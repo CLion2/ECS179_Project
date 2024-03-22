@@ -47,6 +47,7 @@
 For the Ai movement and figuring out the Nav Mesh Agent + Nav Mesh Surface used this Vid as a reference: 
 [Creating AI](https://www.youtube.com/watch?v=TpQbqRNCgM0)
 
+Enemy Ai has the bulk of the code for everything that the Enemies need to do, but by doing so the file length is really long. It has conditions to check if they are in a cutscene and need to be controlled by the Nav Mesh, there is the [attacks]() + [on trigger events for the attacks](), [a checker for when animations are done](), even a checker for when the [enemy is dead]() so as to not continuously update that dead enemy with more information. 
 
 ### Enemy Factory (Spawner)
 Like exercise 4, I used something like a Factory to instaniate the Prisoner and Gladiator as clones and then they were moved by the Scene Controller. 
