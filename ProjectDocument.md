@@ -56,8 +56,14 @@ The “new-main” branch exists independently, so that our members and the grad
 * Player can move just like other first person games.
 * Player can perform light attacks, heavy attack, and block.
 I have created their animations myself rather than importing them from the asset store. The primary reason for that is because I wanted to be familiar with Unity Engine, learning how to create animations and use them. I also created sword trails using Particle System 
+
+![](./Attack%20Gif.gif)
+
 * Player can perform dodging, inspired by the game “bloodborne.”
 This is based on Exercise 1 in this course (Command Pattern). In exercise 1 Stage 4, I implemented a quick dash feature to achieve a ninja-like quick movement. I leveraged the experience for the dodge feature. 
+
+![](./Dodge%20Gif.gif)
+
 * Camera can manually move based on the mouse input.
 * Camera can lock on a target.
 When the camera locks on a target, the player can move relative to the target position. 
