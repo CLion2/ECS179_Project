@@ -13,23 +13,31 @@ Death Blow is a UC Davis student project made during the Winter 2024 class for E
 - Enemy Attack Patterns
 - **TWO** main fights
 ### Trailer
+
 <a href="https://www.youtube.com/watch?v=gAFm3i8_IK8" target="_blank"><img src="https://i.ytimg.com/an_webp/gAFm3i8_IK8/mqdefault_6s.webp?du=3000&sqp=CP2V968G&rs=AOn4CLD3cWsqn1_Wa_yVl9rB_3GFNrT97w" alt="Trailer" /></a>
 
 ### Credits
+
 **Professor Josh McCoy**
+
 Gladiator Voice Over
 
 **Kyle Mitchell**
+
 Prisoner Voice Over
 
 **Andrei Bayani**
+
 Cutscene Scripts + UI + Environments
 
 **David West**
+
 Enemy Movement/AI + Animations + Game Logic
 
 **Soma Matsumoto**
+
 Player Movement + Animations + Camera Design + Game Feel
+
 ### Images
 
 ![Start menu][start]
