@@ -54,7 +54,18 @@ The user interface is split into 2 parts, menus and the HUD. The menus are imple
 
 ## Movement/Physics and Input - Soma Matsumoto
 
-**Describe the basics of movement and physics in your game. Is it the standard physics model? What did you change or modify? Did you make your movement scripts that do not use the physics system?**
+The “new-main” branch in our GitHub repository contains everything I have implemented for the role, including its animations, sounds, and visual effects (sword trails). 
+The “new-main” branch exists independently, so that our members and the grading team can check the progress easily. Here is a list of what the first person player can do:
+* Player can move just like other first person games.
+* Player can perform light attacks, heavy attack, and block.
+I have created their animations myself rather than importing them from the asset store. The primary reason for that is because I wanted to be familiar with Unity Engine, learning how to create animations and use them. I also created sword trails using Particle System 
+* Player can perform dodging, inspired by the game “bloodborne.”
+This is based on Exercise 1 in this course (Command Pattern). In exercise 1 Stage 4, I implemented a quick dash feature to achieve a ninja-like quick movement. I leveraged the experience for the dodge feature. 
+* Camera can manually move based on the mouse input.
+* Camera can lock on a target.
+When the camera locks on a target, the player can move relative to the target position. 
+This is based on Exercise 2. I used the Slerp method for the camera to follow a target smoothly.
+
 
 ## Animation and Visuals - Soma Matsumoto & David West
 
@@ -181,7 +192,7 @@ The primary goal of the press kit and trailer were to demonstrate the different 
 
 ## Game Feel and Polish - Soma Matsumoto
 
-**Document what you added to and how you tweaked your game to improve its game feel.**
+I created animations and implemented the player and camera controllers myself rather than importing a first person controller asset from the asset store. The choice was right since I was able to implement the features, like the dodge feature, that are not implemented in assets available in the store, leading to a better game feel. Since the game feel of a first person game largely depends on the feel of the player and camera movements, I worked on the player and camera movements carefully. If I had more time, I would work on creating better animations to maximize the game feel.
 
 
 # Further Improvements + Fixes #
