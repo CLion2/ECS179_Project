@@ -207,6 +207,8 @@ The primary goal of the press kit and trailer were to demonstrate the different 
 
 I created animations and implemented the player and camera controllers myself rather than importing a first person controller asset from the asset store. The choice was right since I was able to implement the features, like the dodge feature, that are not implemented in assets available in the store, leading to a better game feel. Since the game feel of a first person game largely depends on the feel of the player and camera movements, I worked on the player and camera movements carefully. If I had more time, I would work on creating better animations to maximize the game feel.
 
+![](./Katana%20Animator.png)
+
 
 # Further Improvements + Fixes #
 
