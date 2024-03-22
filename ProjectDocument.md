@@ -36,6 +36,7 @@ Optimum strategy is to attack then stay out of damage range so that the enemy ca
 1. Gladiator may get stuck in the blocking animation if a corner case in the code is hit. 
 2. Respawning does not reset the position of the player and enemy due to some restrictions with how position is updated.
 3. Blocking animation may get flipped with the regular sword holding animation by accident.
+4. Game can crash after attacking the gladiator after respawning.
 
 
 # Main Roles #
