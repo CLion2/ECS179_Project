@@ -83,7 +83,7 @@ These animations were used for the Prisoner, Guard and Gladiator units
 
 ### Play Tester + Debugger / FineTuning (David)
 Became a debugger for the game as it was getting closer to the due date and was able to help fix issues that both Soma and Andrei had when looking over the code. Play tested after every push to find any issues with the current game and then fix issues or improve upon some aspects of the enemy animations. 
-![]()
+![](Examples/FineTuning.png)
 
 ### Initial Merger (David)
 Created the initial merge here by using the old main as the final product 
