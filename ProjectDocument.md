@@ -94,6 +94,8 @@ For the Ai movement and figuring out the Nav Mesh Agent + Nav Mesh Surface used 
 
 Enemy Ai has the bulk of the code for everything that the Enemies need to do, but by doing so the file length is really long. It has conditions to check if they are in a cutscene and need to be controlled by the Nav Mesh, there is the [attacks](Examples/EnemyAttack.png) + [on trigger events for the attacks](Examples/EnemyTrigger.png), [a checker for when animations are done](Examples/EnemyAnimDone.png), even a checker for when the [enemy is dead](Examples/EnemyDead.png) so as to not continuously update that dead enemy with more information. 
 
+Enemy Ai needs public functions in there that will be used in other portions of the game for instance the [EnemyTakeDamage](https://github.com/CLion2/ECS179_Project/blob/151f24ab83aa1fcd7fc8276ada47ad05dd362869/Project%20179/Assets/Scripts/EnemyAi.cs#L201) function which is used by the player movement when a player attack lands on them. Most of the other functions are used to either relay messages to the Enemy Controller or be used as checkers in other portions of the project. 
+
 ### Enemy Factory (Spawner)
 Like exercise 4, I used something like a Factory to instaniate the Prisoner and Gladiator as clones and then they were moved by the Scene Controller. 
 
