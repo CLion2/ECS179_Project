@@ -13,6 +13,7 @@ public class EnemyAi : MonoBehaviour
     private bool Blocking = false;
     private bool ComboDone = true;
     private bool DamageDone = false;
+    private float BlockTime = 0f;
     private bool Attacking;
     private float LastATK = 0f;
     private Prisoner Tutorial;
@@ -324,6 +325,7 @@ public class EnemyAi : MonoBehaviour
     void Block()
     {
         this.Blocking = true;
+        BlockTime = 0f;
         animateEnemy.SetTrigger("Block");
     }
     public void IsStageDone(bool stage)
@@ -379,6 +381,11 @@ public class EnemyAi : MonoBehaviour
         if(AggroEnemy == true && spawnDead == false)
         {
             // Debug.Log("ATTACKING: " + Attacking);
+            if(BlockTime > 0.5f)
+            {
+                this.Blocking = false;
+                BlockTime = 0f;
+            }
             CheckDead();
             float step = speed * Time.deltaTime; 
             // If the enemy is close to the player
@@ -410,6 +417,10 @@ public class EnemyAi : MonoBehaviour
                 transform.position = Vector3.MoveTowards(transform.position, target.position, step);
                 LastATK += Time.deltaTime;
                 animateEnemy.SetFloat("Speed",step);
+            }
+            if(this.Blocking == true)
+            {
+                BlockTime += Time.deltaTime;
             }
         }
         else if(spawnDead == false)

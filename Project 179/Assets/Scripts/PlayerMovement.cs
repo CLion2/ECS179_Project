@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject sword;
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float regenRate = 2.5f;
+    [SerializeField] private float regenRate = 8f;
     private float currentHealth;
     private float currentStamina;
     private Vector3 velocity;
