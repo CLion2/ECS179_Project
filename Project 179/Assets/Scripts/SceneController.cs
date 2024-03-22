@@ -42,7 +42,8 @@ public class SceneController : MonoBehaviour
     [SerializeField] private CanvasGroup GameEndScreen;
     private bool HUDactive = true;
     private Subtitles subtitleScript;
-    private float timedDelay = 0f;   
+    private float timedDelay = 0f; 
+    private bool menuEntered = false;  
     // private Subtitles subtitles;
     void Start()
     {
@@ -94,7 +95,11 @@ public class SceneController : MonoBehaviour
     {
         menu.blocksRaycasts = true;
         mouseLook.unlockMouse();
-        toggleControls();
+        if (title.text == "Gladiator" && menu == gameOverScreen)
+        {
+            float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect("15");
+        }
+        menuEntered = true;
         menu.alpha = 0.8f;
     }
     private bool GetGameEnd()
@@ -109,14 +114,15 @@ public class SceneController : MonoBehaviour
     void Update()
     {
         // Check if player dies and if so triggers the gameOver() function
+        if (playerScript.getGameOver() && !menuEntered)
+        {
+            toggleControls();
+        }
         if (playerScript.getGameOver())
         {
             ShowMenu(gameOverScreen);
-            if (title.text == "Gladiator")
-            {
-                float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect("15");
-            }
         }
+
         // Sets up the second scene
         if (enemyController.TutorialDone && !scenes[1] && !sceneEnded[1] && timedDelay >= 3f)
         {
@@ -151,6 +157,8 @@ public class SceneController : MonoBehaviour
         {
             timedDelay += Time.deltaTime;
         }
+
+        // Cutscene triggers
         if (cutscene)
         {
             stateTime += Time.deltaTime;
@@ -178,7 +186,7 @@ public class SceneController : MonoBehaviour
     }
     void LateUpdate()
     {
-        // Updates the 
+        // Updates the health values for the top bar
         if (title.text == "Gladiator")
         {
             if (gladiator != null && scenes[1] == true)
@@ -397,6 +405,7 @@ public class SceneController : MonoBehaviour
             sceneEnded[2] = true;
             scenes[2] = false;
             ShowSubtitles();
+            toggleControls();
         }
     }
     // Respawns player for when they choose to fight again, ensures it's the current fight
@@ -415,6 +424,7 @@ public class SceneController : MonoBehaviour
         gameOverScreen.alpha = 0;
         gameOverScreen.blocksRaycasts = false;
         mouseLook.LockMouse();
+        menuEntered = false;
         toggleControls();
     }
 }

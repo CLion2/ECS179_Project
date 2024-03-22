@@ -222,3 +222,15 @@ MonoBehaviour:
     volume: 0.269
     pitch: 1
     loop: 0
+  - clip: {fileID: 8300000, guid: 14ec201b10523114d88d115e1c1fb876, type: 3}
+    audioSource: {fileID: 0}
+    title: block
+    volume: 0.269
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 23d684a8809b6494499aa9954f6306c4, type: 3}
+    audioSource: {fileID: 0}
+    title: attack
+    volume: 0.269
+    pitch: 1
+    loop: 0

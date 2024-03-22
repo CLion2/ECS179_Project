@@ -169,6 +169,7 @@ public class PlayerMovement : MonoBehaviour
         isAttacking = true;
         animator.SetTrigger("Attack");
         lastAttackTime = Time.time;
+        FindObjectOfType<SoundManager>().PlaySoundEffect("attack");
 
         particleSwordTrail.Play();
         StartCoroutine(TrailEffect(attackCooldown));
@@ -197,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isStrongAttacking = true;
         animator.SetTrigger("StrongAttack");
-
+        FindObjectOfType<SoundManager>().PlaySoundEffect("attack");
 
         //swordTrail.emitting = true;
         particleSwordTrail.Play();
@@ -237,6 +238,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isBlocking = !isBlocking;
         animator.SetTrigger("Block");
+        FindObjectOfType<SoundManager>().PlaySoundEffect("block");
         // Block Logic Here
     }
     public void UnBlock()
