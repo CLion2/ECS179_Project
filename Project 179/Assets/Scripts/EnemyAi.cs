@@ -6,36 +6,36 @@ using UnityEngine.AI;
 
 public class EnemyAi : MonoBehaviour
 {
-    [SerializeField] private PlayerMovement DamagePlayersHealth;
-    [SerializeField] public bool AggroEnemy;
-    private float Rage = 10f;
-    private float TimeSinceLastATTK = 0f;
-    private bool Blocking = false;
-    private bool ComboDone = true;
-    private bool DamageDone = false;
-    private float BlockTime = 0f;
-    private bool Attacking;
-    private float LastATK = 0f;
-    private Prisoner Tutorial;
-    private Gladiator Boss;
-    private bool spawnDead = false;
-    [SerializeField] private bool Stage1Done;
+    [SerializeField] private PlayerMovement DamagePlayersHealth; // damages player health
+    [SerializeField] public bool AggroEnemy; // when enemy needs to target player after cutscene
+    private float Rage = 10f; // rage increase on hit
+    private float TimeSinceLastATTK = 0f; // checks time since last attack
+    private bool Blocking = false; // if enemy is blocking
+    private bool ComboDone = true; //if boss combo is done
+    private bool DamageDone = false; // if attack did damage
+    private float BlockTime = 0f; //checks how long block has been up
+    private bool Attacking; // if enemy is attacking
+    private float LastATK = 0f; // how long it has been since last attack for both enemies
+    private Prisoner Tutorial; // prisoner stats
+    private Gladiator Boss; // boss stats
+    private bool spawnDead = false; // is either spawn dead
+    [SerializeField] private bool Stage1Done; // if prisoner fight is done
     [SerializeField] private float TetherDistance = 1.0f; // set it to nav mesh
     [SerializeField] private float speed = 5f; // set this to nav mesh
     // private GameObject Player;
     // following a vid here
-    [SerializeField] private NavMeshAgent navMeshAgent;
-    public GameObject PlayerLocation;
+    [SerializeField] private NavMeshAgent navMeshAgent; // for moving the enemy on the nav mesh
+    public GameObject PlayerLocation; // checks player location (useless in the game)
     // public Transform playerTransform;
     public Animator animateEnemy; // idk following vid here
-    BoxCollider EnemyAttack;
+    BoxCollider EnemyAttack; //for checking the enemy attack collider
     // TODO: implement wakeup
 
-    public Transform target;
+    public Transform target; // player body location
 
-    private bool cutsceneControlled = false;
-    private Transform currentAnchor;
-    private bool lookAtPlayer = false;
+    private bool cutsceneControlled = false; // if cutscene is being done
+    private Transform currentAnchor; // cutscene move to this location
+    private bool lookAtPlayer = false; // if need to look at player
     void Start()
     { // should work the second its created
         // Stage1Done = false;
@@ -48,7 +48,7 @@ public class EnemyAi : MonoBehaviour
         animateEnemy = GetComponentInChildren<Animator>();
         DamagePlayersHealth = GameObject.Find("First Person Player").GetComponent<PlayerMovement>();
     }
-    public float getEnemyCurrentHP()
+    public float getEnemyCurrentHP() // gets enemy hp
     {
         if(Stage1Done == false)
         {
@@ -60,7 +60,7 @@ public class EnemyAi : MonoBehaviour
         }
         return 0f;
     }
-    public void resetFight()
+    public void resetFight() // restarts the current fight
     {
         if(Stage1Done == false)
         {
@@ -73,8 +73,7 @@ public class EnemyAi : MonoBehaviour
             transform.position = GameObject.FindWithTag("BossRespawn").transform.position;
         }
     }
-    public void Attack()
-    // TODO: physics.Raycast for attacking with the swords
+    public void Attack() // attacks that enemy does
     {
         if(this.Blocking == true)
         {
@@ -108,10 +107,10 @@ public class EnemyAi : MonoBehaviour
         {
             if(AttackRoll <= 6f && ComboDone == true) // then attack goes through
             {
-                float WhatAttackRoll = Random.Range(0f,10f);
+                float WhatAttackRoll = Random.Range(0f,10f); // does a random roll for a random attack
                 Debug.Log("Attack is made by gladiator");
                 Attacking = true;
-                int attackLine = Random.Range(1, 6);
+                int attackLine = Random.Range(1, 6); 
                 string lineTag = attackLine.ToString() + "a";
                 float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect(lineTag);
                 // GetComponentInChildren<Collider>().isTrigger = true;
@@ -141,34 +140,34 @@ public class EnemyAi : MonoBehaviour
                     animateEnemy.SetTrigger("HeavyAttk");
                 }
 
-                if(DamageDone == false)
+                if(DamageDone == false) // if no attacks did damage
                 {
                     Boss.RageMeter += 1f;
                     // Attacking = false;
                 }
                 //TODO: get information from soma and then finish up attack here
-                TimeSinceLastATTK = 0;
+                TimeSinceLastATTK = 0; // reset timer
             }
-            else if(ComboDone == true) // then block
+            else if(ComboDone == true) // then block if no attack done
             {
                 GetComponentInChildren<Collider>().isTrigger = false;
                 // Debug.Log("Blocking");
                 Block();
             }
             // TimeSinceLastATTK = 0;
-            DamageDone = false;
+            DamageDone = false; // reset damage 
         }
-        TimeSinceLastATTK += Time.deltaTime;
+        TimeSinceLastATTK += Time.deltaTime; //update timer
     }
-    public void initiateEnemy()
+    public void initiateEnemy() // initiate enemy aggro to player
     {
         AggroEnemy = !AggroEnemy;
     }
-    public bool checkStage()
+    public bool checkStage() // check if tutorial is done
     {
         return Stage1Done;
     }
-    public void CheckDead()
+    public void CheckDead() // check if prisoner or boss is dead
     {
         if(Stage1Done == false && Tutorial.Health == 0)
         {
@@ -236,7 +235,7 @@ public class EnemyAi : MonoBehaviour
         // Debug.Log("Gladiator health: " + Boss.Health);
         // Debug.Log("Gladiator Rage Meter: "+ Boss.RageMeter);
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) // checks if attack lands on player
     {
         // Debug.Log(other.gameObject.CompareTag("Player"));
         
@@ -290,7 +289,7 @@ public class EnemyAi : MonoBehaviour
             }
         }
     }
-    private void AttackAnimDone()
+    private void AttackAnimDone() // check if attack animation is done to start another attack
     {
         if(gameObject.CompareTag("Prisoner") && this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
@@ -322,41 +321,42 @@ public class EnemyAi : MonoBehaviour
             DamageDone = false;
         }
     }
-    void Block()
+    void Block() // set block
     {
         this.Blocking = true;
         BlockTime = 0f;
         animateEnemy.SetTrigger("Block");
     }
-    public void IsStageDone(bool stage)
+    public void IsStageDone(bool stage) // set it from enemy controller
     {
         this.Stage1Done = stage;
     }
-    public bool StageDone()
+    public bool StageDone() // return it to enemy controller
     {
         return Stage1Done;
     }
-    public void cutsceneMovement(Transform anchor, bool playerLook)
+    public void cutsceneMovement(Transform anchor, bool playerLook) // the cutscenes movement for enemies
     {
         cutsceneControlled = true;
         currentAnchor = anchor;
         lookAtPlayer = playerLook;
     }
-    public bool cutsceneMovement()
+    public bool cutsceneMovement() // return cutscene movement
     {
         return this.cutsceneControlled;
     }
-    public void turnEnemy()
+    public void turnEnemy() // moves enemy to look at player
     {
         this.transform.LookAt(target);
     }
-    void Update()
+    void Update() // updates everything
     { 
         // TODO: add delay when distance is 5
         // TODO: add look at player
         // TODO: make sure it works with prisoner and gladiator
         // TODO: make sure that when in stage1 then gladiator doesnt move
     /*
+        //old code for nav mesh doesnt work rn
         if(Stage1Done == false)
         {
             if(navMeshAgent.remainingDistance == 5)
@@ -378,18 +378,18 @@ public class EnemyAi : MonoBehaviour
         }
     */
         
-        if(AggroEnemy == true && spawnDead == false)
+        if(AggroEnemy == true && spawnDead == false) // if fight starts and enemy not dead
         {
             // Debug.Log("ATTACKING: " + Attacking);
-            if(BlockTime > 0.5f)
+            if(BlockTime > 0.5f) // checks if block is on for to long (block loop fix)
             {
                 this.Blocking = false;
                 BlockTime = 0f;
             }
-            CheckDead();
+            CheckDead(); // check if enemy dead
             float step = speed * Time.deltaTime; 
             // If the enemy is close to the player
-            if(Stage1Done == false)
+            if(Stage1Done == false) // locations for looking at player
             {
                 target.position = new Vector3(target.position.x,0f,target.position.z);
             }
@@ -399,43 +399,43 @@ public class EnemyAi : MonoBehaviour
             }
             this.transform.LookAt(target);
             if ((Vector3.Distance(transform.position, target.position) < TetherDistance || LastATK >= 1.0f) && Attacking == false)
-            {
+            { // basic attack with a checker afterwards
                 // The enemy is stationaty
                 step = 0;
                 Attack();
                 LastATK = 0;
                 animateEnemy.SetFloat("Speed",step);
             }
-            else if(Attacking == true)
+            else if(Attacking == true) // if attack anim not done check here
             {
                 AttackAnimDone();
                 // LastATK += Time.deltaTime;
             }
-            if(Attacking == false)
+            if(Attacking == false) // if done now move
             {
                 // The enemy moves toward the player
                 transform.position = Vector3.MoveTowards(transform.position, target.position, step);
                 LastATK += Time.deltaTime;
                 animateEnemy.SetFloat("Speed",step);
             }
-            if(this.Blocking == true)
+            if(this.Blocking == true) //update blocking time here
             {
                 BlockTime += Time.deltaTime;
             }
         }
-        else if(spawnDead == false)
+        else if(spawnDead == false) // if dead no move
         {
             animateEnemy.SetFloat("Speed",0f);
         }
 
-        if (this.cutsceneControlled)
+        if (this.cutsceneControlled) //if in cutscene do this
         {
             float step = speed * Time.deltaTime;
-            if (Vector3.Distance(transform.position, this.currentAnchor.position) < 3f)
+            if (Vector3.Distance(transform.position, this.currentAnchor.position) < 3f) //move to this anchor
             {
                 cutsceneControlled = false;
                 navMeshAgent.isStopped = true; // Stop the agent's movement
-                if (StageDone())
+                if (StageDone()) // if prisoner fight done do this
                 {
                     navMeshAgent.enabled = false;
                 }
@@ -443,7 +443,7 @@ public class EnemyAi : MonoBehaviour
                 this.transform.LookAt(target);
                 animateEnemy.SetFloat("Speed",0f);
             }
-            else
+            else // if at anchor do this
             {
                 navMeshAgent.enabled = true;
                 navMeshAgent.isStopped = false; // Enable the agent's movement

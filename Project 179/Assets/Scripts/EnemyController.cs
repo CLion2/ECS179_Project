@@ -6,13 +6,13 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    private GameObject Enemies;
+    private GameObject Enemies; // holds the spawned enemies
     // private bool BossSpawned;
-    [SerializeField] private GameObject EnemyPrefab;
-    [SerializeField] private GameObject GladiatorPrefab;
-    [SerializeField] private GameObject EnemySpawnPrisoner;
-    [SerializeField] private GameObject EnemySpawnGladiator;
-    [SerializeField] public bool TutorialDone;
+    [SerializeField] private GameObject EnemyPrefab; // prisoner prefab
+    [SerializeField] private GameObject GladiatorPrefab; // boss / gladiator prefab
+    [SerializeField] private GameObject EnemySpawnPrisoner; // prisoner spawn location (changed in cutscene)
+    [SerializeField] private GameObject EnemySpawnGladiator; // gladiator spawn location (changed in cutscene)
+    [SerializeField] public bool TutorialDone; // checker for prisoner fight done
     void Awake() // creates the first enemy to be used
     { // should work the second its created
         // GameObject parent = GameObject.Find("Enemies");
@@ -22,36 +22,22 @@ public class EnemyController : MonoBehaviour
         }
         else
         { // spawns prisoner on anything else
-            // Enemies = Instantiate(EnemyPrefab,EnemySpawnPrisoner.transform.position,Quaternion.identity);
-            // Enemies = Instantiate(EnemyPrefab,parent.transform,false);
-            // BossSpawned = false;
             SpawnPrisoner();
         }
     }
-    void SpawnPrisoner()
+    void SpawnPrisoner() // spawns the prisoner
     {
         Enemies = Instantiate(EnemyPrefab,EnemySpawnPrisoner.transform.position,Quaternion.identity);
         EnemyAi checking = Enemies.GetComponent<EnemyAi>();
         checking.IsStageDone(false);
     }
-    void SpawnBoss()
+    void SpawnBoss() // spawns the boss
     {
         Enemies = Instantiate(GladiatorPrefab,EnemySpawnGladiator.transform.position,Quaternion.identity);
         EnemyAi checking = Enemies.GetComponent<EnemyAi>();
         checking.IsStageDone(true);
         checking.initiateEnemy();
     }
-    // void Build() // creates a new enemy when needed
-    // {
-    //     if(TutorialDone == true) // spawns gladiator if true
-    //     {
-    //         Enemies = Instantiate(GladiatorPrefab,EnemySpawnGladiator.transform.position,Quaternion.identity);
-    //     }
-    //     else
-    //     { // spawns prisoner on anything else
-    //         Enemies = Instantiate(EnemyPrefab,EnemySpawnPrisoner.transform.position,Quaternion.identity);
-    //     } 
-    // }
 
     // checks if the stage itself is done to switch to start spawn on the gladiator
     void CheckTutorialDone(GameObject Enemy) // checks if tutorial enemy is dead
@@ -68,33 +54,17 @@ public class EnemyController : MonoBehaviour
             TutorialDone = false;
         }
     }
-    // void CheckBossDone(GameObject Enemy) //TODO: FINISH THIS!!!
-    // {
-    //     EnemyAi checkBoss = Enemy.GetComponent<EnemyAi>();
-    //     if(checkBoss. == true)
-    //     {
-    //         DestroyEnemy();
-    //     }
-    // }
+
     //TODO: add a destroy when health becomes zero
-    void DestroyEnemy()
+    void DestroyEnemy() // in case we need it (never used)
     {
         Destroy(Enemies);
     }
-    void Update()
+    void Update() // update immediatly when prisoner is dead
     {
         if(TutorialDone == false)// checks if tutorial done
         {
-            CheckTutorialDone(Enemies);
+            CheckTutorialDone(Enemies); // consistant checks to see if tutorial done
         }
-        // if(TutorialDone == true && BossSpawned == false) // if tutorial done but boss not spawned
-        // {
-        //     BossSpawned = true;
-        //     Build();
-        // }
-        // if(BossSpawned == true) // if boss spawned check when done
-        // {
-        //     CheckBossDone(Enemies);
-        // }
     }
 }
