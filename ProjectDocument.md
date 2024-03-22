@@ -42,13 +42,13 @@ Here is an example:
 
 You should replay any **bold text** with your relevant information. Liberally use the template when necessary and appropriate.
 
-## Producer
+## Producer - None
 
-**Describe the steps you took in your role as producer. Typical items include group scheduling mechanisms, links to meeting notes, descriptions of team logistics problems with their resolution, project organization tools (e.g., timelines, dependency/task tracking, Gantt charts, etc.), and repository management methodology.**
+
 
 ## User Interface - Andrei Bayani
 
-The user interface is split into 2 parts, menus and the HUD. The menus are implemented using a CanvasGroup
+The user interface is split into 2 parts, menus and the HUD. The menus are implemented using a CanvasGroup 
 
 **Add an entry for each platform or input style your project supports.**
 
@@ -117,14 +117,9 @@ These animations were used for the Prisoner, Guard and Gladiator units
 
 ## Audio - Andrei Bayani
 
-**List your assets, including their sources and licenses.**
-
-**Describe the implementation of your audio system.**
-
-**Document the sound style.** 
 All audio assets are either in the [VO](https://github.com/CLion2/ECS179_Project/tree/77ecf6053977d8a3277aea7aa620d13b9597629c/Project%20179/Assets/VO) folder or the [SFX](https://github.com/CLion2/ECS179_Project/tree/77ecf6053977d8a3277aea7aa620d13b9597629c/Project%20179/Assets/SFX) folder.
 
-The audio controller was taken from Project 4 of ECS 179 and directly imported into
+The audio controller was taken from Project 4 of ECS 179 and directly imported into the code in parts where we wanted sounds to play such as in line 92 of [EnemyAI](https://github.com/CLion2/ECS179_Project/blob/d312d72cd1d2a7d0e50ad6286dfc11e3272f9ed3/Project%20179/Assets/Scripts/EnemyAi.cs#L92).
 
 All voice lines were recorded with the help of Professor Josh McCoy and Kyle Mitchell. 
 
@@ -137,6 +132,7 @@ Sword Hit, Sword Block
 Background sounds: fireplace loop, water dripping, Jail door closing
 Trailer Music: Hum, Tribal Drums, Dramatic reveal
 
+There was no background music and only the player had sound effects while all of the enemies had voice lines instead. The environment sounds typically play on loop and sound playing was not tied to an animation playing.
 
 ## Gameplay Testing - David West
 
@@ -159,11 +155,11 @@ Created the initial merge here by using the old main as the final product
 ## Press Kit and Trailer - Andrei Bayani
 
 
-Press Kit
+[Press Kit](https://github.com/CLion2/ECS179_Project/blob/d312d72cd1d2a7d0e50ad6286dfc11e3272f9ed3/PressKit.md)
 
 [Trailer](https://www.youtube.com/watch?v=gAFm3i8_IK8)
 
-The primary goal of the press kit and trailer were to demonstrate the different gameplay features in 
+The primary goal of the press kit and trailer were to demonstrate the different gameplay features in the game including the cutscenes, different player actions like blocking, moving, attacking, etc, enemies taking and dealing damage and finally, game overs. Additionally, they're meant to get the player hyped at the idea of beating the boss.
 
 ## Game Feel and Polish - Soma Matsumoto
 
