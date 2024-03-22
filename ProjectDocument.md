@@ -44,8 +44,10 @@
 ### Enemy Ai
 
 ### Enemy Factory (Spawner)
-Like exercise 4, I used something like a Factory to instaniate the Prisoner and Gladiator as clones and then they were moved by the Scene Controller. ![]()
-There also was an update that checked when the Prisoner fight was done so that when needed it can immediatly start spawning in the Boss and have it ready for the Colloseum Scene. ![]()
+Like exercise 4, I used something like a Factory to instaniate the Prisoner and Gladiator as clones and then they were moved by the Scene Controller. 
+![]()
+There also was an update that checked when the Prisoner fight was done so that when needed it can immediatly start spawning in the Boss and have it ready for the Colloseum Scene. 
+![](Examples/checkingprisoner.png)
 
 ### Enemy Colliders
 
@@ -54,6 +56,7 @@ There also was an update that checked when the Prisoner fight was done so that w
 
 # Sub-Roles
 Play Tester + Debugger / FineTuning [David](https://github.com/dt89eor)
+
 Initial Merger [David](https://github.com/dt89eor)
 
 ### Play Tester + Debugger / FineTuning (David)
