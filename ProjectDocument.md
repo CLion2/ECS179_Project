@@ -6,9 +6,9 @@
 
 ## Project Resources
 
-[Web-playable Game.](https://itch.io/)  
-[Trailor](https://youtube.com)  
-[Press Kit](https://dopresskit.com/)  
+[Web-playable Game.](https://wakamoli.itch.io/death-blow)  
+[Trailor]([https://youtube.com](https://youtu.be/gAFm3i8_IK8))  
+[Press Kit](https://github.com/CLion2/ECS179_Project/blob/74fa19849f1579fd80a9ecba850ee66c9398d2dd/PressKit.md)  
 [Proposal: make your own copy of the linked doc.](https://docs.google.com/document/d/1zCoWcRq2JFVWmfBo8kEtM3IQDmox__Ku/edit?usp=sharing&ouid=107318688404861168600&rtpof=true&sd=true)  
 
 ## Gameplay Explanation ##
