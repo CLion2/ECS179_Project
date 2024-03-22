@@ -5,6 +5,8 @@
 ## Gameplay Explanation ##
 
 # Main Roles #
+- Enemies: [David](https://github.com/dt89eor)
+- Player: [Soma]()
 
 ## Main Role 1 (Andrei) 
 
@@ -76,9 +78,8 @@ Unity premade Animations:
 These animations were used for the Prisoner, Guard and Gladiator units
 
 # Sub-Roles
-Play Tester + Debugger / FineTuning [David](https://github.com/dt89eor)
-
-Initial Merger [David](https://github.com/dt89eor)
+- Play Tester + Debugger / FineTuning [David](https://github.com/dt89eor)
+- Initial Merger [David](https://github.com/dt89eor)
 
 ### Play Tester + Debugger / FineTuning (David)
 Became a debugger for the game as it was getting closer to the due date and was able to help fix issues that both Soma and Andrei had when looking over the code. Play tested after every push to find any issues with the current game and then fix issues or improve upon some aspects of the enemy animations. 
