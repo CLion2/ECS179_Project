@@ -31,17 +31,6 @@ Player movement is done using the typical **WASD** input conventions. The Camera
 
 # Main Roles #
 
-Your goal is to relate the work of your role and sub-role in terms of the content of the course. Please look at the role sections below for specific instructions for each role.
-
-Below is a template for you to highlight items of your work. These provide the evidence needed for your work to be evaluated. Try to have at least four such descriptions. They will be assessed on the quality of the underlying system and how they are linked to course content. 
-
-*Short Description* - Long description of your work item that includes how it is relevant to topics discussed in class. [link to evidence in your repository](https://github.com/dr-jam/ECS189L/edit/project-description/ProjectDocumentTemplate.md)
-
-Here is an example:  
-*Procedural Terrain* - The game's background consists of procedurally generated terrain produced with Perlin noise. The game can modify this terrain at run-time via a call to its script methods. The intent is to allow the player to modify the terrain. This system is based on the component design pattern and the procedural content generation portions of the course. [The PCG terrain generation script](https://github.com/dr-jam/CameraControlExercise/blob/513b927e87fc686fe627bf7d4ff6ff841cf34e9f/Obscura/Assets/Scripts/TerrainGenerator.cs#L6).
-
-You should replay any **bold text** with your relevant information. Liberally use the template when necessary and appropriate.
-
 ## Producer - None
 
 
@@ -49,8 +38,6 @@ You should replay any **bold text** with your relevant information. Liberally us
 ## User Interface - Andrei Bayani
 
 The user interface is split into 2 parts, menus and the HUD. The menus are implemented using a CanvasGroup 
-
-**Add an entry for each platform or input style your project supports.**
 
 ## Movement/Physics and Input - Soma Matsumoto
 
@@ -68,8 +55,6 @@ This is based on Exercise 2. I used the Slerp method for the camera to follow a 
 
 
 ## Animation and Visuals - Soma Matsumoto & David West
-
-**List your assets, including their sources and licenses.**
 
 For the Enemy:
 
@@ -157,8 +142,6 @@ There was no background music and only the player had sound effects while all of
 
 ## Gameplay Testing - David West
 
-**Add a link to the full results of your gameplay tests.**
-
 ### Play Tester + Debugger / FineTuning (David)
 When play testing the issues that I ran into were things like:
 - game was playing in the title screen
@@ -176,8 +159,6 @@ Became a debugger for the game as it was getting closer to the due date and was 
 ### Initial Merger (David)
 Created the initial merge here by using the old main as the final product 
 ![](Examples/merges.png) 
-
-**Summarize the key findings from your gameplay tests.**
 
 ## Narrative Design - Andrei Bayani
 
