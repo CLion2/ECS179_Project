@@ -17,6 +17,7 @@ public class SceneController : MonoBehaviour
     [SerializeField] private int sceneState = 0;
     [SerializeField] private bool stateTransition = false;
     [SerializeField] private bool[] scenes = {false, false, false};
+    [SerializeField] private bool[] sceneEnded = {false, false, false};
     private MouseLook mouseLook;
     private EnemyAi guardAi;
     private EnemyAi prisonerAi;
@@ -38,11 +39,10 @@ public class SceneController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private GameObject subtitle;
     [SerializeField] private CanvasGroup gameOverScreen;
+    [SerializeField] private CanvasGroup GameEndScreen;
     private bool HUDactive = true;
     private Subtitles subtitleScript;
-    [SerializeField] private bool hideGameOver = true;
-    [SerializeField] private bool firstEntry = true;
-    private float timedDelay = 0f;
+    private float timedDelay = 0f;   
     // private Subtitles subtitles;
     void Start()
     {
@@ -73,6 +73,7 @@ public class SceneController : MonoBehaviour
         HideHud();
         enemyHealth.SetMaxHealth(prisonerAi.getEnemyCurrentHP());
     }
+    // Hides everything in the HUD except for subtitle
     void HideHud()
     {
         HUDactive = !HUDactive;
@@ -82,81 +83,102 @@ public class SceneController : MonoBehaviour
         enemyHealth.gameObject.SetActive(HUDactive);
         title.gameObject.SetActive(HUDactive);
     }
+    // Sets the subtitles to an empty string to hide it
     void ShowSubtitles()
     {
         subtitleScript.UpdateText(20);
     }
-    void gameOver()
+
+    // Shows the gameOverScreen and frees mouse
+    void ShowMenu(CanvasGroup menu)
     {
-        hideGameOver = false;
-        gameOverScreen.blocksRaycasts = true;
+        menu.blocksRaycasts = true;
         mouseLook.unlockMouse();
         toggleControls();
-        gameOverScreen.alpha = 0.8f;
-        if (title.text == "Gladiator")
+        menu.alpha = 0.8f;
+    }
+    private bool GetGameEnd()
+    {
+        if (gladiatorAi != null)
         {
-            float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect("15");
+            return gladiatorAi.getGameEnd();
         }
+        return false;
     }
     // Update is called once per frame
     void Update()
     {
-        if (hideGameOver)
-        {
-            if (gameOverScreen.alpha >= 0)
-            {
-                gameOverScreen.alpha -= Time.deltaTime*2;
-            }
-        }
-        else
-        {
-            if (gameOverScreen.alpha < 0.5)
-            {
-                gameOverScreen.alpha += Time.deltaTime*2;
-            }
-        }
+        // Check if player dies and if so triggers the gameOver() function
         if (playerScript.getGameOver())
         {
-            toggleControls();
-            gameOver();
+            ShowMenu(gameOverScreen);
+            if (title.text == "Gladiator")
+            {
+                float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect("15");
+            }
         }
-        if (enemyController.TutorialDone && scenes[1] == false && timedDelay >= 3f && firstEntry)
+        // Sets up the second scene
+        if (enemyController.TutorialDone && !scenes[1] && !sceneEnded[1] && timedDelay >= 3f)
         {
             toggleControls();
             HideHud();
-            firstEntry = false;
             scenes[1] = true;
             cutscene = true;
             stateTransition = true;
             stateTime = 0f;
             sceneState = 0;
+            timedDelay = 0f;
             playerScript.resetHP();
             gladiator = GameObject.FindGameObjectsWithTag("Gladiator")[0];
-        } 
-        else if (enemyController.TutorialDone && scenes[1] == false && firstEntry)
+        }
+        else if (enemyController.TutorialDone && !scenes[1] && !sceneEnded[1])
+        {
+            timedDelay += Time.deltaTime;
+        }
+        // Game End
+        if (GetGameEnd() && !scenes[2] && !sceneEnded[2]&& timedDelay >= 3f)
+        {
+            toggleControls();
+            HideHud();
+            scenes[2] = true;
+            cutscene = true;
+            stateTransition = true;
+            stateTime = 0f;
+            sceneState = 0;
+            timedDelay = 0f;
+        }
+        else if (GetGameEnd() && !scenes[2] && !sceneEnded[2])
         {
             timedDelay += Time.deltaTime;
         }
         if (cutscene)
         {
             stateTime += Time.deltaTime;
+            // Triggers timers and enter cutscene functions
             if (stateTime >= stateTimeEnd)
             {
                 stateTime = 0f;
                 stateTransition = true;
             }
+            // The first cutscene being updated when timers are reached
             if(scenes[0] && stateTransition)
             {
                 Scene0prison();
             }
+            // The second cutscene being updated when timers are reached
             if(scenes[1] && stateTransition)
             {
                 Scene1Coliseum();
+            }
+            if(scenes[2] && stateTransition)
+            {
+                EndGame();
             }
         }
     }
     void LateUpdate()
     {
+        // Updates the 
         if (title.text == "Gladiator")
         {
             if (gladiator != null && scenes[1] == true)
@@ -256,14 +278,16 @@ public class SceneController : MonoBehaviour
         {
             stateTimeEnd = 2f;
             mouseLook.SetTargetLocking(1);
-            scenes[0] = false;
             toggleControls();
             HideHud();
             prisonerAi.initiateEnemy();
             cutscene = false;
+            sceneEnded[0] = true;
+            scenes[0] = false;
         }
             
     }
+    // Scene which moves to the second fight
     void Scene1Coliseum()
     {
         // changeState
@@ -347,10 +371,35 @@ public class SceneController : MonoBehaviour
             gladiatorAi.initiateEnemy();
             playerScript.resetHP();
             ShowSubtitles();
-            scenes[1] = false;
             cutscene = false;
+            sceneEnded[1] = true;
+            scenes[1] = false;
         }
     }
+    void EndGame()
+    {
+        if (stateTransition == true)
+        {
+            sceneState += 1;
+            stateTransition = false;
+            mouseLook.isLockedOnTarget = true;
+        }
+        // States
+        if (sceneState == 1)
+        {
+            mouseLook.SetTargetLocking(3);
+            stateTimeEnd = soundManager.PlaySoundEffect("16");
+            subtitleScript.UpdateText(19);
+        }
+        if (sceneState == 2)
+        {
+            ShowMenu(GameEndScreen);
+            sceneEnded[2] = true;
+            scenes[2] = false;
+            ShowSubtitles();
+        }
+    }
+    // Respawns player for when they choose to fight again, ensures it's the current fight
     public void Respawn()
     {
         playerScript.resetHP();
@@ -364,7 +413,6 @@ public class SceneController : MonoBehaviour
             prisonerAi.resetFight();
         }
         gameOverScreen.alpha = 0;
-        hideGameOver = true;
         gameOverScreen.blocksRaycasts = false;
         mouseLook.LockMouse();
         toggleControls();

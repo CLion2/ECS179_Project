@@ -15,11 +15,11 @@ public class PlayerMovement : MonoBehaviour
     // [SerializeField] private float groundDistance = 0.4f;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private ParticleSystem particleSwordTrail;
-    [SerializeField] private float PlayerDamage = 30f;
+    [SerializeField] private float PlayerDamage = 100f;
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject sword;
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float regenRate = 8f;
+    [SerializeField] private float regenRate = 15f;
     private float currentHealth;
     private float currentStamina;
     private Vector3 velocity;
@@ -42,9 +42,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool inCutscene = false;
     [SerializeField] private NavMeshAgent navMesh;
     [SerializeField] private float attackCooldown = 0.4f;
+    [SerializeField] private float threeAttackCooldown = 1f;
+
+    private int attacks;
     void Start()
     {
         lastDodgeTime = 0f;
+        attacks = 0;
         currentHealth = maxhHealth;
         currentStamina = maxStamina;
         PlayerHealth.SetMaxHealth(maxhHealth);
@@ -57,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
     {
         currentHealth = maxhHealth;
         PlayerHealth.SetHealth(currentHealth);
+        currentStamina = maxStamina;
+        PlayerStamina.SetMaxHealth(maxStamina);
     }
     public void setActiveHUD()
     {
@@ -121,16 +127,29 @@ public class PlayerMovement : MonoBehaviour
             {
                 NormalMovement();
             }
-
-            if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking && (Time.time > lastAttackTime + attackCooldown))
-            {
-                Attack();
-            }
-
-            if (Input.GetKeyDown(KeyCode.U) && !isStrongAttacking)
+            if ((Input.GetKeyDown(KeyCode.U) || Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Mouse0)) && !isStrongAttacking && currentStamina > 10f && !isBlocking)
             {
                 StrongAttack();
+                currentStamina -= 10f;
+                PlayerStamina.SetHealth(currentStamina);
             }
+            if ((Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.Mouse0)) && !isAttacking && (Time.time > lastAttackTime + attackCooldown) && !isBlocking) 
+            {
+                if (attacks >= 3)
+                {
+                    if (Time.time > lastAttackTime + threeAttackCooldown)
+                    {
+                        attacks = 0;
+                    }
+                }
+                else
+                {
+                    attacks += 1;
+                    Attack();
+                }
+                
+            }
+            
 
             if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Mouse1))
             {
@@ -149,7 +168,6 @@ public class PlayerMovement : MonoBehaviour
     {
         isAttacking = true;
         animator.SetTrigger("Attack");
-
         lastAttackTime = Time.time;
 
         particleSwordTrail.Play();
@@ -194,7 +212,7 @@ public class PlayerMovement : MonoBehaviour
             if (hit.collider.tag =="Prisoner" || hit.collider.tag == "Gladiator")
             {
                 // Debug.Log("got into the attack");
-                hit.collider.GetComponent<EnemyAi>().EnemyTakeDamage(PlayerDamage); // probably to high for right now
+                hit.collider.GetComponent<EnemyAi>().EnemyTakeDamage(PlayerDamage*2.5f); // probably to high for right now
                 // Debug.Log("This is called");
             }
             
@@ -215,13 +233,19 @@ public class PlayerMovement : MonoBehaviour
         particleSwordTrail.Stop();
     }
 
-    void Block()
+    public void Block()
     {
-        isBlocking = true;
+        isBlocking = !isBlocking;
         animator.SetTrigger("Block");
         // Block Logic Here
-        
-        isBlocking = false;
+    }
+    public void UnBlock()
+    {
+        if (isBlocking == true)
+        {
+            isBlocking = !isBlocking;
+            animator.SetTrigger("Block");
+        }
     }
 
     // Combine the Dodge and HeadDown together later if needed

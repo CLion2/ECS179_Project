@@ -36,6 +36,9 @@ public class EnemyAi : MonoBehaviour
     private bool cutsceneControlled = false; // if cutscene is being done
     private Transform currentAnchor; // cutscene move to this location
     private bool lookAtPlayer = false; // if need to look at player
+    private bool gameEnd = false;
+    private bool phase2 = false;
+    private bool phase3 = false;
     void Start()
     { // should work the second its created
         // Stage1Done = false;
@@ -47,6 +50,10 @@ public class EnemyAi : MonoBehaviour
         EnemyAttack = GetComponentInChildren<BoxCollider>();
         animateEnemy = GetComponentInChildren<Animator>();
         DamagePlayersHealth = GameObject.Find("First Person Player").GetComponent<PlayerMovement>();
+    }
+    public bool getGameEnd()
+    {
+        return gameEnd;
     }
     public float getEnemyCurrentHP() // gets enemy hp
     {
@@ -70,6 +77,7 @@ public class EnemyAi : MonoBehaviour
         else if(Stage1Done == true)
         {
             Boss.Health = 1000f;
+            Boss.RageMeter = 0f;
             transform.position = GameObject.FindWithTag("BossRespawn").transform.position;
         }
     }
@@ -105,6 +113,7 @@ public class EnemyAi : MonoBehaviour
         }
         else if(Stage1Done == true && TimeSinceLastATTK > this.Boss.AttackSpd && ComboDone == true)// then we are in boss fight
         {
+
             if(AttackRoll <= 6f && ComboDone == true) // then attack goes through
             {
                 float WhatAttackRoll = Random.Range(0f,10f); // does a random roll for a random attack
@@ -142,7 +151,7 @@ public class EnemyAi : MonoBehaviour
 
                 if(DamageDone == false) // if no attacks did damage
                 {
-                    Boss.RageMeter += 1f;
+                    Boss.RageMeter += 2f;
                     // Attacking = false;
                 }
                 //TODO: get information from soma and then finish up attack here
@@ -169,7 +178,7 @@ public class EnemyAi : MonoBehaviour
     }
     public void CheckDead() // check if prisoner or boss is dead
     {
-        if(Stage1Done == false && Tutorial.Health == 0)
+        if(Stage1Done == false && Tutorial.Health <= 0f)
         {
             Stage1Done = true;
             // need to add in a death animation or ragdoll here
@@ -179,15 +188,17 @@ public class EnemyAi : MonoBehaviour
             spawnDead = true;
             
         }
-        else if(Stage1Done == true && Boss.Health == 0)
+        else if(Stage1Done == true && Boss.Health <= 0f)
         {
             // boss is dead then add in a death animation or ragdoll here
             this.animateEnemy.SetTrigger("Death");
             spawnDead = true;
+            gameEnd = true;
         }
     }
     public void EnemyTakeDamage(float DamageToTake) // TakeDamage deals with the enemies direct health
     {
+        Debug.Log(Tutorial.Health);
         if(this.Blocking == true)
         {
             return;
@@ -206,7 +217,7 @@ public class EnemyAi : MonoBehaviour
                 return;
             }
             Tutorial.Health = Tutorial.Health - DamageToTake;
-            animateEnemy.SetTrigger("TakeDamage");
+            // animateEnemy.SetTrigger("TakeDamage");
         }
         else if(Stage1Done == true)
         {
@@ -218,18 +229,20 @@ public class EnemyAi : MonoBehaviour
             }
             Boss.Health = Boss.Health - DamageToTake; // decrease health
             Boss.RageMeter = Boss.RageMeter + Rage; // increase ragemeter
-            if(Boss.RageMeter == 100f)
+            if(Boss.RageMeter >= 100f && !phase3)
             {
                 float unusedValue = FindObjectOfType<SoundManager>().PlaySoundEffect("14");
                 Boss.AttackDmg = Boss.AttackDmg + Boss.AttackDmg;
                 Boss.AttackSpd = Boss.AttackSpd - 0.5f;
+                phase3 = true;
             }
-            else if(Boss.RageMeter == 50f)
+            else if(Boss.RageMeter >= 50f && !phase2)
             {
                 Boss.AttackDmg = Boss.AttackDmg + 5f;
                 Boss.AttackSpd = Boss.AttackSpd - 0.5f;
+                phase2 = true;
             }
-            animateEnemy.SetTrigger("TakeDamage");
+            // animateEnemy.SetTrigger("TakeDamage");
         }
         // Debug.Log("Prisoner health: " + Tutorial.Health);
         // Debug.Log("Gladiator health: " + Boss.Health);
@@ -273,12 +286,14 @@ public class EnemyAi : MonoBehaviour
                 {
                     // Debug.Log("Gladiator heavy attack lands");
                     DamagePlayersHealth.TakeDamage(Boss.AttackDmg * 2f); // Base Damage for Now
+                    DamagePlayersHealth.UnBlock();
                     DamageDone = true;
                 }
                 else if(this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack shield") && DamageDone == false)
                 {
                     // Debug.Log("Gladiator shield bash lands");
                     DamagePlayersHealth.TakeDamage(0f); // Base Damage for Now
+                    DamagePlayersHealth.UnBlock();
                     DamageDone = true;
                 }
                 if (this.animateEnemy.GetCurrentAnimatorStateInfo(0).IsName("atack3") && ComboDone == false)

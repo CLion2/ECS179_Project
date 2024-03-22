@@ -11,6 +11,11 @@ public class MenuController : MonoBehaviour
     public void PlayButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        FindObjectOfType<SoundManager>().PauseSoundEffect("Title");
+    }
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
     public void ControlButton()
     {
@@ -25,6 +30,14 @@ public class MenuController : MonoBehaviour
     public void QuitButton()
     {
         Application.Quit();
+    }
+    void Start()
+    {
+        if(SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            FindObjectOfType<SoundManager>().PlaySoundEffect("Title");
+        }
+        
     }
     void Update()
     {
