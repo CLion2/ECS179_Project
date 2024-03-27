@@ -57,12 +57,12 @@ The “new-main” branch exists independently, so that our members and the grad
 * Player can perform light attacks, heavy attack, and block.
 I have created their animations myself rather than importing them from the asset store. The primary reason for that is because I wanted to be familiar with Unity Engine, learning how to create animations and use them. I also created sword trails using Particle System 
 
-![](./Attack%20Gif.gif)
+![](Images/Attack%20Gif.gif)
 
 * Player can perform dodging, inspired by the game “bloodborne.”
 This is based on Exercise 1 in this course (Command Pattern). In exercise 1 Stage 4, I implemented a quick dash feature to achieve a ninja-like quick movement. I leveraged the experience for the dodge feature. 
 
-![](./Dodge%20Gif.gif)
+![](Images/Dodge%20Gif.gif)
 
 * Camera can manually move based on the mouse input.
 * Camera can lock on a target.
@@ -207,7 +207,7 @@ The primary goal of the press kit and trailer were to demonstrate the different 
 
 I created animations and implemented the player and camera controllers myself rather than importing a first person controller asset from the asset store. The choice was right since I was able to implement the features, like the dodge feature, that are not implemented in assets available in the store, leading to a better game feel. Since the game feel of a first person game largely depends on the feel of the player and camera movements, I worked on the player and camera movements carefully. If I had more time, I would work on creating better animations to maximize the game feel.
 
-![](./Katana%20Animator.png)
+![](Images/Katana%20Animator.png)
 
 
 # Further Improvements + Fixes #

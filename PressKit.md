@@ -50,15 +50,15 @@ Player Movement + Animations + Camera Design + Game Feel
 ![neardead][nd]
 ![defeatedself][death]
 
-[start]: https://github.com/CLion2/ECS179_Project/blob/d29cd714e7c1436843ab28b9b706f42ab39225d0/titlescreen.png "Start menu"
-[offer]: https://github.com/CLion2/ECS179_Project/blob/71623f5e327351f03336de2654894ae2f61622bf/offer.png "offer"
-[attacking]: https://github.com/CLion2/ECS179_Project/blob/71623f5e327351f03336de2654894ae2f61622bf/Attack.png "attack"
-[blocking]: https://github.com/CLion2/ECS179_Project/blob/71623f5e327351f03336de2654894ae2f61622bf/Blocking.png "blocking"
-[defeat]: https://github.com/CLion2/ECS179_Project/blob/71623f5e327351f03336de2654894ae2f61622bf/defeated.png "defeated"
-[gladiator]: https://github.com/CLion2/ECS179_Project/blob/71623f5e327351f03336de2654894ae2f61622bf/gladiatorFight.png "fight"
-[slam]: https://github.com/CLion2/ECS179_Project/blob/71623f5e327351f03336de2654894ae2f61622bf/slam.png "slam"
-[nd]: https://github.com/CLion2/ECS179_Project/blob/71623f5e327351f03336de2654894ae2f61622bf/nearDeath.png "nearDeath"
-[death]: https://github.com/CLion2/ECS179_Project/blob/71623f5e327351f03336de2654894ae2f61622bf/defeatedself.png "death"
+[start]: Images/titlescreen.png "Start menu"
+[offer]: Images/offer.png "offer"
+[attacking]: Images/Attack.png "attack"
+[blocking]: Images/Blocking.png "blocking"
+[defeat]: Images/defeated.png "defeated"
+[gladiator]: Images/gladiatorFight.png "fight"
+[slam]: Images/slam.png "slam"
+[nd]: Images/nearDeath.png "nearDeath"
+[death]: Images/defeatedself.png "death"
 
 ### Release Date
 March 21, 2024
