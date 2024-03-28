@@ -1,10 +1,9 @@
 ## Death Blow
-![](Images/titlescreen.png) { width=1000 height=500 }
+![](Images/titlescreen.png)
 
-[!IMPORTANT ]
-[Windows](https://wakamoli.itch.io/death-blow)  
-[Mac] (Upcoming)
+Available on itch.io
+[Windows Version](https://wakamoli.itch.io/death-blow)  
+[Mac Version] (Upcoming)
 
-[!NOTE]
 Presskit.md: Project Description
 ProjectDocument.md: Gameplay Explanation
